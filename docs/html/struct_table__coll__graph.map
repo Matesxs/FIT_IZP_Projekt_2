@@ -1,0 +1,5 @@
+<map id="Table" name="Table">
+<area shape="rect" id="node1" title="Store for data of whole table." alt="" coords="5,184,59,211"/>
+<area shape="rect" id="node2" href="$struct_row.html" title="Store for data of single row." alt="" coords="9,95,55,121"/>
+<area shape="rect" id="node3" href="$struct_cell.html" title="Store for data of single cell." alt="" coords="10,5,54,32"/>
+</map>

@@ -1,0 +1,210 @@
+\hypertarget{sps_8c}{}\doxysection{sps.\+c File Reference}
+\label{sps_8c}\index{sps.c@{sps.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}stdbool.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_cell}{Cell}}
+\begin{DoxyCompactList}\small\item\em Store for data of single cell. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_row}{Row}}
+\begin{DoxyCompactList}\small\item\em Store for data of single row. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_table}{Table}}
+\begin{DoxyCompactList}\small\item\em Store for data of whole table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{sps_8c_ab9ba06e03cbb689b78305ba102f2bba4}{B\+L\+A\+C\+K\+L\+I\+S\+T\+E\+D\+\_\+\+D\+E\+L\+I\+MS}}~\char`\"{}\textbackslash{}\char`\"{}\textbackslash{}\textbackslash{}\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}} \{ \newline
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}}, 
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}{M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS}}, 
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b}{I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+E\+L\+I\+M\+I\+T\+ER}}, 
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af}{T\+A\+B\+L\+E\+\_\+\+L\+O\+A\+D\+\_\+\+E\+R\+R\+OR}}, 
+\newline
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}{F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST}}
+ \}
+\begin{DoxyCompactList}\small\item\em Flags that will be returned on error. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}{strings\+\_\+equal}} (const char $\ast$s1, const char $\ast$s2)
+\item 
+int \mbox{\hyperlink{sps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb}{load\+\_\+table}} (char $\ast$delims, char $\ast$filepath, \mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_afd8907535a986b58ff3a78d3e74495ad}{check\+\_\+sanity\+\_\+of\+\_\+delims}} (char $\ast$delims)
+\item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_a806e75f77cdc474d1dacb3d4943ab747}{load\+\_\+delims\+\_\+from\+\_\+args}} (char $\ast$argv\mbox{[}$\,$\mbox{]}, char $\ast$$\ast$delims)
+\item 
+int \mbox{\hyperlink{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{sps_8c_ab9ba06e03cbb689b78305ba102f2bba4}\label{sps_8c_ab9ba06e03cbb689b78305ba102f2bba4}} 
+\index{sps.c@{sps.c}!BLACKLISTED\_DELIMS@{BLACKLISTED\_DELIMS}}
+\index{BLACKLISTED\_DELIMS@{BLACKLISTED\_DELIMS}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{BLACKLISTED\_DELIMS}{BLACKLISTED\_DELIMS}}
+{\footnotesize\ttfamily \#define B\+L\+A\+C\+K\+L\+I\+S\+T\+E\+D\+\_\+\+D\+E\+L\+I\+MS~\char`\"{}\textbackslash{}\char`\"{}\textbackslash{}\textbackslash{}\char`\"{}}
+
+Character that are not allowed to use as delim character 
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}} 
+\index{sps.c@{sps.c}!ErrorCodes@{ErrorCodes}}
+\index{ErrorCodes@{ErrorCodes}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{ErrorCodes}{ErrorCodes}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}}
+
+
+
+Flags that will be returned on error. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NO\_ERROR@{NO\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!NO\_ERROR@{NO\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}} 
+N\+O\+\_\+\+E\+R\+R\+OR&No error detected (default return code) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MISSING\_ARGS@{MISSING\_ARGS}!sps.c@{sps.c}}\index{sps.c@{sps.c}!MISSING\_ARGS@{MISSING\_ARGS}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}} 
+M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS&Some arguments are missing \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INVALID\_DELIMITER@{INVALID\_DELIMITER}!sps.c@{sps.c}}\index{sps.c@{sps.c}!INVALID\_DELIMITER@{INVALID\_DELIMITER}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b}} 
+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+E\+L\+I\+M\+I\+T\+ER&Found invalid character in delimiters from arguments \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TABLE\_LOAD\_ERROR@{TABLE\_LOAD\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!TABLE\_LOAD\_ERROR@{TABLE\_LOAD\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af}} 
+T\+A\+B\+L\+E\+\_\+\+L\+O\+A\+D\+\_\+\+E\+R\+R\+OR&Data load error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FILE\_DOESNT\_EXIST@{FILE\_DOESNT\_EXIST}!sps.c@{sps.c}}\index{sps.c@{sps.c}!FILE\_DOESNT\_EXIST@{FILE\_DOESNT\_EXIST}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}} 
+F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST&Error if input file doesnt exist or is used by another process \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{sps_8c_afd8907535a986b58ff3a78d3e74495ad}\label{sps_8c_afd8907535a986b58ff3a78d3e74495ad}} 
+\index{sps.c@{sps.c}!check\_sanity\_of\_delims@{check\_sanity\_of\_delims}}
+\index{check\_sanity\_of\_delims@{check\_sanity\_of\_delims}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{check\_sanity\_of\_delims()}{check\_sanity\_of\_delims()}}
+{\footnotesize\ttfamily \+\_\+\+Bool check\+\_\+sanity\+\_\+of\+\_\+delims (\begin{DoxyParamCaption}\item[{char $\ast$}]{delims }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a806e75f77cdc474d1dacb3d4943ab747}\label{sps_8c_a806e75f77cdc474d1dacb3d4943ab747}} 
+\index{sps.c@{sps.c}!load\_delims\_from\_args@{load\_delims\_from\_args}}
+\index{load\_delims\_from\_args@{load\_delims\_from\_args}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{load\_delims\_from\_args()}{load\_delims\_from\_args()}}
+{\footnotesize\ttfamily \+\_\+\+Bool load\+\_\+delims\+\_\+from\+\_\+args (\begin{DoxyParamCaption}\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]},  }\item[{char $\ast$$\ast$}]{delims }\end{DoxyParamCaption})}
+
+Load delims
+
+Check if second argument is -\/d flag and then set next argument as delims string
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & Array of arguments \\
+\hline
+{\em delims} & pointer to array of delims\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if flag not found or delims after flag are valid, false if there are invalid characters in delims
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a806e75f77cdc474d1dacb3d4943ab747_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{sps_8c_a806e75f77cdc474d1dacb3d4943ab747_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb}\label{sps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb}} 
+\index{sps.c@{sps.c}!load\_table@{load\_table}}
+\index{load\_table@{load\_table}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{load\_table()}{load\_table()}}
+{\footnotesize\ttfamily int load\+\_\+table (\begin{DoxyParamCaption}\item[{char $\ast$}]{delims,  }\item[{char $\ast$}]{filepath,  }\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Load table from file
+
+Load and parse data from file
+
+
+\begin{DoxyParams}{Parameters}
+{\em delims} & Array with all posible delimiters \\
+\hline
+{\em filepath} & Path to input file \\
+\hline
+{\em table} & Pointer table where data will be saved\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR if table data are loaded and parsed properly, in other scenarios return error code
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{sps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{sps.c@{sps.c}!main@{main}}
+\index{main@{main}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Main of whole program \begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Refactor error handling \end{DoxyRefDesc}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}\label{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}} 
+\index{sps.c@{sps.c}!strings\_equal@{strings\_equal}}
+\index{strings\_equal@{strings\_equal}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{strings\_equal()}{strings\_equal()}}
+{\footnotesize\ttfamily \+\_\+\+Bool strings\+\_\+equal (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s1,  }\item[{const char $\ast$}]{s2 }\end{DoxyParamCaption})}
+
+Check if two string {\ttfamily s1} and {\ttfamily s2} are same
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & First string \\
+\hline
+{\em s2} & Second string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if string are equal, false if dont
+\end{DoxyReturn}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph}
+\end{center}
+\end{figure}

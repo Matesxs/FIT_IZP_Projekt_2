@@ -1,0 +1,90 @@
+\begin{theindex}
+
+  \item {BLACKLISTED\_DELIMS}
+    \subitem {sps.c}, \hyperpage{12}
+
+  \indexspace
+
+  \item {Cell}, \hyperpage{7}
+    \subitem {content}, \hyperpage{7}
+  \item {cells}
+    \subitem {Row}, \hyperpage{8}
+  \item {check\_sanity\_of\_delims}
+    \subitem {sps.c}, \hyperpage{12}
+  \item {CMakeLists.txt}, \hyperpage{11}
+  \item {content}
+    \subitem {Cell}, \hyperpage{7}
+
+  \indexspace
+
+  \item {ErrorCodes}
+    \subitem {sps.c}, \hyperpage{12}
+
+  \indexspace
+
+  \item {FILE\_DOESNT\_EXIST}
+    \subitem {sps.c}, \hyperpage{12}
+
+  \indexspace
+
+  \item {INVALID\_DELIMITER}
+    \subitem {sps.c}, \hyperpage{12}
+
+  \indexspace
+
+  \item {load\_delims\_from\_args}
+    \subitem {sps.c}, \hyperpage{13}
+  \item {load\_table}
+    \subitem {sps.c}, \hyperpage{14}
+
+  \indexspace
+
+  \item {main}
+    \subitem {sps.c}, \hyperpage{14}
+  \item {MISSING\_ARGS}
+    \subitem {sps.c}, \hyperpage{12}
+
+  \indexspace
+
+  \item {NO\_ERROR}
+    \subitem {sps.c}, \hyperpage{12}
+  \item {num\_of\_cells}
+    \subitem {Row}, \hyperpage{8}
+  \item {num\_of\_rows}
+    \subitem {Table}, \hyperpage{9}
+
+  \indexspace
+
+  \item {Row}, \hyperpage{8}
+    \subitem {cells}, \hyperpage{8}
+    \subitem {num\_of\_cells}, \hyperpage{8}
+  \item {rows}
+    \subitem {Table}, \hyperpage{9}
+
+  \indexspace
+
+  \item {sps.c}, \hyperpage{11}
+    \subitem {BLACKLISTED\_DELIMS}, \hyperpage{12}
+    \subitem {check\_sanity\_of\_delims}, \hyperpage{12}
+    \subitem {ErrorCodes}, \hyperpage{12}
+    \subitem {FILE\_DOESNT\_EXIST}, \hyperpage{12}
+    \subitem {INVALID\_DELIMITER}, \hyperpage{12}
+    \subitem {load\_delims\_from\_args}, \hyperpage{13}
+    \subitem {load\_table}, \hyperpage{14}
+    \subitem {main}, \hyperpage{14}
+    \subitem {MISSING\_ARGS}, \hyperpage{12}
+    \subitem {NO\_ERROR}, \hyperpage{12}
+    \subitem {strings\_equal}, \hyperpage{15}
+    \subitem {TABLE\_LOAD\_ERROR}, \hyperpage{12}
+  \item {strings\_equal}
+    \subitem {sps.c}, \hyperpage{15}
+
+  \indexspace
+
+  \item {Table}, \hyperpage{9}
+    \subitem {num\_of\_rows}, \hyperpage{9}
+    \subitem {rows}, \hyperpage{9}
+  \item {TABLE\_LOAD\_ERROR}
+    \subitem {sps.c}, \hyperpage{12}
+
+\end{theindex}
