@@ -75,7 +75,7 @@ $(function() {
 Collaboration diagram for Table:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_table__coll__graph.png" border="0" usemap="#a_table_coll__map" alt="Collaboration graph"/></div>
-<map name="_table_coll__map" id="a_table_coll__map">
+<map name="_table_coll__map" id="_table_coll__map">
 <area shape="rect" title="Store for data of whole table." alt="" coords="5,184,59,211"/>
 <area shape="rect" href="struct_row.html" title="Store for data of single row." alt="" coords="9,95,55,121"/>
 <area shape="rect" href="struct_cell.html" title="Store for data of single cell." alt="" coords="10,5,54,32"/>
@@ -84,22 +84,56 @@ Collaboration diagram for Table:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a06da7f836b22b1f88c17628f72f47a6f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_table.html#a06da7f836b22b1f88c17628f72f47a6f">num_of_rows</a></td></tr>
-<tr class="separator:a06da7f836b22b1f88c17628f72f47a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21872d44150f282769791fc7a1c651b2"><td class="memItemLeft" align="right" valign="top">unsigned long long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_table.html#a21872d44150f282769791fc7a1c651b2">num_of_rows</a></td></tr>
+<tr class="separator:a21872d44150f282769791fc7a1c651b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a32f36e2083660e713a53ca3a8cff53"><td class="memItemLeft" align="right" valign="top">unsigned long long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_table.html#a2a32f36e2083660e713a53ca3a8cff53">allocated_rows</a></td></tr>
+<tr class="separator:a2a32f36e2083660e713a53ca3a8cff53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a551de9ef905eaa176206ad329d3a241b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_row.html">Row</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_table.html#a551de9ef905eaa176206ad329d3a241b">rows</a></td></tr>
 <tr class="separator:a551de9ef905eaa176206ad329d3a241b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab56c67e0ed9605b4078e2135f791c4ed"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_table.html#ab56c67e0ed9605b4078e2135f791c4ed">delim</a></td></tr>
+<tr class="separator:ab56c67e0ed9605b4078e2135f791c4ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Store for data of whole table. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a06da7f836b22b1f88c17628f72f47a6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06da7f836b22b1f88c17628f72f47a6f">&#9670;&nbsp;</a></span>num_of_rows</h2>
+<a id="a2a32f36e2083660e713a53ca3a8cff53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a32f36e2083660e713a53ca3a8cff53">&#9670;&nbsp;</a></span>allocated_rows</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int num_of_rows</td>
+          <td class="memname">unsigned long long int allocated_rows</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Number of row pointers allocated in memory </p>
+
+</div>
+</div>
+<a id="ab56c67e0ed9605b4078e2135f791c4ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab56c67e0ed9605b4078e2135f791c4ed">&#9670;&nbsp;</a></span>delim</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char delim</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Delimiter for output </p>
+
+</div>
+</div>
+<a id="a21872d44150f282769791fc7a1c651b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21872d44150f282769791fc7a1c651b2">&#9670;&nbsp;</a></span>num_of_rows</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long long int num_of_rows</td>
         </tr>
       </table>
 </div><div class="memdoc">

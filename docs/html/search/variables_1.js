@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['num_5fof_5fcells_35',['num_of_cells',['../struct_row.html#a29f07b4c808dc8a11ad192fda7294b71',1,'Row']]],
-  ['num_5fof_5frows_36',['num_of_rows',['../struct_table.html#a06da7f836b22b1f88c17628f72f47a6f',1,'Table']]]
+  ['cells_57',['cells',['../struct_row.html#a4b2f78a0197c8d34d405912888acfe7c',1,'Row']]],
+  ['content_58',['content',['../struct_cell.html#ab0746fb6288bd31fd0d505fab48d8785',1,'Cell']]]
 ];

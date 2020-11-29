@@ -7,8 +7,7 @@ Store for data of single row.
 
 
 
-Collaboration diagram for Row\+:
-\nopagebreak
+Collaboration diagram for Row\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -18,7 +17,9 @@ Collaboration diagram for Row\+:
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
-int \mbox{\hyperlink{struct_row_a29f07b4c808dc8a11ad192fda7294b71}{num\+\_\+of\+\_\+cells}}
+unsigned long long int \mbox{\hyperlink{struct_row_a7c3f5123716524c166747c5f05ea2c9c}{num\+\_\+of\+\_\+cells}}
+\item 
+unsigned long long int \mbox{\hyperlink{struct_row_adade67d3729172dc19a240f9e9ab327e}{allocated\+\_\+cells}}
 \item 
 \mbox{\hyperlink{struct_cell}{Cell}} $\ast$ \mbox{\hyperlink{struct_row_a4b2f78a0197c8d34d405912888acfe7c}{cells}}
 \end{DoxyCompactItemize}
@@ -28,17 +29,23 @@ int \mbox{\hyperlink{struct_row_a29f07b4c808dc8a11ad192fda7294b71}{num\+\_\+of\+
 Store for data of single row. 
 
 \doxysubsection{Field Documentation}
-\mbox{\Hypertarget{struct_row_a4b2f78a0197c8d34d405912888acfe7c}\label{struct_row_a4b2f78a0197c8d34d405912888acfe7c}} 
+\mbox{\Hypertarget{struct_row_adade67d3729172dc19a240f9e9ab327e}\label{struct_row_adade67d3729172dc19a240f9e9ab327e}} 
+\index{Row@{Row}!allocated\_cells@{allocated\_cells}}
+\index{allocated\_cells@{allocated\_cells}!Row@{Row}}
+\doxysubsubsection{\texorpdfstring{allocated\_cells}{allocated\_cells}}
+{\footnotesize\ttfamily unsigned long long int allocated\+\_\+cells}
+
+Number of cell pointers allocated in memory \mbox{\Hypertarget{struct_row_a4b2f78a0197c8d34d405912888acfe7c}\label{struct_row_a4b2f78a0197c8d34d405912888acfe7c}} 
 \index{Row@{Row}!cells@{cells}}
 \index{cells@{cells}!Row@{Row}}
 \doxysubsubsection{\texorpdfstring{cells}{cells}}
 {\footnotesize\ttfamily \mbox{\hyperlink{struct_cell}{Cell}}$\ast$ cells}
 
-Pointer to first cell in row \mbox{\Hypertarget{struct_row_a29f07b4c808dc8a11ad192fda7294b71}\label{struct_row_a29f07b4c808dc8a11ad192fda7294b71}} 
+Pointer to first cell in row \mbox{\Hypertarget{struct_row_a7c3f5123716524c166747c5f05ea2c9c}\label{struct_row_a7c3f5123716524c166747c5f05ea2c9c}} 
 \index{Row@{Row}!num\_of\_cells@{num\_of\_cells}}
 \index{num\_of\_cells@{num\_of\_cells}!Row@{Row}}
 \doxysubsubsection{\texorpdfstring{num\_of\_cells}{num\_of\_cells}}
-{\footnotesize\ttfamily int num\+\_\+of\+\_\+cells}
+{\footnotesize\ttfamily unsigned long long int num\+\_\+of\+\_\+cells}
 
 Number of cells in row 
 

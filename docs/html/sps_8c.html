@@ -72,8 +72,8 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
-<code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &quot;stdbool.h&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -90,8 +90,16 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#ad72dbcf6d0153db1b8d8a58001feed83">DEBUG</a></td></tr>
+<tr class="separator:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9ba06e03cbb689b78305ba102f2bba4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#ab9ba06e03cbb689b78305ba102f2bba4">BLACKLISTED_DELIMS</a>&#160;&#160;&#160;&quot;\&quot;\\&quot;</td></tr>
 <tr class="separator:ab9ba06e03cbb689b78305ba102f2bba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79a5385ae872a445923843a71b3b78e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a79a5385ae872a445923843a71b3b78e9">BASE_NUMBER_OF_ROWS</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a79a5385ae872a445923843a71b3b78e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47322624180ea0c05d71d51f35896122"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a47322624180ea0c05d71d51f35896122">BASE_NUMBER_OF_CELLS</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a47322624180ea0c05d71d51f35896122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77468b2060160061f74208f619e4b613"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a77468b2060160061f74208f619e4b613">BASE_CELL_LENGTH</a>&#160;&#160;&#160;16</td></tr>
+<tr class="separator:a77468b2060160061f74208f619e4b613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -101,7 +109,8 @@ Enumerations</h2></td></tr>
 <a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b">INVALID_DELIMITER</a>, 
 <a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af">TABLE_LOAD_ERROR</a>, 
 <br />
-&#160;&#160;<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a">FILE_DOESNT_EXIST</a>
+&#160;&#160;<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a">FILE_DOESNT_EXIST</a>, 
+<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c">ALLOCATION_FAILED</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a3878e89dc5c88d823f4f923ef90dbcb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags that will be returned on error.  <a href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3">More...</a><br /></td></tr>
@@ -109,10 +118,20 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:aeb018262f5c915cc72b989daf95df488"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488">deallocate_table</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
+<tr class="separator:aeb018262f5c915cc72b989daf95df488"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affb54c1b3d5475d9216a8d070b21ff8b"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b">strings_equal</a> (const char *s1, const char *s2)</td></tr>
 <tr class="separator:affb54c1b3d5475d9216a8d070b21ff8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a4fe0f35c878d2bc35aa47c6f1d34cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a0a4fe0f35c878d2bc35aa47c6f1d34cb">load_table</a> (char *delims, char *filepath, <a class="el" href="struct_table.html">Table</a> *table)</td></tr>
-<tr class="separator:a0a4fe0f35c878d2bc35aa47c6f1d34cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a671b9cd27474bc0a62f9ad10e1841d7c"><td class="memItemLeft" align="right" valign="top">unsigned long long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c">count_char</a> (char *string, char c, _Bool ignore_escapes)</td></tr>
+<tr class="separator:a671b9cd27474bc0a62f9ad10e1841d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82bf3c8a53884d9aa6bdaa102ce6aff9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9">rm_newline_chars</a> (char *s)</td></tr>
+<tr class="separator:a82bf3c8a53884d9aa6bdaa102ce6aff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a402e704273d7f0d445b26907631fd6ba"><td class="memItemLeft" align="right" valign="top">long long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba">get_line</a> (char **line_buffer, FILE *file)</td></tr>
+<tr class="separator:a402e704273d7f0d445b26907631fd6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72c7045ef865d17564d1de763604c72c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a72c7045ef865d17564d1de763604c72c">normalize_delims</a> (char *line, const char *delims)</td></tr>
+<tr class="separator:a72c7045ef865d17564d1de763604c72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf046bcf81cb87196c26a02fe84d7107"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107">load_table</a> (const char *delims, char *filepath, <a class="el" href="struct_table.html">Table</a> *table)</td></tr>
+<tr class="separator:aaf046bcf81cb87196c26a02fe84d7107"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd8907535a986b58ff3a78d3e74495ad"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad">check_sanity_of_delims</a> (char *delims)</td></tr>
 <tr class="separator:afd8907535a986b58ff3a78d3e74495ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a806e75f77cdc474d1dacb3d4943ab747"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747">load_delims_from_args</a> (char *argv[], char **delims)</td></tr>
@@ -121,6 +140,48 @@ Functions</h2></td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a77468b2060160061f74208f619e4b613"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77468b2060160061f74208f619e4b613">&#9670;&nbsp;</a></span>BASE_CELL_LENGTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BASE_CELL_LENGTH&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47322624180ea0c05d71d51f35896122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47322624180ea0c05d71d51f35896122">&#9670;&nbsp;</a></span>BASE_NUMBER_OF_CELLS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BASE_NUMBER_OF_CELLS&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a79a5385ae872a445923843a71b3b78e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79a5385ae872a445923843a71b3b78e9">&#9670;&nbsp;</a></span>BASE_NUMBER_OF_ROWS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BASE_NUMBER_OF_ROWS&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab9ba06e03cbb689b78305ba102f2bba4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab9ba06e03cbb689b78305ba102f2bba4">&#9670;&nbsp;</a></span>BLACKLISTED_DELIMS</h2>
 
@@ -133,6 +194,20 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Character that are not allowed to use as delim character </p>
+
+</div>
+</div>
+<a id="ad72dbcf6d0153db1b8d8a58001feed83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad72dbcf6d0153db1b8d8a58001feed83">&#9670;&nbsp;</a></span>DEBUG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -161,6 +236,8 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a"></a>FILE_DOESNT_EXIST&#160;</td><td class="fielddoc"><p>Error if input file doesnt exist or is used by another process </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c"></a>ALLOCATION_FAILED&#160;</td><td class="fielddoc"><p>Error when program failed to allocate memory </p>
+</td></tr>
 </table>
 
 </div>
@@ -181,6 +258,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check delims</p>
+<p>Check if in delims are no blacklisted characters</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">delims</td><td>Array of deliminators</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if deliminator are without blacklisted characters else false</dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -188,6 +274,145 @@ Here is the caller graph for this function:</div>
 <map name="sps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph" id="sps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph">
 <area shape="rect" title=" " alt="" coords="307,5,468,32"/>
 <area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="104,5,259,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a671b9cd27474bc0a62f9ad10e1841d7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a671b9cd27474bc0a62f9ad10e1841d7c">&#9670;&nbsp;</a></span>count_char()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long long int count_char </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">_Bool&#160;</td>
+          <td class="paramname"><em>ignore_escapes</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Count specific character in string</p>
+<p>Count ocurences of specific character in string with option to ignore escaped characters and parts in parentecies</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">string</td><td>Input string </td></tr>
+    <tr><td class="paramname">c</td><td>Character we want to search </td></tr>
+    <tr><td class="paramname">ignore_escapes</td><td>Flag if we want ignore if characte is escaped or in parentecies and count it too</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of ocurences of searched character</dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph.png" border="0" usemap="#asps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph" alt=""/></div>
+<map name="sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph" id="asps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph">
+<area shape="rect" title=" " alt="" coords="233,5,320,32"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aeb018262f5c915cc72b989daf95df488"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb018262f5c915cc72b989daf95df488">&#9670;&nbsp;</a></span>deallocate_table()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void deallocate_table </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_table.html">Table</a> *&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Dealocate whole table from memory</p>
+<p>Iterate over whole every cell in every row, dealocate data and clear pointers</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>Pointer to instance of table structure</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_aeb018262f5c915cc72b989daf95df488_icgraph.png" border="0" usemap="#asps_8c_aeb018262f5c915cc72b989daf95df488_icgraph" alt=""/></div>
+<map name="sps_8c_aeb018262f5c915cc72b989daf95df488_icgraph" id="asps_8c_aeb018262f5c915cc72b989daf95df488_icgraph">
+<area shape="rect" title=" " alt="" coords="233,31,349,57"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a402e704273d7f0d445b26907631fd6ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a402e704273d7f0d445b26907631fd6ba">&#9670;&nbsp;</a></span>get_line()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long long int get_line </td>
+          <td>(</td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>line_buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Load one line from file</p>
+<p>Load one line from file and save it to buffer</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line_buffer</td><td>Empty pointer to char pointer where will be saved loaded line </td></tr>
+    <tr><td class="paramname">file</td><td>Pointer to file from which will be line loaded</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of alloacated bits in memory or -1 when there is nothing else to load</dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph.png" border="0" usemap="#asps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph" alt=""/></div>
+<map name="sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph" id="asps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph">
+<area shape="rect" title=" " alt="" coords="233,5,300,32"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
 </div>
@@ -251,8 +476,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a0a4fe0f35c878d2bc35aa47c6f1d34cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a4fe0f35c878d2bc35aa47c6f1d34cb">&#9670;&nbsp;</a></span>load_table()</h2>
+<a id="aaf046bcf81cb87196c26a02fe84d7107"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf046bcf81cb87196c26a02fe84d7107">&#9670;&nbsp;</a></span>load_table()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,7 +485,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">int load_table </td>
           <td>(</td>
-          <td class="paramtype">char *&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>delims</em>, </td>
         </tr>
         <tr>
@@ -294,10 +519,23 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>NO_ERROR if table data are loaded and parsed properly, in other scenarios return error code</dd></dl>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_aaf046bcf81cb87196c26a02fe84d7107_cgraph.png" border="0" usemap="#asps_8c_aaf046bcf81cb87196c26a02fe84d7107_cgraph" alt=""/></div>
+<map name="sps_8c_aaf046bcf81cb87196c26a02fe84d7107_cgraph" id="asps_8c_aaf046bcf81cb87196c26a02fe84d7107_cgraph">
+<area shape="rect" title=" " alt="" coords="5,107,87,133"/>
+<area shape="rect" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c" title=" " alt="" coords="155,5,241,32"/>
+<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="140,56,256,83"/>
+<area shape="rect" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba" title=" " alt="" coords="165,107,231,133"/>
+<area shape="rect" href="sps_8c.html#a72c7045ef865d17564d1de763604c72c" title=" " alt="" coords="137,157,259,184"/>
+<area shape="rect" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9" title=" " alt="" coords="135,208,261,235"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="sps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb_icgraph.png" border="0" usemap="#asps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb_icgraph" alt=""/></div>
-<map name="sps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb_icgraph" id="asps_8c_a0a4fe0f35c878d2bc35aa47c6f1d34cb_icgraph">
+<div class="center"><img src="sps_8c_aaf046bcf81cb87196c26a02fe84d7107_icgraph.png" border="0" usemap="#asps_8c_aaf046bcf81cb87196c26a02fe84d7107_icgraph" alt=""/></div>
+<map name="sps_8c_aaf046bcf81cb87196c26a02fe84d7107_icgraph" id="asps_8c_aaf046bcf81cb87196c26a02fe84d7107_icgraph">
 <area shape="rect" title=" " alt="" coords="104,5,185,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
@@ -336,11 +574,99 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph.png" border="0" usemap="#asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" alt=""/></div>
 <map name="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
-<area shape="rect" title=" " alt="" coords="5,56,56,83"/>
-<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="104,31,259,57"/>
-<area shape="rect" href="sps_8c.html#a0a4fe0f35c878d2bc35aa47c6f1d34cb" title=" " alt="" coords="141,81,222,108"/>
-<area shape="rect" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad" title=" " alt="" coords="307,5,468,32"/>
-<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="338,56,437,83"/>
+<area shape="rect" title=" " alt="" coords="5,107,56,133"/>
+<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="329,107,445,133"/>
+<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="104,56,259,83"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="141,183,222,209"/>
+<area shape="rect" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad" title=" " alt="" coords="307,56,468,83"/>
+<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="338,5,437,32"/>
+<area shape="rect" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c" title=" " alt="" coords="344,309,431,336"/>
+<area shape="rect" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba" title=" " alt="" coords="354,157,421,184"/>
+<area shape="rect" href="sps_8c.html#a72c7045ef865d17564d1de763604c72c" title=" " alt="" coords="326,208,449,235"/>
+<area shape="rect" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9" title=" " alt="" coords="324,259,451,285"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a72c7045ef865d17564d1de763604c72c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72c7045ef865d17564d1de763604c72c">&#9670;&nbsp;</a></span>normalize_delims()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void normalize_delims </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>delims</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Normalize all delims to the first one</p>
+<p>Iterate over all delims and all characters in line and replace and valid delim from delims array in line by the first delim in delims array</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Line string </td></tr>
+    <tr><td class="paramname">delims</td><td>Array of deliminator characters</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a72c7045ef865d17564d1de763604c72c_icgraph.png" border="0" usemap="#asps_8c_a72c7045ef865d17564d1de763604c72c_icgraph" alt=""/></div>
+<map name="sps_8c_a72c7045ef865d17564d1de763604c72c_icgraph" id="asps_8c_a72c7045ef865d17564d1de763604c72c_icgraph">
+<area shape="rect" title=" " alt="" coords="233,5,356,32"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a82bf3c8a53884d9aa6bdaa102ce6aff9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82bf3c8a53884d9aa6bdaa102ce6aff9">&#9670;&nbsp;</a></span>rm_newline_chars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rm_newline_chars </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Removing new line character from string</p>
+<p>Iterate over string until it new line character then replace it with 0 </p><dl class="section warning"><dt>Warning</dt><dd>Rest of the string is REMOVED!</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Pointer to string from which is new line character removed</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph.png" border="0" usemap="#asps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph" alt=""/></div>
+<map name="sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph" id="asps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph">
+<area shape="rect" title=" " alt="" coords="233,5,360,32"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
 </div>
 

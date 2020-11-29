@@ -7,8 +7,7 @@ Store for data of whole table.
 
 
 
-Collaboration diagram for Table\+:
-\nopagebreak
+Collaboration diagram for Table\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -18,9 +17,13 @@ Collaboration diagram for Table\+:
 \doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
-int \mbox{\hyperlink{struct_table_a06da7f836b22b1f88c17628f72f47a6f}{num\+\_\+of\+\_\+rows}}
+unsigned long long int \mbox{\hyperlink{struct_table_a21872d44150f282769791fc7a1c651b2}{num\+\_\+of\+\_\+rows}}
+\item 
+unsigned long long int \mbox{\hyperlink{struct_table_a2a32f36e2083660e713a53ca3a8cff53}{allocated\+\_\+rows}}
 \item 
 \mbox{\hyperlink{struct_row}{Row}} $\ast$ \mbox{\hyperlink{struct_table_a551de9ef905eaa176206ad329d3a241b}{rows}}
+\item 
+char \mbox{\hyperlink{struct_table_ab56c67e0ed9605b4078e2135f791c4ed}{delim}}
 \end{DoxyCompactItemize}
 
 
@@ -28,11 +31,23 @@ int \mbox{\hyperlink{struct_table_a06da7f836b22b1f88c17628f72f47a6f}{num\+\_\+of
 Store for data of whole table. 
 
 \doxysubsection{Field Documentation}
-\mbox{\Hypertarget{struct_table_a06da7f836b22b1f88c17628f72f47a6f}\label{struct_table_a06da7f836b22b1f88c17628f72f47a6f}} 
+\mbox{\Hypertarget{struct_table_a2a32f36e2083660e713a53ca3a8cff53}\label{struct_table_a2a32f36e2083660e713a53ca3a8cff53}} 
+\index{Table@{Table}!allocated\_rows@{allocated\_rows}}
+\index{allocated\_rows@{allocated\_rows}!Table@{Table}}
+\doxysubsubsection{\texorpdfstring{allocated\_rows}{allocated\_rows}}
+{\footnotesize\ttfamily unsigned long long int allocated\+\_\+rows}
+
+Number of row pointers allocated in memory \mbox{\Hypertarget{struct_table_ab56c67e0ed9605b4078e2135f791c4ed}\label{struct_table_ab56c67e0ed9605b4078e2135f791c4ed}} 
+\index{Table@{Table}!delim@{delim}}
+\index{delim@{delim}!Table@{Table}}
+\doxysubsubsection{\texorpdfstring{delim}{delim}}
+{\footnotesize\ttfamily char delim}
+
+Delimiter for output \mbox{\Hypertarget{struct_table_a21872d44150f282769791fc7a1c651b2}\label{struct_table_a21872d44150f282769791fc7a1c651b2}} 
 \index{Table@{Table}!num\_of\_rows@{num\_of\_rows}}
 \index{num\_of\_rows@{num\_of\_rows}!Table@{Table}}
 \doxysubsubsection{\texorpdfstring{num\_of\_rows}{num\_of\_rows}}
-{\footnotesize\ttfamily int num\+\_\+of\+\_\+rows}
+{\footnotesize\ttfamily unsigned long long int num\+\_\+of\+\_\+rows}
 
 Number of rows in table \mbox{\Hypertarget{struct_table_a551de9ef905eaa176206ad329d3a241b}\label{struct_table_a551de9ef905eaa176206ad329d3a241b}} 
 \index{Table@{Table}!rows@{rows}}

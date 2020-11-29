@@ -1,3 +1,11 @@
+/**
+ * @version V1
+ * @file sps.c
+ * @author Martin Douša
+ * @date November 2020
+ * @brief Program to process tables from input file
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,7 +16,7 @@
 
 #define BASE_NUMBER_OF_ROWS 4
 #define BASE_NUMBER_OF_CELLS 4
-#define BASE_CELL_LENGTH 32
+#define BASE_CELL_LENGTH 16
 
 /**
  * @enum ErrorCodes
@@ -54,6 +62,7 @@ typedef struct
     unsigned long long int num_of_rows; /**< Number of rows in table */
     unsigned long long int allocated_rows; /**< Number of row pointers allocated in memory */
     Row *rows; /**< Pointer to first row in table */
+    char delim; /**< Delimiter for output */
 } Table;
 
 void deallocate_table(Table *table)
@@ -71,16 +80,20 @@ void deallocate_table(Table *table)
 
     for (unsigned long long int i = 0; i < table->num_of_rows; i++)
     {
-        if (table->rows[i].cells != NULL)
+        if (table->rows[i].cells == NULL)
             continue;
 
         for (unsigned long long int j = 0; j < table->rows[i].num_of_cells; j++)
-            {
-                free(table->rows[i].cells[j].content);
-                table->rows[i].cells[j].content = NULL;
-            }
-            free(table->rows[i].cells);
-            table->rows[i].cells = NULL;
+        {
+            if (table->rows[i].cells[j].content == NULL)
+                continue;
+
+            free(table->rows[i].cells[j].content);
+            table->rows[i].cells[j].content = NULL;
+        }
+
+        free(table->rows[i].cells);
+        table->rows[i].cells = NULL;
     }
 
     free(table->rows);
@@ -99,6 +112,46 @@ _Bool strings_equal(const char *s1, const char *s2)
      */
 
     return strcmp(s1, s2) == 0;
+}
+
+unsigned long long int count_char(char *string, char c, _Bool ignore_escapes)
+{
+    /**
+     * @brief Count specific character in string
+     *
+     * Count ocurences of specific character in string with option to ignore escaped characters and parts in parentecies
+     *
+     * @param string Input string
+     * @param c Character we want to search
+     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
+     *
+     * @return Number of ocurences of searched character
+     */
+
+    if (string == NULL)
+        return 0;
+
+    size_t lenght_of_string = strlen(string);
+    _Bool in_parentecies = false;
+    unsigned long long int counter = 0;
+
+    for (size_t i = 0; i < lenght_of_string; i++)
+    {
+        char cc = string[i];
+
+        if (cc == '"')
+            in_parentecies = !in_parentecies;
+
+        if (cc == c)
+        {
+            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
+            {
+                counter++;
+            }
+        }
+    }
+
+    return counter;
 }
 
 void rm_newline_chars(char *s) {
@@ -150,7 +203,7 @@ long long int get_line(char **line_buffer, FILE *file)
         // +1 for end string bit
         if (index + 1 >= allocated)
         {
-            char *tmp = realloc (*line_buffer, allocated + 16);
+            char *tmp = (char*)realloc (*line_buffer, allocated + 16);
 
             // If reallocating failed free already used memory and return
             if (!tmp)
@@ -178,6 +231,42 @@ long long int get_line(char **line_buffer, FILE *file)
     return allocated;
 }
 
+void normalize_delims(char *line, const char *delims)
+{
+    /**
+     * @brief Normalize all delims to the first one
+     *
+     * Iterate over all delims and all characters in line and replace and valid delim from delims array in line by the first delim in delims array
+     *
+     * @param line Line string
+     * @param delims Array of deliminator characters
+     */
+
+    size_t num_of_delims = strlen(delims);
+    size_t length_of_line = strlen(line);
+
+    for (size_t i = 1; i < num_of_delims; i++)
+    {
+        _Bool in_parentecies = false;
+
+        for (size_t j = 0; j < length_of_line; j++)
+        {
+            char cc = line[j];
+
+            if (cc == '"')
+                in_parentecies = !in_parentecies;
+
+            if (cc == delims[i])
+            {
+                if (!in_parentecies && (j != 0 && line[j-1] != '\\'))
+                {
+                    line[j] = delims[0];
+                }
+            }
+        }
+    }
+}
+
 int load_table(const char *delims, char *filepath, Table *table)
 {
     /**
@@ -192,9 +281,7 @@ int load_table(const char *delims, char *filepath, Table *table)
      * @return NO_ERROR if table data are loaded and parsed properly, in other scenarios return error code
      */
 
-    (void)delims;
-    (void)table;
-
+    int ret_val = NO_ERROR;
     FILE *file;
     char *line = NULL;
     unsigned long long int line_index = 0;
@@ -204,41 +291,54 @@ int load_table(const char *delims, char *filepath, Table *table)
     if (file == NULL)
         return FILE_DOESNT_EXIST;
 
-    // Allocate base number of rows
-    table->rows = malloc(BASE_NUMBER_OF_ROWS * sizeof(Row*));
+    // Allocate first row
+    table->rows = (Row*)malloc(BASE_NUMBER_OF_ROWS * sizeof(Row));
+    if (table->rows == NULL)
+        return ALLOCATION_FAILED;
+
+    table->num_of_rows = 0;
     table->allocated_rows = BASE_NUMBER_OF_ROWS;
+
+//    table->num_of_rows = 1;
+//    table->rows[0].cells = (Cell*)malloc(sizeof(Cell));
+//    if (table->rows[0].cells == NULL)
+//    {
+//        deallocate_table(table);
+//        return ALLOCATION_FAILED;
+//    }
+//
+//    table->rows[0].num_of_cells = 0;
+//    table->rows[0].allocated_cells = 1;
 
     // Iterate thru input file
     // When we set buffer size to 0 and output char pointer to NULL then getline will allocate memory itself
     while (get_line(&line, file) != -1)
     {
         if (line == NULL)
-            return ALLOCATION_FAILED;
+        {
+            ret_val = ALLOCATION_FAILED;
+            deallocate_table(table);
+            break;
+        }
 
         rm_newline_chars(line);
 
+        normalize_delims(line, delims);
+
+        // Check if we still have room in rows array
         if (line_index >= table->allocated_rows)
         {
-            // Allocate more space
-            Row *tmp = realloc(table->rows, table->allocated_rows + BASE_NUMBER_OF_ROWS);
-            if (!tmp)
-            {
-                deallocate_table(table);
+            // Allocate larger array of rows
+            Row *tmp = (Row*)realloc(table->rows, (table->allocated_rows + BASE_NUMBER_OF_ROWS) * sizeof(Row));
+            if (tmp == NULL)
                 return ALLOCATION_FAILED;
-            }
+
             table->allocated_rows += BASE_NUMBER_OF_ROWS;
             table->rows = tmp;
         }
 
-        // printf("%s\n", line);
-        size_t line_len = strlen(line);
-        for (size_t i = 0; i < line_len; i++)
-        {
-            printf("%c ", line[i]);
-        }
-        printf("\n");
+        printf("%s -- %llu\n", line, count_char(line, table->delim, false));
 
-        // Free line loaded by getline
         free(line);
         line_index++;
     }
@@ -247,7 +347,7 @@ int load_table(const char *delims, char *filepath, Table *table)
     // Close input file
     fclose(file);
 
-    return NO_ERROR;
+    return ret_val;
 }
 
 _Bool check_sanity_of_delims(char *delims)
@@ -322,23 +422,24 @@ int main(int argc, char *argv[]) {
 
     int error_flag;
 
-    Table table = {.allocated_rows = 0,
-                   .rows = NULL,
-                   .num_of_rows = 0};
+    Table table = { .delim = delims[0] };
     if ((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR)
     {
         fprintf(stderr, "Failed to load table properly\n");
+        deallocate_table(&table);
         return error_flag;
     }
 
     if (table.rows == NULL)
     {
         fprintf(stderr, "Failed to load table correctly!\n");
+        deallocate_table(&table);
         return TABLE_LOAD_ERROR;
     }
 
 #ifdef DEBUG
     printf("\n\nDebug:\n");
+    printf("Allocated rows: %llu\n", table.allocated_rows);
     printf("Delim: '%c'\n", delims[0]);
     printf("Args: ");
     for (int i = 1; i < argc; i++)

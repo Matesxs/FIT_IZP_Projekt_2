@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['cell_1',['Cell',['../struct_cell.html',1,'']]],
-  ['cells_2',['cells',['../struct_row.html#a4b2f78a0197c8d34d405912888acfe7c',1,'Row']]],
-  ['check_5fsanity_5fof_5fdelims_3',['check_sanity_of_delims',['../sps_8c.html#afd8907535a986b58ff3a78d3e74495ad',1,'sps.c']]],
-  ['cmakelists_2etxt_4',['CMakeLists.txt',['../_c_make_lists_8txt.html',1,'']]],
-  ['content_5',['content',['../struct_cell.html#ab0746fb6288bd31fd0d505fab48d8785',1,'Cell']]]
+  ['base_5fcell_5flength_4',['BASE_CELL_LENGTH',['../sps_8c.html#a77468b2060160061f74208f619e4b613',1,'sps.c']]],
+  ['base_5fnumber_5fof_5fcells_5',['BASE_NUMBER_OF_CELLS',['../sps_8c.html#a47322624180ea0c05d71d51f35896122',1,'sps.c']]],
+  ['base_5fnumber_5fof_5frows_6',['BASE_NUMBER_OF_ROWS',['../sps_8c.html#a79a5385ae872a445923843a71b3b78e9',1,'sps.c']]],
+  ['blacklisted_5fdelims_7',['BLACKLISTED_DELIMS',['../sps_8c.html#ab9ba06e03cbb689b78305ba102f2bba4',1,'sps.c']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_31',['main',['../sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'sps.c']]]
+  ['get_5fline_47',['get_line',['../sps_8c.html#a402e704273d7f0d445b26907631fd6ba',1,'sps.c']]]
 ];

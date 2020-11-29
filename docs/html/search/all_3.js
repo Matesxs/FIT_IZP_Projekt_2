@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['file_5fdoesnt_5fexist_7',['FILE_DOESNT_EXIST',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a',1,'sps.c']]]
+  ['data_2etxt_14',['data.txt',['../data_8txt.html',1,'']]],
+  ['deallocate_5ftable_15',['deallocate_table',['../sps_8c.html#aeb018262f5c915cc72b989daf95df488',1,'sps.c']]],
+  ['debug_16',['DEBUG',['../sps_8c.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'sps.c']]],
+  ['delim_17',['delim',['../struct_table.html#ab56c67e0ed9605b4078e2135f791c4ed',1,'Table']]]
 ];
