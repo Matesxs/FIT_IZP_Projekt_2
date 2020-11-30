@@ -12,11 +12,13 @@
 #include <stdbool.h>
 
 #define DEBUG
-#define BLACKLISTED_DELIMS "\"\\" /**< Character that are not allowed to use as delim character */
 
-#define BASE_NUMBER_OF_ROWS 3
-#define BASE_NUMBER_OF_CELLS 3
-#define BASE_CELL_LENGTH 6
+#define BLACKLISTED_DELIMS "\"\\" /**< Character that are not allowed to use as delim character */
+#define DEFAULT_DELIM " " /**< Default delimiter array */
+
+#define BASE_NUMBER_OF_ROWS 3 /**< Base number of rows that will be allocated */
+#define BASE_NUMBER_OF_CELLS 3 /**< Base number of cells that will be allocated */
+#define BASE_CELL_LENGTH 6 /**< Base length of content in cell that will be allocated */
 
 #define EMPTY_CELL ""
 
@@ -33,6 +35,16 @@ enum ErrorCodes
     ALLOCATION_FAILED,            /**< Error when program failed to allocate memory */
     FUNCTION_ERROR,               /**< Generic function error, @warning This should not occur! */
 };
+
+/**
+ * @struct Commands
+ * @brief Store raw commands in form of string array
+ */
+typedef struct
+{
+    unsigned long long int num_of_commands;
+    char **commands; /**< Array of commands */
+} Raw_commands;
 
 /**
  * @struct Cell
@@ -66,6 +78,25 @@ typedef struct
     Row *rows; /**< Pointer to first row in table */
     char delim; /**< Delimiter for output */
 } Table;
+
+_Bool string_start_with(const char *base_string, const char *start_string)
+{
+    /**
+     * @brief Check if string starts with other string
+     *
+     * Check if @p base_string starts with @p start_string
+     *
+     * @param base_string String where to look for substring
+     * @param start_string Substring to look for at start of base_string
+     *
+     * @return true if @p base_string starts with @p start_string, false if dont
+     */
+
+    if (strlen(start_string) > strlen(base_string))
+        return false;
+
+    return strncmp(start_string, base_string, strlen(start_string)) == 0;
+}
 
 void dealocate_cell(Cell *cell)
 {
@@ -172,6 +203,25 @@ int allocate_rows(Table *table)
         table->rows[i].allocated_cells = 0;
     }
 
+    return NO_ERROR;
+}
+
+int allocate_raw_commands(Raw_commands *commands_store, unsigned long long int number_of_commands)
+{
+    /**
+     * @brief Allocate commands store
+     *
+     * @param commands_store Pointer to instance of raw commands structure
+     * @param number_of_commands Number of commands we want to allocate
+     *
+     * @return NO_ERROR on success, ALLOCATION_FAILED on fail
+     */
+
+    commands_store->commands = (char**)malloc(number_of_commands * sizeof(char*));
+    if (commands_store->commands == NULL)
+        return ALLOCATION_FAILED;
+
+    commands_store->num_of_commands = number_of_commands;
     return NO_ERROR;
 }
 
@@ -575,6 +625,7 @@ int create_row_from_data(char *line, Table *table)
     unsigned long long int number_of_cells = count_char(line, table->delim, false) + 1;
 
     char *substring_buffer = NULL;
+    int ret_val;
 
     for (unsigned long long int i = 0; i < number_of_cells; i++)
     {
@@ -584,7 +635,9 @@ int create_row_from_data(char *line, Table *table)
                 return ALLOCATION_FAILED;
         }
 
-        get_substring(line, &substring_buffer, table->delim, i, false);
+        if ((ret_val = get_substring(line, &substring_buffer, table->delim, i, false)) != NO_ERROR)
+            return ret_val;
+
         if (set_cell(substring_buffer, &table->rows[table->num_of_rows].cells[i]) != NO_ERROR)
             return ALLOCATION_FAILED;
 
@@ -685,29 +738,6 @@ _Bool check_sanity_of_delims(char *delims)
             if (delims[i] == BLACKLISTED_DELIMS[j])
                 return false;
         }
-    }
-
-    return true;
-}
-
-_Bool load_delims_from_args(char *argv[], char **delims)
-{
-    /**
-     * @brief Load delims
-     *
-     * Check if second argument is -d flag and then set next argument as delims string
-     *
-     * @param argv Array of arguments
-     * @param delims pointer to array of delims
-     *
-     * @return true if flag not found or delims after flag are valid, false if there are invalid characters in delims
-     */
-
-    if (strings_equal(argv[1], "-d"))
-    {
-        *delims = argv[2];
-        if (!check_sanity_of_delims(*delims))
-            return false;
     }
 
     return true;
@@ -842,11 +872,118 @@ int normalize_number_of_cols(Table *table)
     return ret_code;
 }
 
+int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_present)
+{
+    /**
+     * @brief Get raw commands
+     *
+     * Get command string for aguments and open it as file and parse it to individual commands or parse the argument as individual commands
+     *
+     * @param argv Array of arguments
+     * @param commands_store Pointer to instance of raw commands structure where individual commands will be saved
+     * @param delim_flag_present Flag if in argument is delim flag (only for calculating proper position of commands argument)
+     *
+     * @return NO_ERROR on success, in other cases return coresponding ErrorFlag
+     */
+
+    char *raw_commands = delim_flag_present ? argv[3] : argv[2];
+    unsigned long long int num_of_commands = 0;
+
+    if (string_start_with(raw_commands, "-c"))
+    {
+        // Raw commands are path to command file
+        // Parse commands from commands file
+
+        // Trim out prefix
+        size_t len = strlen(raw_commands);
+        memmove(raw_commands, raw_commands + 2, len - 1);
+
+        // Try to open command file
+        FILE *file = fopen(raw_commands, "r");
+        if (file == NULL)
+            return FILE_DOESNT_EXIST;
+
+        char *line = NULL;
+
+        // Count number of lines (commands because individual commands are on separated lines)
+        while (get_line(&line, file) != -1)
+        {
+            free(line);
+            line = NULL;
+            num_of_commands++;
+        }
+
+        // Rewind to start of file
+        rewind(file);
+
+        if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+        unsigned long long int i = 0;
+        while (get_line(&line, file) != -1)
+        {
+            rm_newline_chars(line);
+            commands_store->commands[i] = line;
+            line = NULL;
+
+            i++;
+        }
+
+        fclose(file);
+    }
+    else
+    {
+        // Parse commands from argument
+
+        num_of_commands = count_char(raw_commands, ';', true) + 1;
+        char *command = NULL;
+        int ret_val;
+
+        if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+        for (unsigned long long int i = 0; i < num_of_commands; i++)
+        {
+            if ((ret_val = get_substring(raw_commands, &command, ';', i, true)) != NO_ERROR)
+                return ret_val;
+
+            commands_store->commands[i] = command;
+            command = NULL;
+        }
+    }
+
+    return NO_ERROR;
+}
+
+void deallocate_raw_commands(Raw_commands *commands_store)
+{
+    /**
+     * @brief Deallocate raw commands structure
+     *
+     * @param commands_store Pointer to instance of raw commands structure
+     */
+
+    if (commands_store->commands == NULL)
+        return;
+
+    for (unsigned long long int i = 0; i < commands_store->num_of_commands; i++)
+    {
+        free(commands_store->commands[i]);
+        commands_store->commands[i] = NULL;
+    }
+
+    free(commands_store->commands);
+    commands_store->commands = NULL;
+    commands_store->num_of_commands = 0;
+}
+
 int main(int argc, char *argv[]) {
     /**
      * @brief Main of whole program
      * @todo Refactor error handling
      */
+
+    int error_flag;
 
     // Check if number of arguments is larger than minimum posible number of arguments
     if (argc < 3) {
@@ -854,24 +991,36 @@ int main(int argc, char *argv[]) {
         return MISSING_ARGS;
     }
 
-    char *delims = " "; //**< Number of all posible delimiters to use */
-    // Check if there is -d flag in arguments and load it if yes
-    if (!load_delims_from_args(argv, &delims))
+    _Bool delim_flag_present = strings_equal(argv[1], "-d");
+    char *delims = delim_flag_present ? argv[2] : DEFAULT_DELIM;
+
+    // Check if there is no invalid characters in delim array
+    if (!check_sanity_of_delims(delims))
     {
         fprintf(stderr, "Cant found valid delimiters after -d flag\n");
         return INVALID_DELIMITER;
     }
 
-    int error_flag;
+    Raw_commands raw_commands_store = { .commands = NULL,
+                                        .num_of_commands = 0 };
+
+    if ((error_flag = get_commands(argv, &raw_commands_store, delim_flag_present)) != NO_ERROR)
+    {
+        fprintf(stderr, "Failed to get commands\n");
+        deallocate_raw_commands(&raw_commands_store);
+        return error_flag;
+    }
 
     Table table = { .delim = delims[0],
                     .rows = NULL,
                     .num_of_rows = 0,
                     .allocated_rows = 0};
+
     if (((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR) || table.rows == NULL)
     {
         fprintf(stderr, "Failed to load table properly\n");
         deallocate_table(&table);
+        deallocate_raw_commands(&raw_commands_store);
         return error_flag;
     }
 
@@ -879,6 +1028,7 @@ int main(int argc, char *argv[]) {
     {
         fprintf(stderr, "Failed to normalize colums\n");
         deallocate_table(&table);
+        deallocate_raw_commands(&raw_commands_store);
         return error_flag;
     }
 
@@ -888,6 +1038,9 @@ int main(int argc, char *argv[]) {
     printf("\n\nDebug:\n");
     printf("Allocated rows: %llu, Allocated cells: %llu\n", table.allocated_rows, table.rows[0].allocated_cells);
     printf("Delim: '%c'\n", table.delim);
+    printf("Commands: ");
+    for (unsigned long long int i = 0; i < raw_commands_store.num_of_commands; i++)
+        printf("'%s'%c", raw_commands_store.commands[i], i == (raw_commands_store.num_of_commands - 1) ? '\n' : ' ');
     printf("Args: ");
     for (int i = 1; i < argc; i++)
     {
@@ -897,6 +1050,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     deallocate_table(&table);
+    deallocate_raw_commands(&raw_commands_store);
 
     return NO_ERROR;
 }

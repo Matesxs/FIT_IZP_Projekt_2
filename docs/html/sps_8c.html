@@ -81,6 +81,8 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_raw__commands.html">Raw_commands</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_cell.html">Cell</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store for data of single cell.  <a href="struct_cell.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -97,6 +99,8 @@ Macros</h2></td></tr>
 <tr class="separator:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9ba06e03cbb689b78305ba102f2bba4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#ab9ba06e03cbb689b78305ba102f2bba4">BLACKLISTED_DELIMS</a>&#160;&#160;&#160;&quot;\&quot;\\&quot;</td></tr>
 <tr class="separator:ab9ba06e03cbb689b78305ba102f2bba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a955fa651f2dda3a118e30fd09817e6fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a955fa651f2dda3a118e30fd09817e6fd">DEFAULT_DELIM</a>&#160;&#160;&#160;&quot; &quot;</td></tr>
+<tr class="separator:a955fa651f2dda3a118e30fd09817e6fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79a5385ae872a445923843a71b3b78e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a79a5385ae872a445923843a71b3b78e9">BASE_NUMBER_OF_ROWS</a>&#160;&#160;&#160;3</td></tr>
 <tr class="separator:a79a5385ae872a445923843a71b3b78e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47322624180ea0c05d71d51f35896122"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a47322624180ea0c05d71d51f35896122">BASE_NUMBER_OF_CELLS</a>&#160;&#160;&#160;3</td></tr>
@@ -123,6 +127,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:af4932339917c5fae2fcb74b7ff9ad32e"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#af4932339917c5fae2fcb74b7ff9ad32e">string_start_with</a> (const char *base_string, const char *start_string)</td></tr>
+<tr class="separator:af4932339917c5fae2fcb74b7ff9ad32e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37cdb33275fa1cc58f89b03cd68c1686"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686">dealocate_cell</a> (<a class="el" href="struct_cell.html">Cell</a> *cell)</td></tr>
 <tr class="separator:a37cdb33275fa1cc58f89b03cd68c1686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a236efc88a3389c5b12ac7b42c4bcb584"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584">dealocate_row</a> (<a class="el" href="struct_row.html">Row</a> *row)</td></tr>
@@ -131,6 +137,8 @@ Functions</h2></td></tr>
 <tr class="separator:aeb018262f5c915cc72b989daf95df488"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a253cc5911a34258e8c205f47beca7e4e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a253cc5911a34258e8c205f47beca7e4e">allocate_rows</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
 <tr class="separator:a253cc5911a34258e8c205f47beca7e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a789b2c972bf87dd3d1a12a6bbfb1f193"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a789b2c972bf87dd3d1a12a6bbfb1f193">allocate_raw_commands</a> (<a class="el" href="struct_raw__commands.html">Raw_commands</a> *commands_store, unsigned long long int number_of_commands)</td></tr>
+<tr class="separator:a789b2c972bf87dd3d1a12a6bbfb1f193"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cbe6f82ae9a54d70c80bd382b22b2c2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2">allocate_cells</a> (<a class="el" href="struct_row.html">Row</a> *row)</td></tr>
 <tr class="separator:a0cbe6f82ae9a54d70c80bd382b22b2c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0af18f65fcd7ac86c20aa8abd52453d6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6">allocate_content</a> (<a class="el" href="struct_cell.html">Cell</a> *cell)</td></tr>
@@ -159,8 +167,6 @@ Functions</h2></td></tr>
 <tr class="separator:aaf046bcf81cb87196c26a02fe84d7107"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd8907535a986b58ff3a78d3e74495ad"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad">check_sanity_of_delims</a> (char *delims)</td></tr>
 <tr class="separator:afd8907535a986b58ff3a78d3e74495ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a806e75f77cdc474d1dacb3d4943ab747"><td class="memItemLeft" align="right" valign="top">_Bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747">load_delims_from_args</a> (char *argv[], char **delims)</td></tr>
-<tr class="separator:a806e75f77cdc474d1dacb3d4943ab747"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a5e00e275d7301ebea0d3374e622a9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a9a5e00e275d7301ebea0d3374e622a9f">print_table</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
 <tr class="separator:a9a5e00e275d7301ebea0d3374e622a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab923a2fcd8cde3ddee65b5bdfdc4298"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298">normalize_row_lengths</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
@@ -169,6 +175,10 @@ Functions</h2></td></tr>
 <tr class="separator:a35b4d9bc7065ff111cb050980cc25b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a768adbb60c21d8b13dedee118ca0d076"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076">normalize_number_of_cols</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
 <tr class="separator:a768adbb60c21d8b13dedee118ca0d076"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab30d7f01a3eb40573fdc89b597ff0980"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980">get_commands</a> (char *argv[], <a class="el" href="struct_raw__commands.html">Raw_commands</a> *commands_store, _Bool delim_flag_present)</td></tr>
+<tr class="separator:ab30d7f01a3eb40573fdc89b597ff0980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3963fb3c2d8d535c2fdb55870588647f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a3963fb3c2d8d535c2fdb55870588647f">deallocate_raw_commands</a> (<a class="el" href="struct_raw__commands.html">Raw_commands</a> *commands_store)</td></tr>
+<tr class="separator:a3963fb3c2d8d535c2fdb55870588647f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -189,6 +199,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Base length of content in cell that will be allocated </p>
 
 </div>
 </div>
@@ -203,6 +214,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Base number of cells that will be allocated </p>
 
 </div>
 </div>
@@ -217,6 +229,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Base number of rows that will be allocated </p>
 
 </div>
 </div>
@@ -246,6 +259,21 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a955fa651f2dda3a118e30fd09817e6fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a955fa651f2dda3a118e30fd09817e6fd">&#9670;&nbsp;</a></span>DEFAULT_DELIM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_DELIM&#160;&#160;&#160;&quot; &quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default delimiter array </p>
 
 </div>
 </div>
@@ -378,6 +406,53 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a789b2c972bf87dd3d1a12a6bbfb1f193"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a789b2c972bf87dd3d1a12a6bbfb1f193">&#9670;&nbsp;</a></span>allocate_raw_commands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int allocate_raw_commands </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_raw__commands.html">Raw_commands</a> *&#160;</td>
+          <td class="paramname"><em>commands_store</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned long long int&#160;</td>
+          <td class="paramname"><em>number_of_commands</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Allocate commands store</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">commands_store</td><td>Pointer to instance of raw commands structure </td></tr>
+    <tr><td class="paramname">number_of_commands</td><td>Number of commands we want to allocate</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NO_ERROR on success, ALLOCATION_FAILED on fail</dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a789b2c972bf87dd3d1a12a6bbfb1f193_icgraph.png" border="0" usemap="#asps_8c_a789b2c972bf87dd3d1a12a6bbfb1f193_icgraph" alt=""/></div>
+<map name="sps_8c_a789b2c972bf87dd3d1a12a6bbfb1f193_icgraph" id="asps_8c_a789b2c972bf87dd3d1a12a6bbfb1f193_icgraph">
+<area shape="rect" title=" " alt="" coords="263,5,428,32"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="104,5,215,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a253cc5911a34258e8c205f47beca7e4e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a253cc5911a34258e8c205f47beca7e4e">&#9670;&nbsp;</a></span>allocate_rows()</h2>
 
@@ -491,9 +566,8 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph.png" border="0" usemap="#asps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph" alt=""/></div>
-<map name="sps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph" id="sps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph">
-<area shape="rect" title=" " alt="" coords="307,5,468,32"/>
-<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="104,5,259,32"/>
+<map name="sps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph" id="asps_8c_afd8907535a986b58ff3a78d3e74495ad_icgraph">
+<area shape="rect" title=" " alt="" coords="104,5,265,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
 </div>
@@ -546,12 +620,13 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph.png" border="0" usemap="#asps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph" alt=""/></div>
-<map name="sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph" id="sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph">
-<area shape="rect" title=" " alt="" coords="579,5,665,32"/>
+<map name="sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph" id="asps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph">
+<area shape="rect" title=" " alt="" coords="579,31,665,57"/>
 <area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="233,5,383,32"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="253,56,363,83"/>
 <area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="431,31,531,57"/>
 <area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
 </map>
 </div>
 
@@ -613,6 +688,40 @@ Here is the caller graph for this function:</div>
 <map name="sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb_icgraph" id="sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb_icgraph">
 <area shape="rect" title=" " alt="" coords="233,5,383,32"/>
 <area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3963fb3c2d8d535c2fdb55870588647f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3963fb3c2d8d535c2fdb55870588647f">&#9670;&nbsp;</a></span>deallocate_raw_commands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void deallocate_raw_commands </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_raw__commands.html">Raw_commands</a> *&#160;</td>
+          <td class="paramname"><em>commands_store</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Deallocate raw commands structure</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">commands_store</td><td>Pointer to instance of raw commands structure</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a3963fb3c2d8d535c2fdb55870588647f_icgraph.png" border="0" usemap="#asps_8c_a3963fb3c2d8d535c2fdb55870588647f_icgraph" alt=""/></div>
+<map name="sps_8c_a3963fb3c2d8d535c2fdb55870588647f_icgraph" id="asps_8c_a3963fb3c2d8d535c2fdb55870588647f_icgraph">
+<area shape="rect" title=" " alt="" coords="104,5,283,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
 </div>
@@ -751,6 +860,75 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="ab30d7f01a3eb40573fdc89b597ff0980"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab30d7f01a3eb40573fdc89b597ff0980">&#9670;&nbsp;</a></span>get_commands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_commands </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_raw__commands.html">Raw_commands</a> *&#160;</td>
+          <td class="paramname"><em>commands_store</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">_Bool&#160;</td>
+          <td class="paramname"><em>delim_flag_present</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get raw commands</p>
+<p>Get command string for aguments and open it as file and parse it to individual commands or parse the argument as individual commands</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argv</td><td>Array of arguments </td></tr>
+    <tr><td class="paramname">commands_store</td><td>Pointer to instance of raw commands structure where individual commands will be saved </td></tr>
+    <tr><td class="paramname">delim_flag_present</td><td>Flag if in argument is delim flag (only for calculating proper position of commands argument)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NO_ERROR on success, in other cases return coresponding ErrorFlag</dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_ab30d7f01a3eb40573fdc89b597ff0980_cgraph.png" border="0" usemap="#asps_8c_ab30d7f01a3eb40573fdc89b597ff0980_cgraph" alt=""/></div>
+<map name="sps_8c_ab30d7f01a3eb40573fdc89b597ff0980_cgraph" id="asps_8c_ab30d7f01a3eb40573fdc89b597ff0980_cgraph">
+<area shape="rect" title=" " alt="" coords="5,132,116,159"/>
+<area shape="rect" href="sps_8c.html#a789b2c972bf87dd3d1a12a6bbfb1f193" title=" " alt="" coords="164,5,329,32"/>
+<area shape="rect" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c" title=" " alt="" coords="419,81,506,108"/>
+<area shape="rect" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba" title=" " alt="" coords="213,107,280,133"/>
+<area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="197,157,297,184"/>
+<area shape="rect" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9" title=" " alt="" coords="183,208,310,235"/>
+<area shape="rect" href="sps_8c.html#af4932339917c5fae2fcb74b7ff9ad32e" title=" " alt="" coords="188,259,305,285"/>
+<area shape="rect" href="sps_8c.html#a86a0c2249a25dfc9dc34b48d68e64de5" title=" " alt="" coords="377,157,548,184"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_ab30d7f01a3eb40573fdc89b597ff0980_icgraph.png" border="0" usemap="#asps_8c_ab30d7f01a3eb40573fdc89b597ff0980_icgraph" alt=""/></div>
+<map name="sps_8c_ab30d7f01a3eb40573fdc89b597ff0980_icgraph" id="asps_8c_ab30d7f01a3eb40573fdc89b597ff0980_icgraph">
+<area shape="rect" title=" " alt="" coords="104,5,215,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a402e704273d7f0d445b26907631fd6ba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a402e704273d7f0d445b26907631fd6ba">&#9670;&nbsp;</a></span>get_line()</h2>
 
@@ -790,10 +968,11 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph.png" border="0" usemap="#asps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph" alt=""/></div>
-<map name="sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph" id="sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph">
-<area shape="rect" title=" " alt="" coords="233,5,300,32"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph" id="asps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph">
+<area shape="rect" title=" " alt="" coords="263,31,329,57"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="104,5,215,32"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="119,56,200,83"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
 </map>
 </div>
 
@@ -853,12 +1032,13 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5_icgraph.png" border="0" usemap="#asps_8c_a86a0c2249a25dfc9dc34b48d68e64de5_icgraph" alt=""/></div>
-<map name="sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5_icgraph" id="sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5_icgraph">
-<area shape="rect" title=" " alt="" coords="579,5,749,32"/>
-<area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="431,5,531,32"/>
-<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="233,5,383,32"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5_icgraph" id="asps_8c_a86a0c2249a25dfc9dc34b48d68e64de5_icgraph">
+<area shape="rect" title=" " alt="" coords="608,31,779,57"/>
+<area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="460,31,560,57"/>
+<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="263,5,412,32"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="104,56,215,83"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="119,5,200,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
 </map>
 </div>
 
@@ -934,68 +1114,12 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_icgraph.png" border="0" usemap="#asps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_icgraph" alt=""/></div>
-<map name="sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_icgraph" id="sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_icgraph">
-<area shape="rect" title=" " alt="" coords="431,5,531,32"/>
-<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="233,5,383,32"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a806e75f77cdc474d1dacb3d4943ab747"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a806e75f77cdc474d1dacb3d4943ab747">&#9670;&nbsp;</a></span>load_delims_from_args()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">_Bool load_delims_from_args </td>
-          <td>(</td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>argv</em>[], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>delims</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Load delims</p>
-<p>Check if second argument is -d flag and then set next argument as delims string</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">argv</td><td>Array of arguments </td></tr>
-    <tr><td class="paramname">delims</td><td>pointer to array of delims</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if flag not found or delims after flag are valid, false if there are invalid characters in delims</dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="sps_8c_a806e75f77cdc474d1dacb3d4943ab747_cgraph.png" border="0" usemap="#asps_8c_a806e75f77cdc474d1dacb3d4943ab747_cgraph" alt=""/></div>
-<map name="sps_8c_a806e75f77cdc474d1dacb3d4943ab747_cgraph" id="sps_8c_a806e75f77cdc474d1dacb3d4943ab747_cgraph">
-<area shape="rect" title=" " alt="" coords="5,31,160,57"/>
-<area shape="rect" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad" title=" " alt="" coords="208,5,369,32"/>
-<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="239,56,338,83"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="sps_8c_a806e75f77cdc474d1dacb3d4943ab747_icgraph.png" border="0" usemap="#asps_8c_a806e75f77cdc474d1dacb3d4943ab747_icgraph" alt=""/></div>
-<map name="sps_8c_a806e75f77cdc474d1dacb3d4943ab747_icgraph" id="sps_8c_a806e75f77cdc474d1dacb3d4943ab747_icgraph">
-<area shape="rect" title=" " alt="" coords="104,5,259,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_icgraph" id="asps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_icgraph">
+<area shape="rect" title=" " alt="" coords="460,31,560,57"/>
+<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="263,5,412,32"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="104,56,215,83"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="119,5,200,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
 </map>
 </div>
 
@@ -1107,31 +1231,34 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph.png" border="0" usemap="#asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" alt=""/></div>
-<map name="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
-<area shape="rect" title=" " alt="" coords="5,208,56,235"/>
-<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="351,208,467,235"/>
-<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="115,157,269,184"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="151,284,233,311"/>
-<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,56,280,83"/>
-<area shape="rect" href="sps_8c.html#a9a5e00e275d7301ebea0d3374e622a9f" title=" " alt="" coords="151,335,233,361"/>
-<area shape="rect" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584" title=" " alt="" coords="559,177,665,204"/>
-<area shape="rect" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686" title=" " alt="" coords="735,89,840,116"/>
-<area shape="rect" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad" title=" " alt="" coords="328,157,489,184"/>
-<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="563,95,661,121"/>
-<area shape="rect" href="sps_8c.html#a253cc5911a34258e8c205f47beca7e4e" title=" " alt="" coords="358,309,459,336"/>
-<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="537,329,687,356"/>
-<area shape="rect" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba" title=" " alt="" coords="375,360,442,387"/>
-<area shape="rect" href="sps_8c.html#a72c7045ef865d17564d1de763604c72c" title=" " alt="" coords="347,461,470,488"/>
-<area shape="rect" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9" title=" " alt="" coords="345,259,472,285"/>
-<area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="737,279,838,305"/>
-<area shape="rect" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c" title=" " alt="" coords="930,380,1017,407"/>
-<area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="737,329,837,356"/>
-<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="754,228,821,255"/>
-<area shape="rect" href="sps_8c.html#a86a0c2249a25dfc9dc34b48d68e64de5" title=" " alt="" coords="888,329,1059,356"/>
-<area shape="rect" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6" title=" " alt="" coords="915,228,1032,255"/>
-<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="333,5,485,32"/>
-<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="331,56,486,83"/>
-<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="545,228,679,255"/>
+<map name="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
+<area shape="rect" title=" " alt="" coords="5,233,56,260"/>
+<area shape="rect" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad" title=" " alt="" coords="113,5,274,32"/>
+<area shape="rect" href="sps_8c.html#a3963fb3c2d8d535c2fdb55870588647f" title=" " alt="" coords="104,56,283,83"/>
+<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="355,259,471,285"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="138,537,249,564"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="153,360,234,387"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="105,208,281,235"/>
+<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="562,107,661,133"/>
+<area shape="rect" href="sps_8c.html#a9a5e00e275d7301ebea0d3374e622a9f" title=" " alt="" coords="152,588,235,615"/>
+<area shape="rect" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584" title=" " alt="" coords="559,208,664,235"/>
+<area shape="rect" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686" title=" " alt="" coords="759,183,865,209"/>
+<area shape="rect" href="sps_8c.html#a789b2c972bf87dd3d1a12a6bbfb1f193" title=" " alt="" coords="331,613,496,640"/>
+<area shape="rect" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c" title=" " alt="" coords="769,512,855,539"/>
+<area shape="rect" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba" title=" " alt="" coords="380,461,447,488"/>
+<area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="561,537,661,564"/>
+<area shape="rect" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9" title=" " alt="" coords="350,512,477,539"/>
+<area shape="rect" href="sps_8c.html#af4932339917c5fae2fcb74b7ff9ad32e" title=" " alt="" coords="355,715,472,741"/>
+<area shape="rect" href="sps_8c.html#a86a0c2249a25dfc9dc34b48d68e64de5" title=" " alt="" coords="727,563,897,589"/>
+<area shape="rect" href="sps_8c.html#a253cc5911a34258e8c205f47beca7e4e" title=" " alt="" coords="363,309,464,336"/>
+<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="339,360,488,387"/>
+<area shape="rect" href="sps_8c.html#a72c7045ef865d17564d1de763604c72c" title=" " alt="" coords="352,411,475,437"/>
+<area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="761,284,863,311"/>
+<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="779,348,845,375"/>
+<area shape="rect" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6" title=" " alt="" coords="945,348,1063,375"/>
+<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="337,157,489,184"/>
+<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="336,208,491,235"/>
+<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="544,309,679,336"/>
 </map>
 </div>
 
@@ -1393,10 +1520,11 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph.png" border="0" usemap="#asps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph" alt=""/></div>
-<map name="sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph" id="sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph">
-<area shape="rect" title=" " alt="" coords="233,5,360,32"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph" id="asps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph">
+<area shape="rect" title=" " alt="" coords="263,31,389,57"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="104,5,215,32"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="119,56,200,83"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
 </map>
 </div>
 
@@ -1463,6 +1591,54 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="af4932339917c5fae2fcb74b7ff9ad32e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4932339917c5fae2fcb74b7ff9ad32e">&#9670;&nbsp;</a></span>string_start_with()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">_Bool string_start_with </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>base_string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>start_string</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check if string starts with other string</p>
+<p>Check if <code>base_string</code> starts with <code>start_string</code> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base_string</td><td>String where to look for substring </td></tr>
+    <tr><td class="paramname">start_string</td><td>Substring to look for at start of base_string</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if <code>base_string</code> starts with <code>start_string</code>, false if dont</dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_af4932339917c5fae2fcb74b7ff9ad32e_icgraph.png" border="0" usemap="#asps_8c_af4932339917c5fae2fcb74b7ff9ad32e_icgraph" alt=""/></div>
+<map name="sps_8c_af4932339917c5fae2fcb74b7ff9ad32e_icgraph" id="asps_8c_af4932339917c5fae2fcb74b7ff9ad32e_icgraph">
+<area shape="rect" title=" " alt="" coords="263,5,380,32"/>
+<area shape="rect" href="sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="104,5,215,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="affb54c1b3d5475d9216a8d070b21ff8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#affb54c1b3d5475d9216a8d070b21ff8b">&#9670;&nbsp;</a></span>strings_equal()</h2>
 
@@ -1501,12 +1677,11 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph.png" border="0" usemap="#asps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" alt=""/></div>
-<map name="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" id="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph">
-<area shape="rect" title=" " alt="" coords="528,31,627,57"/>
-<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="115,5,269,32"/>
-<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,56,480,83"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
-<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,56,280,83"/>
+<map name="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" id="asps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph">
+<area shape="rect" title=" " alt="" coords="528,5,627,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,31,480,57"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,31,280,57"/>
 </map>
 </div>
 
