@@ -40,9 +40,8 @@ enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}} \
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}}, 
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}{M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS}}, 
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b}{I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+E\+L\+I\+M\+I\+T\+ER}}, 
-\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af}{T\+A\+B\+L\+E\+\_\+\+L\+O\+A\+D\+\_\+\+E\+R\+R\+OR}}, 
-\newline
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}{F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST}}, 
+\newline
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}}, 
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+R\+R\+OR}}
  \}
@@ -177,10 +176,6 @@ M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS&Some arguments are missing \\
 I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+E\+L\+I\+M\+I\+T\+ER&Found invalid character in delimiters from arguments \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{TABLE\_LOAD\_ERROR@{TABLE\_LOAD\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!TABLE\_LOAD\_ERROR@{TABLE\_LOAD\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af}} 
-T\+A\+B\+L\+E\+\_\+\+L\+O\+A\+D\+\_\+\+E\+R\+R\+OR&Data load error \\
-\hline
-
 \raisebox{\heightof{T}}[0pt][0pt]{\index{FILE\_DOESNT\_EXIST@{FILE\_DOESNT\_EXIST}!sps.c@{sps.c}}\index{sps.c@{sps.c}!FILE\_DOESNT\_EXIST@{FILE\_DOESNT\_EXIST}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}} 
 F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST&Error if input file doesnt exist or is used by another process \\
 \hline
@@ -218,8 +213,7 @@ Allocate cell array in instance of row structure or extend existing one
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR when table is allocated properly in other cases return A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -244,8 +238,7 @@ Allocate content (char array) in instance of cell strucutre or extend existing o
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR when table is allocated properly in other cases return A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -293,16 +286,14 @@ Append empty cell to the end of the row
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR on success or A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED on error
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -441,8 +432,7 @@ Free content of cell
 {\em cell} & Pointer to instance of cell strucutre\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -656,8 +646,7 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Main of whole program \begin{DoxyRefDesc}{Todo}
 \item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling \end{DoxyRefDesc}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -703,16 +692,14 @@ Destroy empty cols on the end of rows
 {\em table} & Pointer to instance of table structure\\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=309pt]{sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -737,16 +724,14 @@ Fill short rows to same size as the longest one and then trim all empty cols at 
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR on success and A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED on error
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -771,16 +756,14 @@ Append empty cells to the end of smaller rows than the longest one to make all r
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR on success and A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED on error
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -861,8 +844,7 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=254pt]{sps_8c_a27192fb50be75e2b837926af9c17a084_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -887,8 +869,7 @@ Check if two string {\ttfamily s1} and {\ttfamily s2} are same
 \begin{DoxyReturn}{Returns}
 true if string are equal, false if dont
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

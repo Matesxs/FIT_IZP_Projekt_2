@@ -29,7 +29,6 @@ enum ErrorCodes
     NO_ERROR,                     /**< No error detected (default return code) */
     MISSING_ARGS,                 /**< Some arguments are missing */
     INVALID_DELIMITER,            /**< Found invalid character in delimiters from arguments */
-    TABLE_LOAD_ERROR,             /**< Data load error */
     FILE_DOESNT_EXIST,            /**< Error if input file doesnt exist or is used by another process */
     ALLOCATION_FAILED,            /**< Error when program failed to allocate memory */
     FUNCTION_ERROR,               /**< Generic function error, @warning This should not occur! */

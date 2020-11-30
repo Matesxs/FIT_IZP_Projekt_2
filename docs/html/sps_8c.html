@@ -112,10 +112,9 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94">NO_ERROR</a>, 
 <a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe">MISSING_ARGS</a>, 
 <a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b">INVALID_DELIMITER</a>, 
-<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af">TABLE_LOAD_ERROR</a>, 
+<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a">FILE_DOESNT_EXIST</a>, 
 <br />
-&#160;&#160;<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a">FILE_DOESNT_EXIST</a>, 
-<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c">ALLOCATION_FAILED</a>, 
+&#160;&#160;<a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c">ALLOCATION_FAILED</a>, 
 <a class="el" href="sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095">FUNCTION_ERROR</a>
 <br />
  }</td></tr>
@@ -285,8 +284,6 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b"></a>INVALID_DELIMITER&#160;</td><td class="fielddoc"><p>Found invalid character in delimiters from arguments </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af"></a>TABLE_LOAD_ERROR&#160;</td><td class="fielddoc"><p>Data load error </p>
-</td></tr>
 <tr><td class="fieldname"><a id="a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a"></a>FILE_DOESNT_EXIST&#160;</td><td class="fielddoc"><p>Error if input file doesnt exist or is used by another process </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c"></a>ALLOCATION_FAILED&#160;</td><td class="fielddoc"><p>Error when program failed to allocate memory </p>
@@ -326,7 +323,7 @@ Functions</h2></td></tr>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph.png" border="0" usemap="#asps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph" alt=""/></div>
-<map name="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph" id="asps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph">
+<map name="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph" id="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph">
 <area shape="rect" title=" " alt="" coords="713,31,815,57"/>
 <area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="531,5,665,32"/>
 <area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="331,56,480,83"/>
@@ -367,7 +364,7 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph.png" border="0" usemap="#asps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph" alt=""/></div>
-<map name="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph" id="asps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph">
+<map name="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph" id="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph">
 <area shape="rect" title=" " alt="" coords="828,31,945,57"/>
 <area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="713,31,780,57"/>
 <area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="531,5,665,32"/>
@@ -445,7 +442,7 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph.png" border="0" usemap="#asps_8c_ac2b3081ef455b92a62692541d283e512_cgraph" alt=""/></div>
-<map name="sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph" id="asps_8c_ac2b3081ef455b92a62692541d283e512_cgraph">
+<map name="sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph" id="sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph">
 <area shape="rect" title=" " alt="" coords="5,31,140,57"/>
 <area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="188,5,289,32"/>
 <area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="205,56,272,83"/>
@@ -456,7 +453,7 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph.png" border="0" usemap="#asps_8c_ac2b3081ef455b92a62692541d283e512_icgraph" alt=""/></div>
-<map name="sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph" id="asps_8c_ac2b3081ef455b92a62692541d283e512_icgraph">
+<map name="sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph" id="sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph">
 <area shape="rect" title=" " alt="" coords="531,5,665,32"/>
 <area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="328,5,483,32"/>
 <area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
@@ -695,7 +692,7 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph.png" border="0" usemap="#asps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph" alt=""/></div>
-<map name="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph" id="asps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph">
+<map name="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph" id="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph">
 <area shape="rect" title=" " alt="" coords="681,81,787,108"/>
 <area shape="rect" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584" title=" " alt="" coords="528,56,633,83"/>
 <area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,107,480,133"/>
@@ -1110,7 +1107,7 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph.png" border="0" usemap="#asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" alt=""/></div>
-<map name="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
+<map name="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
 <area shape="rect" title=" " alt="" coords="5,208,56,235"/>
 <area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="351,208,467,235"/>
 <area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="115,157,269,184"/>
@@ -1214,7 +1211,7 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph.png" border="0" usemap="#asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph" alt=""/></div>
-<map name="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph" id="asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph">
+<map name="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph" id="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph">
 <area shape="rect" title=" " alt="" coords="5,31,157,57"/>
 <area shape="rect" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686" title=" " alt="" coords="205,5,311,32"/>
 <area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="209,56,307,83"/>
@@ -1224,7 +1221,7 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph.png" border="0" usemap="#asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph" alt=""/></div>
-<map name="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph" id="asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph">
+<map name="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph" id="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph">
 <area shape="rect" title=" " alt="" coords="328,5,480,32"/>
 <area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
@@ -1261,7 +1258,7 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph.png" border="0" usemap="#asps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph" alt=""/></div>
-<map name="sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph" id="asps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph">
+<map name="sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph" id="sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph">
 <area shape="rect" title=" " alt="" coords="5,81,181,108"/>
 <area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="231,56,383,83"/>
 <area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="229,107,384,133"/>
@@ -1277,7 +1274,7 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph.png" border="0" usemap="#asps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph" alt=""/></div>
-<map name="sps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph" id="asps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph">
+<map name="sps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph" id="sps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph">
 <area shape="rect" title=" " alt="" coords="104,5,280,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
@@ -1313,7 +1310,7 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph.png" border="0" usemap="#asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph" alt=""/></div>
-<map name="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph" id="asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph">
+<map name="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph" id="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph">
 <area shape="rect" title=" " alt="" coords="5,31,160,57"/>
 <area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="208,31,343,57"/>
 <area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="391,5,492,32"/>
@@ -1325,7 +1322,7 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph.png" border="0" usemap="#asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph" alt=""/></div>
-<map name="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph" id="asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph">
+<map name="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph" id="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph">
 <area shape="rect" title=" " alt="" coords="328,5,483,32"/>
 <area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
@@ -1453,7 +1450,7 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph.png" border="0" usemap="#asps_8c_a27192fb50be75e2b837926af9c17a084_icgraph" alt=""/></div>
-<map name="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph" id="asps_8c_a27192fb50be75e2b837926af9c17a084_icgraph">
+<map name="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph" id="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph">
 <area shape="rect" title=" " alt="" coords="713,31,780,57"/>
 <area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="531,5,665,32"/>
 <area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="331,56,480,83"/>
@@ -1504,7 +1501,7 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph.png" border="0" usemap="#asps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" alt=""/></div>
-<map name="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" id="asps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph">
+<map name="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" id="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph">
 <area shape="rect" title=" " alt="" coords="528,31,627,57"/>
 <area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="115,5,269,32"/>
 <area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,56,480,83"/>
