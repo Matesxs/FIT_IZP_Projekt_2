@@ -8,7 +8,7 @@ Program to process tables from input file.
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}stdbool.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
 \doxysubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
@@ -30,6 +30,8 @@ struct \mbox{\hyperlink{struct_table}{Table}}
 \#define \mbox{\hyperlink{sps_8c_a47322624180ea0c05d71d51f35896122}{B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+C\+E\+L\+LS}}~3
 \item 
 \#define \mbox{\hyperlink{sps_8c_a77468b2060160061f74208f619e4b613}{B\+A\+S\+E\+\_\+\+C\+E\+L\+L\+\_\+\+L\+E\+N\+G\+TH}}~6
+\item 
+\#define \mbox{\hyperlink{sps_8c_a5432531fa160d0b2a4db3d9fa0de0947}{E\+M\+P\+T\+Y\+\_\+\+C\+E\+LL}}~\char`\"{}\char`\"{}
 \end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
@@ -72,6 +74,8 @@ void \mbox{\hyperlink{sps_8c_a72c7045ef865d17564d1de763604c72c}{normalize\+\_\+d
 \item 
 int \mbox{\hyperlink{sps_8c_a27192fb50be75e2b837926af9c17a084}{set\+\_\+cell}} (char $\ast$string, \mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
 \item 
+int \mbox{\hyperlink{sps_8c_ac2b3081ef455b92a62692541d283e512}{append\+\_\+empty\+\_\+cell}} (\mbox{\hyperlink{struct_row}{Row}} $\ast$row)
+\item 
 long long int \mbox{\hyperlink{sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5}{get\+\_\+position\+\_\+of\+\_\+character}} (const char $\ast$string, char ch, unsigned long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
 \item 
 int \mbox{\hyperlink{sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629}{get\+\_\+substring}} (char $\ast$string, char $\ast$$\ast$substring, char delim, unsigned long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
@@ -85,6 +89,12 @@ int \mbox{\hyperlink{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}{load\+\_\+table}}
 \+\_\+\+Bool \mbox{\hyperlink{sps_8c_a806e75f77cdc474d1dacb3d4943ab747}{load\+\_\+delims\+\_\+from\+\_\+args}} (char $\ast$argv\mbox{[}$\,$\mbox{]}, char $\ast$$\ast$delims)
 \item 
 void \mbox{\hyperlink{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}{print\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+int \mbox{\hyperlink{sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298}{normalize\+\_\+row\+\_\+lengths}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+void \mbox{\hyperlink{sps_8c_a35b4d9bc7065ff111cb050980cc25b0c}{normalize\+\_\+empty\+\_\+cols}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+int \mbox{\hyperlink{sps_8c_a768adbb60c21d8b13dedee118ca0d076}{normalize\+\_\+number\+\_\+of\+\_\+cols}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
 int \mbox{\hyperlink{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
 \end{DoxyCompactItemize}
@@ -134,6 +144,12 @@ Character that are not allowed to use as delim character \mbox{\Hypertarget{sps_
 \index{DEBUG@{DEBUG}!sps.c@{sps.c}}
 \doxysubsubsection{\texorpdfstring{DEBUG}{DEBUG}}
 {\footnotesize\ttfamily \#define D\+E\+B\+UG}
+
+\mbox{\Hypertarget{sps_8c_a5432531fa160d0b2a4db3d9fa0de0947}\label{sps_8c_a5432531fa160d0b2a4db3d9fa0de0947}} 
+\index{sps.c@{sps.c}!EMPTY\_CELL@{EMPTY\_CELL}}
+\index{EMPTY\_CELL@{EMPTY\_CELL}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{EMPTY\_CELL}{EMPTY\_CELL}}
+{\footnotesize\ttfamily \#define E\+M\+P\+T\+Y\+\_\+\+C\+E\+LL~\char`\"{}\char`\"{}}
 
 
 
@@ -202,7 +218,8 @@ Allocate cell array in instance of row structure or extend existing one
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR when table is allocated properly in other cases return A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -227,7 +244,8 @@ Allocate content (char array) in instance of cell strucutre or extend existing o
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR when table is allocated properly in other cases return A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -257,6 +275,38 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=327pt]{sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_ac2b3081ef455b92a62692541d283e512}\label{sps_8c_ac2b3081ef455b92a62692541d283e512}} 
+\index{sps.c@{sps.c}!append\_empty\_cell@{append\_empty\_cell}}
+\index{append\_empty\_cell@{append\_empty\_cell}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{append\_empty\_cell()}{append\_empty\_cell()}}
+{\footnotesize\ttfamily int append\+\_\+empty\+\_\+cell (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_row}{Row}} $\ast$}]{row }\end{DoxyParamCaption})}
+
+Append empty cell to the end of the row
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & \mbox{\hyperlink{struct_row}{Row}} where we want to append empty cell\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR on success or A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED on error
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_afd8907535a986b58ff3a78d3e74495ad}\label{sps_8c_afd8907535a986b58ff3a78d3e74495ad}} 
@@ -391,7 +441,8 @@ Free content of cell
 {\em cell} & Pointer to instance of cell strucutre\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -605,7 +656,8 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Main of whole program \begin{DoxyRefDesc}{Todo}
 \item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling \end{DoxyRefDesc}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -634,6 +686,105 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=343pt]{sps_8c_a72c7045ef865d17564d1de763604c72c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a35b4d9bc7065ff111cb050980cc25b0c}\label{sps_8c_a35b4d9bc7065ff111cb050980cc25b0c}} 
+\index{sps.c@{sps.c}!normalize\_empty\_cols@{normalize\_empty\_cols}}
+\index{normalize\_empty\_cols@{normalize\_empty\_cols}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{normalize\_empty\_cols()}{normalize\_empty\_cols()}}
+{\footnotesize\ttfamily void normalize\+\_\+empty\+\_\+cols (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Trim excess colms
+
+Destroy empty cols on the end of rows
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of table structure\\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a768adbb60c21d8b13dedee118ca0d076}\label{sps_8c_a768adbb60c21d8b13dedee118ca0d076}} 
+\index{sps.c@{sps.c}!normalize\_number\_of\_cols@{normalize\_number\_of\_cols}}
+\index{normalize\_number\_of\_cols@{normalize\_number\_of\_cols}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{normalize\_number\_of\_cols()}{normalize\_number\_of\_cols()}}
+{\footnotesize\ttfamily int normalize\+\_\+number\+\_\+of\+\_\+cols (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Normalize end of the rows
+
+Fill short rows to same size as the longest one and then trim all empty cols at the end
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of table structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR on success and A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED on error
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{sps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298}\label{sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298}} 
+\index{sps.c@{sps.c}!normalize\_row\_lengths@{normalize\_row\_lengths}}
+\index{normalize\_row\_lengths@{normalize\_row\_lengths}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{normalize\_row\_lengths()}{normalize\_row\_lengths()}}
+{\footnotesize\ttfamily int normalize\+\_\+row\+\_\+lengths (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Normalize lengths of rows
+
+Append empty cells to the end of smaller rows than the longest one to make all rows same length
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of table structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR on success and A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED on error
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}\label{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}} 
@@ -710,7 +861,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=254pt]{sps_8c_a27192fb50be75e2b837926af9c17a084_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -735,7 +887,8 @@ Check if two string {\ttfamily s1} and {\ttfamily s2} are same
 \begin{DoxyReturn}{Returns}
 true if string are equal, false if dont
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

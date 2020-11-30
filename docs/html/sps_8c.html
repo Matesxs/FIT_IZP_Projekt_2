@@ -77,7 +77,7 @@ $(function() {
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &quot;stdbool.h&quot;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
@@ -103,6 +103,8 @@ Macros</h2></td></tr>
 <tr class="separator:a47322624180ea0c05d71d51f35896122"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77468b2060160061f74208f619e4b613"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a77468b2060160061f74208f619e4b613">BASE_CELL_LENGTH</a>&#160;&#160;&#160;6</td></tr>
 <tr class="separator:a77468b2060160061f74208f619e4b613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5432531fa160d0b2a4db3d9fa0de0947"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a5432531fa160d0b2a4db3d9fa0de0947">EMPTY_CELL</a>&#160;&#160;&#160;&quot;&quot;</td></tr>
+<tr class="separator:a5432531fa160d0b2a4db3d9fa0de0947"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -146,6 +148,8 @@ Functions</h2></td></tr>
 <tr class="separator:a72c7045ef865d17564d1de763604c72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27192fb50be75e2b837926af9c17a084"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084">set_cell</a> (char *string, <a class="el" href="struct_cell.html">Cell</a> *cell)</td></tr>
 <tr class="separator:a27192fb50be75e2b837926af9c17a084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2b3081ef455b92a62692541d283e512"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512">append_empty_cell</a> (<a class="el" href="struct_row.html">Row</a> *row)</td></tr>
+<tr class="separator:ac2b3081ef455b92a62692541d283e512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86a0c2249a25dfc9dc34b48d68e64de5"><td class="memItemLeft" align="right" valign="top">long long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a86a0c2249a25dfc9dc34b48d68e64de5">get_position_of_character</a> (const char *string, char ch, unsigned long long int index, _Bool ignore_escapes)</td></tr>
 <tr class="separator:a86a0c2249a25dfc9dc34b48d68e64de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8eda688f718f6ef8d78bcbe0d5b94629"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629">get_substring</a> (char *string, char **substring, char delim, unsigned long long int index, _Bool ignore_escapes)</td></tr>
@@ -160,6 +164,12 @@ Functions</h2></td></tr>
 <tr class="separator:a806e75f77cdc474d1dacb3d4943ab747"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a5e00e275d7301ebea0d3374e622a9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a9a5e00e275d7301ebea0d3374e622a9f">print_table</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
 <tr class="separator:a9a5e00e275d7301ebea0d3374e622a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab923a2fcd8cde3ddee65b5bdfdc4298"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298">normalize_row_lengths</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
+<tr class="separator:aab923a2fcd8cde3ddee65b5bdfdc4298"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35b4d9bc7065ff111cb050980cc25b0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c">normalize_empty_cols</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
+<tr class="separator:a35b4d9bc7065ff111cb050980cc25b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a768adbb60c21d8b13dedee118ca0d076"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076">normalize_number_of_cols</a> (<a class="el" href="struct_table.html">Table</a> *table)</td></tr>
+<tr class="separator:a768adbb60c21d8b13dedee118ca0d076"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -240,6 +250,20 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a5432531fa160d0b2a4db3d9fa0de0947"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5432531fa160d0b2a4db3d9fa0de0947">&#9670;&nbsp;</a></span>EMPTY_CELL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EMPTY_CELL&#160;&#160;&#160;&quot;&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a3878e89dc5c88d823f4f923ef90dbcb3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3878e89dc5c88d823f4f923ef90dbcb3">&#9670;&nbsp;</a></span>ErrorCodes</h2>
@@ -302,11 +326,14 @@ Functions</h2></td></tr>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph.png" border="0" usemap="#asps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph" alt=""/></div>
-<map name="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph" id="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph">
-<area shape="rect" title=" " alt="" coords="431,5,532,32"/>
-<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="233,5,383,32"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph" id="asps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph">
+<area shape="rect" title=" " alt="" coords="713,31,815,57"/>
+<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="531,5,665,32"/>
+<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="331,56,480,83"/>
+<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="328,5,483,32"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="151,56,233,83"/>
 </map>
 </div>
 
@@ -340,12 +367,15 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph.png" border="0" usemap="#asps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph" alt=""/></div>
-<map name="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph" id="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph">
-<area shape="rect" title=" " alt="" coords="545,5,663,32"/>
-<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="431,5,497,32"/>
-<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="233,5,383,32"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph" id="asps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph">
+<area shape="rect" title=" " alt="" coords="828,31,945,57"/>
+<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="713,31,780,57"/>
+<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="531,5,665,32"/>
+<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="331,56,480,83"/>
+<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="328,5,483,32"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="151,56,233,83"/>
 </map>
 </div>
 
@@ -382,6 +412,54 @@ Here is the caller graph for this function:</div>
 <map name="sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph" id="sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph">
 <area shape="rect" title=" " alt="" coords="233,5,335,32"/>
 <area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac2b3081ef455b92a62692541d283e512"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2b3081ef455b92a62692541d283e512">&#9670;&nbsp;</a></span>append_empty_cell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int append_empty_cell </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_row.html">Row</a> *&#160;</td>
+          <td class="paramname"><em>row</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Append empty cell to the end of the row</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td><a class="el" href="struct_row.html" title="Store for data of single row.">Row</a> where we want to append empty cell</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NO_ERROR on success or ALLOCATION_FAILED on error</dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph.png" border="0" usemap="#asps_8c_ac2b3081ef455b92a62692541d283e512_cgraph" alt=""/></div>
+<map name="sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph" id="asps_8c_ac2b3081ef455b92a62692541d283e512_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,140,57"/>
+<area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="188,5,289,32"/>
+<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="205,56,272,83"/>
+<area shape="rect" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6" title=" " alt="" coords="337,56,455,83"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph.png" border="0" usemap="#asps_8c_ac2b3081ef455b92a62692541d283e512_icgraph" alt=""/></div>
+<map name="sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph" id="asps_8c_ac2b3081ef455b92a62692541d283e512_icgraph">
+<area shape="rect" title=" " alt="" coords="531,5,665,32"/>
+<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="328,5,483,32"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
 </div>
@@ -617,12 +695,14 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph.png" border="0" usemap="#asps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph" alt=""/></div>
-<map name="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph" id="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph">
-<area shape="rect" title=" " alt="" coords="551,31,656,57"/>
-<area shape="rect" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584" title=" " alt="" coords="397,31,503,57"/>
-<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="233,31,349,57"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
+<map name="sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph" id="asps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph">
+<area shape="rect" title=" " alt="" coords="681,81,787,108"/>
+<area shape="rect" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584" title=" " alt="" coords="528,56,633,83"/>
+<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,107,480,133"/>
+<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="346,56,462,83"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="151,5,233,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,56,56,83"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,107,280,133"/>
 </map>
 </div>
 
@@ -1030,27 +1110,31 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph.png" border="0" usemap="#asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" alt=""/></div>
-<map name="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
-<area shape="rect" title=" " alt="" coords="5,159,56,185"/>
-<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="329,107,445,133"/>
-<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="104,56,259,83"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="141,196,222,223"/>
-<area shape="rect" href="sps_8c.html#a9a5e00e275d7301ebea0d3374e622a9f" title=" " alt="" coords="140,247,223,273"/>
-<area shape="rect" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584" title=" " alt="" coords="516,107,621,133"/>
-<area shape="rect" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686" title=" " alt="" coords="702,107,807,133"/>
-<area shape="rect" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad" title=" " alt="" coords="307,5,468,32"/>
-<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="338,56,437,83"/>
-<area shape="rect" href="sps_8c.html#a253cc5911a34258e8c205f47beca7e4e" title=" " alt="" coords="337,309,438,336"/>
-<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="313,360,462,387"/>
-<area shape="rect" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba" title=" " alt="" coords="354,157,421,184"/>
-<area shape="rect" href="sps_8c.html#a72c7045ef865d17564d1de763604c72c" title=" " alt="" coords="326,208,449,235"/>
-<area shape="rect" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9" title=" " alt="" coords="324,259,451,285"/>
-<area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="518,335,619,361"/>
-<area shape="rect" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c" title=" " alt="" coords="711,385,798,412"/>
-<area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="519,436,619,463"/>
-<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="535,284,602,311"/>
-<area shape="rect" href="sps_8c.html#a86a0c2249a25dfc9dc34b48d68e64de5" title=" " alt="" coords="669,436,840,463"/>
-<area shape="rect" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6" title=" " alt="" coords="696,284,813,311"/>
+<map name="sps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="asps_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
+<area shape="rect" title=" " alt="" coords="5,208,56,235"/>
+<area shape="rect" href="sps_8c.html#aeb018262f5c915cc72b989daf95df488" title=" " alt="" coords="351,208,467,235"/>
+<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="115,157,269,184"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="151,284,233,311"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,56,280,83"/>
+<area shape="rect" href="sps_8c.html#a9a5e00e275d7301ebea0d3374e622a9f" title=" " alt="" coords="151,335,233,361"/>
+<area shape="rect" href="sps_8c.html#a236efc88a3389c5b12ac7b42c4bcb584" title=" " alt="" coords="559,177,665,204"/>
+<area shape="rect" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686" title=" " alt="" coords="735,89,840,116"/>
+<area shape="rect" href="sps_8c.html#afd8907535a986b58ff3a78d3e74495ad" title=" " alt="" coords="328,157,489,184"/>
+<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="563,95,661,121"/>
+<area shape="rect" href="sps_8c.html#a253cc5911a34258e8c205f47beca7e4e" title=" " alt="" coords="358,309,459,336"/>
+<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="537,329,687,356"/>
+<area shape="rect" href="sps_8c.html#a402e704273d7f0d445b26907631fd6ba" title=" " alt="" coords="375,360,442,387"/>
+<area shape="rect" href="sps_8c.html#a72c7045ef865d17564d1de763604c72c" title=" " alt="" coords="347,461,470,488"/>
+<area shape="rect" href="sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9" title=" " alt="" coords="345,259,472,285"/>
+<area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="737,279,838,305"/>
+<area shape="rect" href="sps_8c.html#a671b9cd27474bc0a62f9ad10e1841d7c" title=" " alt="" coords="930,380,1017,407"/>
+<area shape="rect" href="sps_8c.html#a8eda688f718f6ef8d78bcbe0d5b94629" title=" " alt="" coords="737,329,837,356"/>
+<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="754,228,821,255"/>
+<area shape="rect" href="sps_8c.html#a86a0c2249a25dfc9dc34b48d68e64de5" title=" " alt="" coords="888,329,1059,356"/>
+<area shape="rect" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6" title=" " alt="" coords="915,228,1032,255"/>
+<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="333,5,485,32"/>
+<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="331,56,486,83"/>
+<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="545,228,679,255"/>
 </map>
 </div>
 
@@ -1097,6 +1181,153 @@ Here is the caller graph for this function:</div>
 <map name="sps_8c_a72c7045ef865d17564d1de763604c72c_icgraph" id="sps_8c_a72c7045ef865d17564d1de763604c72c_icgraph">
 <area shape="rect" title=" " alt="" coords="233,5,356,32"/>
 <area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a35b4d9bc7065ff111cb050980cc25b0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35b4d9bc7065ff111cb050980cc25b0c">&#9670;&nbsp;</a></span>normalize_empty_cols()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void normalize_empty_cols </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_table.html">Table</a> *&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Trim excess colms</p>
+<p>Destroy empty cols on the end of rows</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>Pointer to instance of table structure</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph.png" border="0" usemap="#asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph" alt=""/></div>
+<map name="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph" id="asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,157,57"/>
+<area shape="rect" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686" title=" " alt="" coords="205,5,311,32"/>
+<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="209,56,307,83"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph.png" border="0" usemap="#asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph" alt=""/></div>
+<map name="sps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph" id="asps_8c_a35b4d9bc7065ff111cb050980cc25b0c_icgraph">
+<area shape="rect" title=" " alt="" coords="328,5,480,32"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a768adbb60c21d8b13dedee118ca0d076"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a768adbb60c21d8b13dedee118ca0d076">&#9670;&nbsp;</a></span>normalize_number_of_cols()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int normalize_number_of_cols </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_table.html">Table</a> *&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Normalize end of the rows</p>
+<p>Fill short rows to same size as the longest one and then trim all empty cols at the end</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>Pointer to instance of table structure</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NO_ERROR on success and ALLOCATION_FAILED on error</dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph.png" border="0" usemap="#asps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph" alt=""/></div>
+<map name="sps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph" id="asps_8c_a768adbb60c21d8b13dedee118ca0d076_cgraph">
+<area shape="rect" title=" " alt="" coords="5,81,181,108"/>
+<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="231,56,383,83"/>
+<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="229,107,384,133"/>
+<area shape="rect" href="sps_8c.html#a37cdb33275fa1cc58f89b03cd68c1686" title=" " alt="" coords="447,5,552,32"/>
+<area shape="rect" href="sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b" title=" " alt="" coords="450,56,549,83"/>
+<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="432,107,567,133"/>
+<area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="615,81,716,108"/>
+<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="632,132,699,159"/>
+<area shape="rect" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6" title=" " alt="" coords="764,132,881,159"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph.png" border="0" usemap="#asps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph" alt=""/></div>
+<map name="sps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph" id="asps_8c_a768adbb60c21d8b13dedee118ca0d076_icgraph">
+<area shape="rect" title=" " alt="" coords="104,5,280,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aab923a2fcd8cde3ddee65b5bdfdc4298"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab923a2fcd8cde3ddee65b5bdfdc4298">&#9670;&nbsp;</a></span>normalize_row_lengths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int normalize_row_lengths </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_table.html">Table</a> *&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Normalize lengths of rows</p>
+<p>Append empty cells to the end of smaller rows than the longest one to make all rows same length</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>Pointer to instance of table structure</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NO_ERROR on success and ALLOCATION_FAILED on error</dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph.png" border="0" usemap="#asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph" alt=""/></div>
+<map name="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph" id="asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,160,57"/>
+<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="208,31,343,57"/>
+<area shape="rect" href="sps_8c.html#a0cbe6f82ae9a54d70c80bd382b22b2c2" title=" " alt="" coords="391,5,492,32"/>
+<area shape="rect" href="sps_8c.html#a27192fb50be75e2b837926af9c17a084" title=" " alt="" coords="408,56,475,83"/>
+<area shape="rect" href="sps_8c.html#a0af18f65fcd7ac86c20aa8abd52453d6" title=" " alt="" coords="540,56,657,83"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph.png" border="0" usemap="#asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph" alt=""/></div>
+<map name="sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph" id="asps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298_icgraph">
+<area shape="rect" title=" " alt="" coords="328,5,483,32"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
 <area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
 </map>
 </div>
@@ -1222,11 +1453,14 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph.png" border="0" usemap="#asps_8c_a27192fb50be75e2b837926af9c17a084_icgraph" alt=""/></div>
-<map name="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph" id="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph">
-<area shape="rect" title=" " alt="" coords="431,5,497,32"/>
-<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="233,5,383,32"/>
-<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="104,5,185,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph" id="asps_8c_a27192fb50be75e2b837926af9c17a084_icgraph">
+<area shape="rect" title=" " alt="" coords="713,31,780,57"/>
+<area shape="rect" href="sps_8c.html#ac2b3081ef455b92a62692541d283e512" title=" " alt="" coords="531,5,665,32"/>
+<area shape="rect" href="sps_8c.html#a8abe333dd33c0dae8649cc1fed7a55fb" title=" " alt="" coords="331,56,480,83"/>
+<area shape="rect" href="sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="328,5,483,32"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,5,280,32"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
+<area shape="rect" href="sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107" title=" " alt="" coords="151,56,233,83"/>
 </map>
 </div>
 
@@ -1270,10 +1504,12 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph.png" border="0" usemap="#asps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" alt=""/></div>
-<map name="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" id="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph">
-<area shape="rect" title=" " alt="" coords="307,5,405,32"/>
-<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="104,5,259,32"/>
-<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,5,56,32"/>
+<map name="sps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph" id="asps_8c_affb54c1b3d5475d9216a8d070b21ff8b_icgraph">
+<area shape="rect" title=" " alt="" coords="528,31,627,57"/>
+<area shape="rect" href="sps_8c.html#a806e75f77cdc474d1dacb3d4943ab747" title=" " alt="" coords="115,5,269,32"/>
+<area shape="rect" href="sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,56,480,83"/>
+<area shape="rect" href="sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,31,56,57"/>
+<area shape="rect" href="sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,56,280,83"/>
 </map>
 </div>
 

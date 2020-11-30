@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "stdbool.h"
+#include <stdbool.h>
 
 #define DEBUG
 #define BLACKLISTED_DELIMS "\"\\" /**< Character that are not allowed to use as delim character */
@@ -17,6 +17,8 @@
 #define BASE_NUMBER_OF_ROWS 3
 #define BASE_NUMBER_OF_CELLS 3
 #define BASE_CELL_LENGTH 6
+
+#define EMPTY_CELL ""
 
 /**
  * @enum ErrorCodes
@@ -445,6 +447,29 @@ int set_cell(char *string, Cell *cell)
     return NO_ERROR;
 }
 
+int append_empty_cell(Row *row)
+{
+    /**
+     * @brief Append empty cell to the end of the row
+     *
+     * @param row Row where we want to append empty cell
+     *
+     * @return NO_ERROR on success or ALLOCATION_FAILED on error
+     */
+
+    // If row have no cells or its already full allocate new cols
+    if (row->cells == NULL || row->num_of_cells == row->allocated_cells)
+        if (allocate_cells(row) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+    if (set_cell(EMPTY_CELL, &row->cells[row->num_of_cells]) != NO_ERROR)
+        return ALLOCATION_FAILED;
+
+    row->num_of_cells++;
+
+    return NO_ERROR;
+}
+
 long long int get_position_of_character(const char *string, char ch, unsigned long long int index, _Bool ignore_escapes)
 {
     /**
@@ -514,7 +539,7 @@ int get_substring(char *string, char **substring, char delim, unsigned long long
     // If there is no substring pointer init it
     if ((*substring) == NULL)
     {
-        (*substring) = (char*)malloc((end_index - start_index + 1) * sizeof(char));
+        (*substring) = (char*)malloc((line_length) * sizeof(char));
         if ((*substring) == NULL)
             return ALLOCATION_FAILED;
     }
@@ -722,6 +747,102 @@ void print_table(Table *table)
     }
 }
 
+int normalize_row_lengths(Table *table)
+{
+    /**
+     * @brief Normalize lengths of rows
+     *
+     * Append empty cells to the end of smaller rows than the longest one to make all rows same length
+     *
+     * @param table Pointer to instance of table structure
+     *
+     * @return NO_ERROR on success and ALLOCATION_FAILED on error
+     */
+
+    unsigned long long int max_number_of_cols = 0;
+
+    // Get maximum cols in whole table
+    for (unsigned long long int i = 0; i < table->num_of_rows; i++)
+    {
+        if (table->rows[i].num_of_cells > max_number_of_cols)
+            max_number_of_cols = table->rows[i].num_of_cells;
+    }
+
+    for (unsigned long long int i = 0; i < table->num_of_rows; i++)
+    {
+        unsigned long long int length_diff = max_number_of_cols - table->rows[i].num_of_cells;
+
+        if (length_diff > 0)
+        {
+            for (unsigned long long int j = 0; j < length_diff; j++)
+                if (append_empty_cell(&table->rows[i]) != NO_ERROR)
+                    return ALLOCATION_FAILED;
+        }
+    }
+
+    return NO_ERROR;
+}
+
+void normalize_empty_cols(Table *table)
+{
+    /**
+     * @brief Trim excess colms
+     *
+     * Destroy empty cols on the end of rows
+     *
+     * @param table Pointer to instance of table structure
+     */
+
+    if (table->num_of_rows > 0)
+    {
+        for (unsigned long long int i = (table->rows[0].num_of_cells - 1); i > 0; i--)
+        {
+            _Bool all_empty = true;
+
+            for (unsigned long long int j = 0; j < table->num_of_rows; j++)
+            {
+                if (!strings_equal(table->rows[j].cells[i].content, EMPTY_CELL))
+                    all_empty = false;
+            }
+
+            if (all_empty)
+            {
+                // Destroy the empty ones
+                for (unsigned long long int j = 0; j < table->num_of_rows; j++)
+                {
+                    dealocate_cell(&table->rows[j].cells[i]);
+                    table->rows[j].num_of_cells--;
+                }
+
+                continue;
+            }
+
+            break;
+        }
+    }
+}
+
+int normalize_number_of_cols(Table *table)
+{
+    /**
+     * @brief Normalize end of the rows
+     *
+     * Fill short rows to same size as the longest one and then trim all empty cols at the end
+     *
+     * @param table Pointer to instance of table structure
+     *
+     * @return NO_ERROR on success and ALLOCATION_FAILED on error
+     */
+
+    int ret_code;
+    if ((ret_code = normalize_row_lengths(table) != NO_ERROR))
+        return ret_code;
+
+    normalize_empty_cols(table);
+
+    return ret_code;
+}
+
 int main(int argc, char *argv[]) {
     /**
      * @brief Main of whole program
@@ -748,18 +869,18 @@ int main(int argc, char *argv[]) {
                     .rows = NULL,
                     .num_of_rows = 0,
                     .allocated_rows = 0};
-    if ((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR)
+    if (((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR) || table.rows == NULL)
     {
         fprintf(stderr, "Failed to load table properly\n");
         deallocate_table(&table);
         return error_flag;
     }
 
-    if (table.rows == NULL)
+    if ((error_flag = normalize_number_of_cols(&table)) != NO_ERROR)
     {
-        fprintf(stderr, "Failed to load table correctly!\n");
+        fprintf(stderr, "Failed to normalize colums\n");
         deallocate_table(&table);
-        return TABLE_LOAD_ERROR;
+        return error_flag;
     }
 
     print_table(&table);
