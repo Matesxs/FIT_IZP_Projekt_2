@@ -14,9 +14,9 @@
 #define DEBUG
 #define BLACKLISTED_DELIMS "\"\\" /**< Character that are not allowed to use as delim character */
 
-#define BASE_NUMBER_OF_ROWS 4
-#define BASE_NUMBER_OF_CELLS 4
-#define BASE_CELL_LENGTH 16
+#define BASE_NUMBER_OF_ROWS 3
+#define BASE_NUMBER_OF_CELLS 3
+#define BASE_CELL_LENGTH 6
 
 /**
  * @enum ErrorCodes
@@ -29,7 +29,8 @@ enum ErrorCodes
     INVALID_DELIMITER,            /**< Found invalid character in delimiters from arguments */
     TABLE_LOAD_ERROR,             /**< Data load error */
     FILE_DOESNT_EXIST,            /**< Error if input file doesnt exist or is used by another process */
-    ALLOCATION_FAILED,             /**< Error when program failed to allocate memory */
+    ALLOCATION_FAILED,            /**< Error when program failed to allocate memory */
+    FUNCTION_ERROR,               /**< Generic function error, @warning This should not occur! */
 };
 
 /**
@@ -65,12 +66,54 @@ typedef struct
     char delim; /**< Delimiter for output */
 } Table;
 
+void dealocate_cell(Cell *cell)
+{
+    /**
+     * @brief Dealocate cell
+     *
+     * Free content of cell
+     *
+     * @param cell Pointer to instance of cell strucutre
+     */
+
+    if (cell->content == NULL)
+        return;
+
+    free(cell->content);
+    cell->content = NULL;
+    cell->allocated_chars = 0;
+}
+
+void dealocate_row(Row *row)
+{
+    /**
+     * @brief Dealocate row
+     *
+     * Iterate over all cells and dealocate them
+     *
+     * @param row Pointer to instance of row structure
+     */
+
+    if (row->cells == NULL)
+        return;
+
+    for (unsigned long long int i = 0; i < row->num_of_cells; i++)
+    {
+        dealocate_cell(&row->cells[i]);
+    }
+
+    free(row->cells);
+    row->cells = NULL;
+    row->num_of_cells = 0;
+    row->allocated_cells = 0;
+}
+
 void deallocate_table(Table *table)
 {
     /**
      * @brief Dealocate whole table from memory
      *
-     * Iterate over whole every cell in every row, dealocate data and clear pointers
+     * Iterate over all rows and dealocate them
      *
      * @param table Pointer to instance of table structure
      */
@@ -80,24 +123,129 @@ void deallocate_table(Table *table)
 
     for (unsigned long long int i = 0; i < table->num_of_rows; i++)
     {
-        if (table->rows[i].cells == NULL)
-            continue;
-
-        for (unsigned long long int j = 0; j < table->rows[i].num_of_cells; j++)
-        {
-            if (table->rows[i].cells[j].content == NULL)
-                continue;
-
-            free(table->rows[i].cells[j].content);
-            table->rows[i].cells[j].content = NULL;
-        }
-
-        free(table->rows[i].cells);
-        table->rows[i].cells = NULL;
+        dealocate_row(&table->rows[i]);
     }
 
     free(table->rows);
     table->rows = NULL;
+    table->num_of_rows = 0;
+    table->allocated_rows = 0;
+}
+
+int allocate_rows(Table *table)
+{
+    /**
+     * @brief Allocate rows in table structure
+     *
+     * Allocate new rows array or extend existing one
+     *
+     * @param table Pointer to instance of table structure
+     *
+     * @return NO_ERROR when table is allocated properly in other cases return ALLOCATION_FAILED
+     */
+
+    if (table->rows == NULL)
+    {
+        table->rows = (Row*)malloc(BASE_NUMBER_OF_ROWS * sizeof(Row));
+        if (table->rows == NULL)
+            return ALLOCATION_FAILED;
+
+        table->num_of_rows = 0;
+        table->allocated_rows = BASE_NUMBER_OF_ROWS;
+    }
+    else
+    {
+        Row *tmp = (Row*)realloc(table->rows, (table->allocated_rows + BASE_NUMBER_OF_ROWS) * sizeof(Row));
+        if (tmp == NULL)
+            return ALLOCATION_FAILED;
+
+        table->allocated_rows += BASE_NUMBER_OF_ROWS;
+        table->rows = tmp;
+    }
+
+    // Set default values
+    for (unsigned long long int i = table->num_of_rows; i < table->allocated_rows; i++)
+    {
+        table->rows[i].cells = NULL;
+        table->rows[i].num_of_cells = 0;
+        table->rows[i].allocated_cells = 0;
+    }
+
+    return NO_ERROR;
+}
+
+int allocate_cells(Row *row)
+{
+    /**
+     * @brief Allocate cells in row strucuture
+     *
+     * Allocate cell array in instance of row structure or extend existing one
+     *
+     * @param row Pointer to instance of row structure
+     *
+     * @return NO_ERROR when table is allocated properly in other cases return ALLOCATION_FAILED
+     */
+
+    if (row->cells == NULL)
+    {
+        row->cells = (Cell*)malloc(BASE_NUMBER_OF_CELLS * sizeof(Cell));
+        if (row->cells == NULL)
+            return ALLOCATION_FAILED;
+
+        row->num_of_cells = 0;
+        row->allocated_cells = BASE_NUMBER_OF_CELLS;
+    }
+    else
+    {
+        Cell *tmp = (Cell*)realloc(row->cells, (row->allocated_cells + BASE_NUMBER_OF_CELLS) * sizeof(Cell));
+        if (tmp == NULL)
+            return ALLOCATION_FAILED;
+
+        row->allocated_cells += BASE_NUMBER_OF_CELLS;
+        row->cells = tmp;
+    }
+
+    // Set default values
+    for (unsigned long long int i = row->num_of_cells; i < row->allocated_cells; i++)
+    {
+        row->cells[i].content = NULL;
+        row->cells[i].allocated_chars = 0;
+    }
+
+    return NO_ERROR;
+}
+
+int allocate_content(Cell *cell)
+{
+    /**
+     * @brief Allocate content in cell structure
+     *
+     * Allocate content (char array) in instance of cell strucutre or extend existing one
+     *
+     * @param cell Pointer to instance of cell structure
+     *
+     * @return NO_ERROR when table is allocated properly in other cases return ALLOCATION_FAILED
+     */
+
+    if (cell->content == NULL)
+    {
+        cell->content = (char*)malloc(BASE_CELL_LENGTH * sizeof(char));
+        if (cell->content == NULL)
+            return ALLOCATION_FAILED;
+
+        cell->allocated_chars = BASE_CELL_LENGTH * sizeof(char);
+    }
+    else
+    {
+        char *tmp = (char*)realloc(cell->content, (cell->allocated_chars + BASE_CELL_LENGTH) * sizeof(char));
+        if (tmp == NULL)
+            return ALLOCATION_FAILED;
+
+        cell->allocated_chars += BASE_CELL_LENGTH;
+        cell->content = tmp;
+    }
+
+    return NO_ERROR;
 }
 
 _Bool strings_equal(const char *s1, const char *s2)
@@ -267,6 +415,164 @@ void normalize_delims(char *line, const char *delims)
     }
 }
 
+int set_cell(char *string, Cell *cell)
+{
+    /**
+     * @brief Set value to cell content
+     *
+     * Try to allocate content in cell structure if content doesnt exist or rewrite existing data in it
+     * If content is too small then extend it
+     *
+     * @param string String we want to set to cell
+     * @param cell Pointer to instance of cell structure
+     *
+     * @return NO_ERROR when setting value is successful or when allocation fails ALLOCATION_FAILED
+     */
+
+    if (cell->content != NULL)
+    {
+        // Allocate base cell
+        if (allocate_content(cell) != NO_ERROR)
+            return ALLOCATION_FAILED;
+    }
+
+    while ((strlen(string) + 1) > cell->allocated_chars)
+        if (allocate_content(cell) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+    strcpy(cell->content, string);
+
+    return NO_ERROR;
+}
+
+long long int get_position_of_character(const char *string, char ch, unsigned long long int index, _Bool ignore_escapes)
+{
+    /**
+     * @brief Get position of character of certain index in string
+     *
+     * Iterate over each character in string and count character ocurences
+     * If ocurence counter coresponse to @p index then return position of current char in string
+     *
+     * @param string String where to find char
+     * @param ch Character we are looking for
+     * @param index Index of occurence of character in string we want position for
+     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
+     *
+     * @return Position of @p index ocurence of @p ch in string if valid ocurence is found, if not -1
+     *
+     * @todo Rework to strchr
+     */
+
+    unsigned long long int counter = 0;
+    _Bool in_parentecies = false;
+
+    for (size_t i = 0; string[i]; i++)
+    {
+        if (string[i] == '"')
+            in_parentecies = !in_parentecies;
+
+        if (string[i] == ch)
+        {
+            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
+            {
+                counter++;
+                if ((counter - 1) == index)
+                    return i;
+            }
+        }
+    }
+
+    return -1;
+}
+
+int get_substring(char *string, char **substring, char delim, unsigned long long int index, _Bool ignore_escapes)
+{
+    /**
+     * @brief Get substring from string
+     *
+     * Extract Portion of string delimited by @p delim or by borders of main string @p string
+     * Wantend portion is selected by @p index
+     *
+     * @param string Base string
+     * @param substring Place where result will be saved, should be allocated large enough but if its not provided this function will allocate it
+     * @param delim Deliminator character
+     * @param index Index of substring
+     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
+     *
+     * @return NO_ERROR on success or coresponding ErrorFlag on any error
+     */
+
+    if (string == NULL)
+        return FUNCTION_ERROR;
+
+    unsigned long long int number_of_delims = count_char(string, delim, ignore_escapes);
+    size_t line_length = strlen(string);
+
+    long long int start_index = (index == 0) ? 0 : get_position_of_character(string, delim, index - 1, ignore_escapes) + 1;
+    long long int end_index = (index >= number_of_delims) ? ((long long int)line_length - 1) : get_position_of_character(string, delim, index, ignore_escapes) - 1;
+
+    // If there is no substring pointer init it
+    if ((*substring) == NULL)
+    {
+        (*substring) = (char*)malloc((end_index - start_index + 1) * sizeof(char));
+        if ((*substring) == NULL)
+            return ALLOCATION_FAILED;
+    }
+
+    for (long long int i = 0, j = start_index; j <= end_index; i++, j++)
+    {
+        (*substring)[i] = string[j];
+    }
+    (*substring)[end_index - start_index + 1] = '\0';
+
+    return NO_ERROR;
+}
+
+int create_row_from_data(char *line, Table *table)
+{
+    /**
+     * @brief Create row from line data
+     *
+     * Parse and save line data
+     *
+     * @param line Input string to parse
+     * @param table Pointer to instance table structure where row will be saved
+     *
+     * @return NO_ERROR on success in other cases coresponding ErrorFlag
+     */
+
+    if (line == NULL)
+        return FUNCTION_ERROR;
+
+    // Allocate base number of cells in row
+    if (allocate_cells(&table->rows[table->num_of_rows]) != NO_ERROR)
+        return ALLOCATION_FAILED;
+
+    unsigned long long int number_of_cells = count_char(line, table->delim, false) + 1;
+
+    char *substring_buffer = NULL;
+
+    for (unsigned long long int i = 0; i < number_of_cells; i++)
+    {
+        if (i >= table->rows[table->num_of_rows].allocated_cells)
+        {
+            if (allocate_cells(&table->rows[table->num_of_rows]) != NO_ERROR)
+                return ALLOCATION_FAILED;
+        }
+
+        get_substring(line, &substring_buffer, table->delim, i, false);
+        if (set_cell(substring_buffer, &table->rows[table->num_of_rows].cells[i]) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+        table->rows[table->num_of_rows].num_of_cells++;
+    }
+
+    free(substring_buffer);
+
+    table->num_of_rows++;
+    return NO_ERROR;
+}
+
 int load_table(const char *delims, char *filepath, Table *table)
 {
     /**
@@ -292,23 +598,8 @@ int load_table(const char *delims, char *filepath, Table *table)
         return FILE_DOESNT_EXIST;
 
     // Allocate first row
-    table->rows = (Row*)malloc(BASE_NUMBER_OF_ROWS * sizeof(Row));
-    if (table->rows == NULL)
+    if (allocate_rows(table) != NO_ERROR)
         return ALLOCATION_FAILED;
-
-    table->num_of_rows = 0;
-    table->allocated_rows = BASE_NUMBER_OF_ROWS;
-
-//    table->num_of_rows = 1;
-//    table->rows[0].cells = (Cell*)malloc(sizeof(Cell));
-//    if (table->rows[0].cells == NULL)
-//    {
-//        deallocate_table(table);
-//        return ALLOCATION_FAILED;
-//    }
-//
-//    table->rows[0].num_of_cells = 0;
-//    table->rows[0].allocated_cells = 1;
 
     // Iterate thru input file
     // When we set buffer size to 0 and output char pointer to NULL then getline will allocate memory itself
@@ -327,17 +618,15 @@ int load_table(const char *delims, char *filepath, Table *table)
 
         // Check if we still have room in rows array
         if (line_index >= table->allocated_rows)
-        {
             // Allocate larger array of rows
-            Row *tmp = (Row*)realloc(table->rows, (table->allocated_rows + BASE_NUMBER_OF_ROWS) * sizeof(Row));
-            if (tmp == NULL)
+            if (allocate_rows(table) != NO_ERROR)
                 return ALLOCATION_FAILED;
 
-            table->allocated_rows += BASE_NUMBER_OF_ROWS;
-            table->rows = tmp;
+        if ((ret_val = create_row_from_data(line, table)) != NO_ERROR)
+        {
+            deallocate_table(table);
+            break;
         }
-
-        printf("%s -- %llu\n", line, count_char(line, table->delim, false));
 
         free(line);
         line_index++;
@@ -400,6 +689,39 @@ _Bool load_delims_from_args(char *argv[], char **delims)
     return true;
 }
 
+void print_table(Table *table)
+{
+    /**
+     * @brief Print table to console
+     *
+     * Debug functing for printing loaded table to console
+     * @todo Remove
+     *
+     * @param table Pointer to instance of table structure
+     */
+
+    if (table->rows == NULL)
+        return;
+
+    for (unsigned long long int i = 0; i < table->num_of_rows; i++)
+    {
+        if (table->rows[i].cells == NULL)
+            return;
+
+        for (unsigned long long int j = 0; j < table->rows[i].num_of_cells; j++)
+        {
+            if (table->rows[i].cells[j].content != NULL)
+            {
+                printf("%s", table->rows[i].cells[j].content);
+                if (j < (table->rows[i].num_of_cells - 1))
+                    printf("%c", table->delim);
+            }
+        }
+
+        printf("\n");
+    }
+}
+
 int main(int argc, char *argv[]) {
     /**
      * @brief Main of whole program
@@ -422,7 +744,10 @@ int main(int argc, char *argv[]) {
 
     int error_flag;
 
-    Table table = { .delim = delims[0] };
+    Table table = { .delim = delims[0],
+                    .rows = NULL,
+                    .num_of_rows = 0,
+                    .allocated_rows = 0};
     if ((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR)
     {
         fprintf(stderr, "Failed to load table properly\n");
@@ -437,10 +762,12 @@ int main(int argc, char *argv[]) {
         return TABLE_LOAD_ERROR;
     }
 
+    print_table(&table);
+
 #ifdef DEBUG
     printf("\n\nDebug:\n");
-    printf("Allocated rows: %llu\n", table.allocated_rows);
-    printf("Delim: '%c'\n", delims[0]);
+    printf("Allocated rows: %llu, Allocated cells: %llu\n", table.allocated_rows, table.rows[0].allocated_cells);
+    printf("Delim: '%c'\n", table.delim);
     printf("Args: ");
     for (int i = 1; i < argc; i++)
     {

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['table_35',['Table',['../struct_table.html',1,'']]],
-  ['table_5fload_5ferror_36',['TABLE_LOAD_ERROR',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af',1,'sps.c']]],
-  ['todo_20list_37',['Todo List',['../todo.html',1,'']]]
+  ['set_5fcell_43',['set_cell',['../sps_8c.html#a27192fb50be75e2b837926af9c17a084',1,'sps.c']]],
+  ['sps_2ec_44',['sps.c',['../sps_8c.html',1,'']]],
+  ['strings_5fequal_45',['strings_equal',['../sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b',1,'sps.c']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['normalize_5fdelims_51',['normalize_delims',['../sps_8c.html#a72c7045ef865d17564d1de763604c72c',1,'sps.c']]]
+  ['main_69',['main',['../sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'sps.c']]]
 ];

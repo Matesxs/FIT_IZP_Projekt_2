@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['sps_2ec_33',['sps.c',['../sps_8c.html',1,'']]],
-  ['strings_5fequal_34',['strings_equal',['../sps_8c.html#affb54c1b3d5475d9216a8d070b21ff8b',1,'sps.c']]]
+  ['rm_5fnewline_5fchars_40',['rm_newline_chars',['../sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9',1,'sps.c']]],
+  ['row_41',['Row',['../struct_row.html',1,'']]],
+  ['rows_42',['rows',['../struct_table.html#a551de9ef905eaa176206ad329d3a241b',1,'Table']]]
 ];

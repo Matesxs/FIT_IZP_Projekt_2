@@ -1,5 +1,10 @@
 \hypertarget{sps_8c}{}\doxysection{sps.\+c File Reference}
 \label{sps_8c}\index{sps.c@{sps.c}}
+
+
+Program to process tables from input file.  
+
+
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
@@ -20,11 +25,11 @@ struct \mbox{\hyperlink{struct_table}{Table}}
 \item 
 \#define \mbox{\hyperlink{sps_8c_ab9ba06e03cbb689b78305ba102f2bba4}{B\+L\+A\+C\+K\+L\+I\+S\+T\+E\+D\+\_\+\+D\+E\+L\+I\+MS}}~\char`\"{}\textbackslash{}\char`\"{}\textbackslash{}\textbackslash{}\char`\"{}
 \item 
-\#define \mbox{\hyperlink{sps_8c_a79a5385ae872a445923843a71b3b78e9}{B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+R\+O\+WS}}~4
+\#define \mbox{\hyperlink{sps_8c_a79a5385ae872a445923843a71b3b78e9}{B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+R\+O\+WS}}~3
 \item 
-\#define \mbox{\hyperlink{sps_8c_a47322624180ea0c05d71d51f35896122}{B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+C\+E\+L\+LS}}~4
+\#define \mbox{\hyperlink{sps_8c_a47322624180ea0c05d71d51f35896122}{B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+C\+E\+L\+LS}}~3
 \item 
-\#define \mbox{\hyperlink{sps_8c_a77468b2060160061f74208f619e4b613}{B\+A\+S\+E\+\_\+\+C\+E\+L\+L\+\_\+\+L\+E\+N\+G\+TH}}~16
+\#define \mbox{\hyperlink{sps_8c_a77468b2060160061f74208f619e4b613}{B\+A\+S\+E\+\_\+\+C\+E\+L\+L\+\_\+\+L\+E\+N\+G\+TH}}~6
 \end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
@@ -36,13 +41,24 @@ enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}} \
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a6d3e7f5184408aecb97ba8b2b20744af}{T\+A\+B\+L\+E\+\_\+\+L\+O\+A\+D\+\_\+\+E\+R\+R\+OR}}, 
 \newline
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}{F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST}}, 
-\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}}, 
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+R\+R\+OR}}
  \}
 \begin{DoxyCompactList}\small\item\em Flags that will be returned on error. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+void \mbox{\hyperlink{sps_8c_a37cdb33275fa1cc58f89b03cd68c1686}{dealocate\+\_\+cell}} (\mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
+\item 
+void \mbox{\hyperlink{sps_8c_a236efc88a3389c5b12ac7b42c4bcb584}{dealocate\+\_\+row}} (\mbox{\hyperlink{struct_row}{Row}} $\ast$row)
+\item 
 void \mbox{\hyperlink{sps_8c_aeb018262f5c915cc72b989daf95df488}{deallocate\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+int \mbox{\hyperlink{sps_8c_a253cc5911a34258e8c205f47beca7e4e}{allocate\+\_\+rows}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+int \mbox{\hyperlink{sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2}{allocate\+\_\+cells}} (\mbox{\hyperlink{struct_row}{Row}} $\ast$row)
+\item 
+int \mbox{\hyperlink{sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6}{allocate\+\_\+content}} (\mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
 \item 
 \+\_\+\+Bool \mbox{\hyperlink{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}{strings\+\_\+equal}} (const char $\ast$s1, const char $\ast$s2)
 \item 
@@ -54,14 +70,38 @@ long long int \mbox{\hyperlink{sps_8c_a402e704273d7f0d445b26907631fd6ba}{get\+\_
 \item 
 void \mbox{\hyperlink{sps_8c_a72c7045ef865d17564d1de763604c72c}{normalize\+\_\+delims}} (char $\ast$line, const char $\ast$delims)
 \item 
+int \mbox{\hyperlink{sps_8c_a27192fb50be75e2b837926af9c17a084}{set\+\_\+cell}} (char $\ast$string, \mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
+\item 
+long long int \mbox{\hyperlink{sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5}{get\+\_\+position\+\_\+of\+\_\+character}} (const char $\ast$string, char ch, unsigned long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
+\item 
+int \mbox{\hyperlink{sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629}{get\+\_\+substring}} (char $\ast$string, char $\ast$$\ast$substring, char delim, unsigned long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
+\item 
+int \mbox{\hyperlink{sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb}{create\+\_\+row\+\_\+from\+\_\+data}} (char $\ast$line, \mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
 int \mbox{\hyperlink{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}{load\+\_\+table}} (const char $\ast$delims, char $\ast$filepath, \mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
 \+\_\+\+Bool \mbox{\hyperlink{sps_8c_afd8907535a986b58ff3a78d3e74495ad}{check\+\_\+sanity\+\_\+of\+\_\+delims}} (char $\ast$delims)
 \item 
 \+\_\+\+Bool \mbox{\hyperlink{sps_8c_a806e75f77cdc474d1dacb3d4943ab747}{load\+\_\+delims\+\_\+from\+\_\+args}} (char $\ast$argv\mbox{[}$\,$\mbox{]}, char $\ast$$\ast$delims)
 \item 
+void \mbox{\hyperlink{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}{print\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
 int \mbox{\hyperlink{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Program to process tables from input file. 
+
+\begin{DoxyVersion}{Version}
+V1
+\end{DoxyVersion}
+\begin{DoxyAuthor}{Author}
+Martin Douša 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+November 2020 
+\end{DoxyDate}
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -69,19 +109,19 @@ int \mbox{\hyperlink{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc,
 \index{sps.c@{sps.c}!BASE\_CELL\_LENGTH@{BASE\_CELL\_LENGTH}}
 \index{BASE\_CELL\_LENGTH@{BASE\_CELL\_LENGTH}!sps.c@{sps.c}}
 \doxysubsubsection{\texorpdfstring{BASE\_CELL\_LENGTH}{BASE\_CELL\_LENGTH}}
-{\footnotesize\ttfamily \#define B\+A\+S\+E\+\_\+\+C\+E\+L\+L\+\_\+\+L\+E\+N\+G\+TH~16}
+{\footnotesize\ttfamily \#define B\+A\+S\+E\+\_\+\+C\+E\+L\+L\+\_\+\+L\+E\+N\+G\+TH~6}
 
 \mbox{\Hypertarget{sps_8c_a47322624180ea0c05d71d51f35896122}\label{sps_8c_a47322624180ea0c05d71d51f35896122}} 
 \index{sps.c@{sps.c}!BASE\_NUMBER\_OF\_CELLS@{BASE\_NUMBER\_OF\_CELLS}}
 \index{BASE\_NUMBER\_OF\_CELLS@{BASE\_NUMBER\_OF\_CELLS}!sps.c@{sps.c}}
 \doxysubsubsection{\texorpdfstring{BASE\_NUMBER\_OF\_CELLS}{BASE\_NUMBER\_OF\_CELLS}}
-{\footnotesize\ttfamily \#define B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+C\+E\+L\+LS~4}
+{\footnotesize\ttfamily \#define B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+C\+E\+L\+LS~3}
 
 \mbox{\Hypertarget{sps_8c_a79a5385ae872a445923843a71b3b78e9}\label{sps_8c_a79a5385ae872a445923843a71b3b78e9}} 
 \index{sps.c@{sps.c}!BASE\_NUMBER\_OF\_ROWS@{BASE\_NUMBER\_OF\_ROWS}}
 \index{BASE\_NUMBER\_OF\_ROWS@{BASE\_NUMBER\_OF\_ROWS}!sps.c@{sps.c}}
 \doxysubsubsection{\texorpdfstring{BASE\_NUMBER\_OF\_ROWS}{BASE\_NUMBER\_OF\_ROWS}}
-{\footnotesize\ttfamily \#define B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+R\+O\+WS~4}
+{\footnotesize\ttfamily \#define B\+A\+S\+E\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+R\+O\+WS~3}
 
 \mbox{\Hypertarget{sps_8c_ab9ba06e03cbb689b78305ba102f2bba4}\label{sps_8c_ab9ba06e03cbb689b78305ba102f2bba4}} 
 \index{sps.c@{sps.c}!BLACKLISTED\_DELIMS@{BLACKLISTED\_DELIMS}}
@@ -133,10 +173,92 @@ F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST&Error if input file doesnt
 A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED&Error when program failed to allocate memory \\
 \hline
 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FUNCTION\_ERROR@{FUNCTION\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!FUNCTION\_ERROR@{FUNCTION\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}} 
+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+R\+R\+OR&Generic function error, \begin{DoxyWarning}{Warning}
+This should not occur! 
+\end{DoxyWarning}
+\\
+\hline
+
 \end{DoxyEnumFields}
 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2}\label{sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2}} 
+\index{sps.c@{sps.c}!allocate\_cells@{allocate\_cells}}
+\index{allocate\_cells@{allocate\_cells}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{allocate\_cells()}{allocate\_cells()}}
+{\footnotesize\ttfamily int allocate\+\_\+cells (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_row}{Row}} $\ast$}]{row }\end{DoxyParamCaption})}
+
+Allocate cells in row strucuture
+
+Allocate cell array in instance of row structure or extend existing one
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Pointer to instance of row structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR when table is allocated properly in other cases return A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
+\end{DoxyReturn}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6}\label{sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6}} 
+\index{sps.c@{sps.c}!allocate\_content@{allocate\_content}}
+\index{allocate\_content@{allocate\_content}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{allocate\_content()}{allocate\_content()}}
+{\footnotesize\ttfamily int allocate\+\_\+content (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_cell}{Cell}} $\ast$}]{cell }\end{DoxyParamCaption})}
+
+Allocate content in cell structure
+
+Allocate content (char array) in instance of cell strucutre or extend existing one
+
+
+\begin{DoxyParams}{Parameters}
+{\em cell} & Pointer to instance of cell structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR when table is allocated properly in other cases return A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
+\end{DoxyReturn}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a253cc5911a34258e8c205f47beca7e4e}\label{sps_8c_a253cc5911a34258e8c205f47beca7e4e}} 
+\index{sps.c@{sps.c}!allocate\_rows@{allocate\_rows}}
+\index{allocate\_rows@{allocate\_rows}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{allocate\_rows()}{allocate\_rows()}}
+{\footnotesize\ttfamily int allocate\+\_\+rows (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Allocate rows in table structure
+
+Allocate new rows array or extend existing one
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of table structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR when table is allocated properly in other cases return A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
+\end{DoxyReturn}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=327pt]{sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_afd8907535a986b58ff3a78d3e74495ad}\label{sps_8c_afd8907535a986b58ff3a78d3e74495ad}} 
 \index{sps.c@{sps.c}!check\_sanity\_of\_delims@{check\_sanity\_of\_delims}}
 \index{check\_sanity\_of\_delims@{check\_sanity\_of\_delims}!sps.c@{sps.c}}
@@ -184,12 +306,45 @@ Count ocurences of specific character in string with option to ignore escaped ch
 \begin{DoxyReturn}{Returns}
 Number of ocurences of searched character
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=316pt]{sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph}
+\includegraphics[width=350pt]{sps_8c_a671b9cd27474bc0a62f9ad10e1841d7c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb}\label{sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb}} 
+\index{sps.c@{sps.c}!create\_row\_from\_data@{create\_row\_from\_data}}
+\index{create\_row\_from\_data@{create\_row\_from\_data}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{create\_row\_from\_data()}{create\_row\_from\_data()}}
+{\footnotesize\ttfamily int create\+\_\+row\+\_\+from\+\_\+data (\begin{DoxyParamCaption}\item[{char $\ast$}]{line,  }\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Create row from line data
+
+Parse and save line data
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & Input string to parse \\
+\hline
+{\em table} & Pointer to instance table structure where row will be saved\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR on success in other cases coresponding Error\+Flag
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_aeb018262f5c915cc72b989daf95df488}\label{sps_8c_aeb018262f5c915cc72b989daf95df488}} 
@@ -200,19 +355,76 @@ Here is the caller graph for this function\+:
 
 Dealocate whole table from memory
 
-Iterate over whole every cell in every row, dealocate data and clear pointers
+Iterate over all rows and dealocate them
 
 
 \begin{DoxyParams}{Parameters}
 {\em table} & Pointer to instance of table structure\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_aeb018262f5c915cc72b989daf95df488_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=338pt]{sps_8c_aeb018262f5c915cc72b989daf95df488_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a37cdb33275fa1cc58f89b03cd68c1686}\label{sps_8c_a37cdb33275fa1cc58f89b03cd68c1686}} 
+\index{sps.c@{sps.c}!dealocate\_cell@{dealocate\_cell}}
+\index{dealocate\_cell@{dealocate\_cell}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{dealocate\_cell()}{dealocate\_cell()}}
+{\footnotesize\ttfamily void dealocate\+\_\+cell (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_cell}{Cell}} $\ast$}]{cell }\end{DoxyParamCaption})}
+
+Dealocate cell
+
+Free content of cell
+
+
+\begin{DoxyParams}{Parameters}
+{\em cell} & Pointer to instance of cell strucutre\\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a37cdb33275fa1cc58f89b03cd68c1686_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a236efc88a3389c5b12ac7b42c4bcb584}\label{sps_8c_a236efc88a3389c5b12ac7b42c4bcb584}} 
+\index{sps.c@{sps.c}!dealocate\_row@{dealocate\_row}}
+\index{dealocate\_row@{dealocate\_row}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{dealocate\_row()}{dealocate\_row()}}
+{\footnotesize\ttfamily void dealocate\+\_\+row (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_row}{Row}} $\ast$}]{row }\end{DoxyParamCaption})}
+
+Dealocate row
+
+Iterate over all cells and dealocate them
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Pointer to instance of row structure\\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{sps_8c_a236efc88a3389c5b12ac7b42c4bcb584_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a236efc88a3389c5b12ac7b42c4bcb584_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a402e704273d7f0d445b26907631fd6ba}\label{sps_8c_a402e704273d7f0d445b26907631fd6ba}} 
@@ -235,12 +447,84 @@ Load one line from file and save it to buffer
 \begin{DoxyReturn}{Returns}
 Number of alloacated bits in memory or -\/1 when there is nothing else to load
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=301pt]{sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5}\label{sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5}} 
+\index{sps.c@{sps.c}!get\_position\_of\_character@{get\_position\_of\_character}}
+\index{get\_position\_of\_character@{get\_position\_of\_character}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{get\_position\_of\_character()}{get\_position\_of\_character()}}
+{\footnotesize\ttfamily long long int get\+\_\+position\+\_\+of\+\_\+character (\begin{DoxyParamCaption}\item[{const char $\ast$}]{string,  }\item[{char}]{ch,  }\item[{unsigned long long int}]{index,  }\item[{\+\_\+\+Bool}]{ignore\+\_\+escapes }\end{DoxyParamCaption})}
+
+Get position of character of certain index in string
+
+Iterate over each character in string and count character ocurences If ocurence counter coresponse to {\ttfamily index} then return position of current char in string
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & String where to find char \\
+\hline
+{\em ch} & Character we are looking for \\
+\hline
+{\em index} & Index of occurence of character in string we want position for \\
+\hline
+{\em ignore\+\_\+escapes} & Flag if we want ignore if characte is escaped or in parentecies and count it too\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Position of {\ttfamily index} ocurence of {\ttfamily ch} in string if valid ocurence is found, if not -\/1
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Rework to strchr \end{DoxyRefDesc}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a86a0c2249a25dfc9dc34b48d68e64de5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629}\label{sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629}} 
+\index{sps.c@{sps.c}!get\_substring@{get\_substring}}
+\index{get\_substring@{get\_substring}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{get\_substring()}{get\_substring()}}
+{\footnotesize\ttfamily int get\+\_\+substring (\begin{DoxyParamCaption}\item[{char $\ast$}]{string,  }\item[{char $\ast$$\ast$}]{substring,  }\item[{char}]{delim,  }\item[{unsigned long long int}]{index,  }\item[{\+\_\+\+Bool}]{ignore\+\_\+escapes }\end{DoxyParamCaption})}
+
+Get substring from string
+
+Extract Portion of string delimited by {\ttfamily delim} or by borders of main string {\ttfamily string} Wantend portion is selected by {\ttfamily index} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & Base string \\
+\hline
+{\em substring} & Place where result will be saved, should be allocated large enough but if its not provided this function will allocate it \\
+\hline
+{\em delim} & Deliminator character \\
+\hline
+{\em index} & Index of substring \\
+\hline
+{\em ignore\+\_\+escapes} & Flag if we want ignore if characte is escaped or in parentecies and count it too\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR on success or coresponding Error\+Flag on any error
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=319pt]{sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a8eda688f718f6ef8d78bcbe0d5b94629_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a806e75f77cdc474d1dacb3d4943ab747}\label{sps_8c_a806e75f77cdc474d1dacb3d4943ab747}} 
@@ -299,16 +583,14 @@ Load and parse data from file
 \begin{DoxyReturn}{Returns}
 N\+O\+\_\+\+E\+R\+R\+OR if table data are loaded and parsed properly, in other scenarios return error code
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=272pt]{sps_8c_aaf046bcf81cb87196c26a02fe84d7107_cgraph}
+\includegraphics[width=350pt]{sps_8c_aaf046bcf81cb87196c26a02fe84d7107_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -322,9 +604,8 @@ Here is the caller graph for this function\+:
 {\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
 Main of whole program \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Refactor error handling \end{DoxyRefDesc}
-Here is the call graph for this function\+:
-\nopagebreak
+\item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling \end{DoxyRefDesc}
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -348,12 +629,35 @@ Iterate over all delims and all characters in line and replace and valid delim f
 {\em delims} & Array of deliminator characters\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=343pt]{sps_8c_a72c7045ef865d17564d1de763604c72c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}\label{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}} 
+\index{sps.c@{sps.c}!print\_table@{print\_table}}
+\index{print\_table@{print\_table}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{print\_table()}{print\_table()}}
+{\footnotesize\ttfamily void print\+\_\+table (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Print table to console
+
+Debug functing for printing loaded table to console \begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]Remove\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of table structure\\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9}\label{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9}} 
@@ -372,12 +676,45 @@ Rest of the string is R\+E\+M\+O\+V\+E\+D!
 {\em s} & Pointer to string from which is new line character removed\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=346pt]{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a27192fb50be75e2b837926af9c17a084}\label{sps_8c_a27192fb50be75e2b837926af9c17a084}} 
+\index{sps.c@{sps.c}!set\_cell@{set\_cell}}
+\index{set\_cell@{set\_cell}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{set\_cell()}{set\_cell()}}
+{\footnotesize\ttfamily int set\+\_\+cell (\begin{DoxyParamCaption}\item[{char $\ast$}]{string,  }\item[{\mbox{\hyperlink{struct_cell}{Cell}} $\ast$}]{cell }\end{DoxyParamCaption})}
+
+Set value to cell content
+
+Try to allocate content in cell structure if content doesnt exist or rewrite existing data in it If content is too small then extend it
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & String we want to set to cell \\
+\hline
+{\em cell} & Pointer to instance of cell structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+N\+O\+\_\+\+E\+R\+R\+OR when setting value is successful or when allocation fails A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{sps_8c_a27192fb50be75e2b837926af9c17a084_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a27192fb50be75e2b837926af9c17a084_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}\label{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}} 

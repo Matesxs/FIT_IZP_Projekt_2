@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rm_5fnewline_5fchars_52',['rm_newline_chars',['../sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9',1,'sps.c']]]
+  ['normalize_5fdelims_70',['normalize_delims',['../sps_8c.html#a72c7045ef865d17564d1de763604c72c',1,'sps.c']]]
 ];
