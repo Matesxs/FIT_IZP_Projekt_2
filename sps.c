@@ -28,15 +28,15 @@
  */
 enum ErrorCodes
 {
-    NO_ERROR,                     /**< No error detected (default return code) */
-    MISSING_ARGS,                 /**< Some arguments are missing */
-    INVALID_DELIMITER,            /**< Found invalid character in delimiters from arguments */
-    FILE_DOESNT_EXIST,            /**< Error if input file doesnt exist or is used by another process */
-    ALLOCATION_FAILED,            /**< Error when program failed to allocate memory */
-    FUNCTION_ERROR,               /**< Generic function error @warning This should not occur! */
-    FUNCTION_ARGUMENT_ERROR,      /**< Error when function gets unexpected value in argument */
-    VALUE_ERROR,                  /**< Error when function gets bad value in argument */
-    COMMAND_ERROR,                /**< Error when received invalid commands */
+    NO_ERROR,                     /**< No error detected (default return code) - 0 */
+    MISSING_ARGS,                 /**< Some arguments are missing - 1 */
+    INVALID_DELIMITER,            /**< Found invalid character in delimiters from arguments - 2 */
+    CANT_OPEN_FILE,               /**< Error if given file cant be opened  - 3 */
+    ALLOCATION_FAILED,            /**< Error when program failed to allocate memory - 4 */
+    FUNCTION_ERROR,               /**< Generic function error @warning This should not occur! - 5 */
+    FUNCTION_ARGUMENT_ERROR,      /**< Error when function gets unexpected value in argument - 6 */
+    VALUE_ERROR,                  /**< Error when function gets bad value in argument - 7 */
+    COMMAND_ERROR,                /**< Error when received invalid commands - 8 */
 };
 
 /**
@@ -603,7 +603,7 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
         // Try to open command file
         FILE *file = fopen(raw_commands, "r");
         if (file == NULL)
-            return FILE_DOESNT_EXIST;
+            return CANT_OPEN_FILE;
 
         char *line = NULL;
 
@@ -688,6 +688,54 @@ void print_table(Table *table)
 
         printf("\n");
     }
+}
+
+int save_table(Table *table, char *path)
+{
+    /**
+     * @brief Save table to file
+     *
+     * Iterate over table and write to file its content
+     *
+     * @param table Pointer to instance of #Table structure
+     * @param path Path to output file
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (table->rows == NULL)
+        return FUNCTION_ERROR;
+
+    // Try to open output file
+    FILE *file = fopen(path, "w");
+    if (file == NULL)
+        return CANT_OPEN_FILE;
+
+    for (long long int i = 0; i < table->num_of_rows; i++)
+    {
+        // This only means that there is no data left
+        if (table->rows[i].cells == NULL)
+        {
+            fclose(file);
+            return NO_ERROR;
+        }
+
+        for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
+        {
+            if (table->rows[i].cells[j].content != NULL)
+            {
+                fprintf(file, "%s", table->rows[i].cells[j].content);
+                if (j < (table->rows[i].num_of_cells - 1))
+                    fprintf(file, "%c", table->delim);
+            }
+        }
+
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+
+    return NO_ERROR;
 }
 
 _Bool check_sanity_of_delims(char *delims)
@@ -936,7 +984,7 @@ int load_table(const char *delims, char *filepath, Table *table)
     // Try to open input file
     file = fopen(filepath, "r");
     if (file == NULL)
-        return FILE_DOESNT_EXIST;
+        return CANT_OPEN_FILE;
 
     // Allocate first row
     if (allocate_rows(table) != NO_ERROR)
@@ -1004,19 +1052,45 @@ int delete_col(Table *table, long long int index)
         if (table->rows[i].num_of_cells <= index || index < 0)
             return FUNCTION_ARGUMENT_ERROR;
 
+        long long int j = index;
         if ((table->rows[i].num_of_cells - 1) > index)
         {
-            long long int j;
             for (j = index + 1; j < table->rows[i].num_of_cells; j++)
             {
                 if (set_cell(table->rows[i].cells[j].content, &table->rows[i].cells[j - 1]) != NO_ERROR)
                     return ALLOCATION_FAILED;
             }
-
-            dealocate_cell(&table->rows[i].cells[j - 1]);
+            j--;
         }
 
+        dealocate_cell(&table->rows[i].cells[j]);
         table->rows[i].num_of_cells--;
+    }
+
+    return NO_ERROR;
+}
+
+int append_col(Table *table)
+{
+    /**
+     * @brief Append empty column to right of the table
+     *
+     * Iterate over all rows and add empty column to the end of each of them
+     *
+     * @param table Pointer to instance of #Table structure
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (table->rows == NULL)
+        return VALUE_ERROR;
+
+    int ret_val;
+
+    for (long long int i = 0; i < table->num_of_rows; i++)
+    {
+        if ((ret_val = append_empty_cell(&table->rows[i])) != NO_ERROR)
+            return ret_val;
     }
 
     return NO_ERROR;
@@ -1025,7 +1099,7 @@ int delete_col(Table *table, long long int index)
 int main(int argc, char *argv[]) {
     /**
      * @brief Main of whole program
-     * @todo Refactor error handling
+     * @todo Refactor error handling - separate to own function
      */
 
     int error_flag;
@@ -1092,6 +1166,8 @@ int main(int argc, char *argv[]) {
         printf("%s ", argv[i]);
     }
     printf("\n");
+#else
+    save_table(&table, argv[argc-1]);
 #endif
 
     deallocate_table(&table);
