@@ -482,7 +482,7 @@ int set_cell(char *string, Cell *cell)
      * @return NO_ERROR when setting value is successful or when allocation fails ALLOCATION_FAILED
      */
 
-    if (cell->content != NULL)
+    if (cell->content == NULL)
     {
         // Allocate base cell
         if (allocate_content(cell) != NO_ERROR)
@@ -663,13 +663,16 @@ int delete_col(Table *table, long long int index)
         if (table->rows[i].num_of_cells <= index || index < 0)
             return ARGUMENT_ERROR;
 
-        dealocate_cell(&table->rows[i].cells[index]);
-
         if ((table->rows[i].num_of_cells - 1) > index)
         {
             long long int j;
             for (j = index + 1; j < table->rows[i].num_of_cells; j++)
-                table->rows[i].cells[j - 1] = table->rows[i].cells[j];
+            {
+                if (set_cell(table->rows[i].cells[j].content, &table->rows[i].cells[j - 1]) != NO_ERROR)
+                    return ALLOCATION_FAILED;
+            }
+
+            dealocate_cell(&table->rows[i].cells[j - 1]);
         }
 
         table->rows[i].num_of_cells--;
@@ -1059,7 +1062,7 @@ int main(int argc, char *argv[]) {
         deallocate_raw_commands(&raw_commands_store);
         return error_flag;
     }
-    
+
     print_table(&table);
 
 #ifdef DEBUG
