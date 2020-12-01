@@ -762,10 +762,6 @@ int parse_commands(Raw_commands *raw_command_store, Base_commands *base_command_
 
         for (long long int i = 0; i < raw_command_store->num_of_commands; i++)
         {
-            long long int num_of_parts = count_char(raw_command_store->commands[i], ' ', false) + 1;
-            if (num_of_parts >= 3)
-                return COMMAND_ERROR;
-
             if ((ret_val = get_substring(raw_command_store->commands[i], &substring_buf, ' ', 0, false, &rest, true)) != NO_ERROR)
                 return ret_val;
 
