@@ -588,7 +588,7 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
-    char *raw_commands = delim_flag_present ? argv[3] : argv[2];
+    char *raw_commands = delim_flag_present ? argv[3] : argv[1];
     long long int num_of_commands = 0;
 
     if (string_start_with(raw_commands, "-c"))
