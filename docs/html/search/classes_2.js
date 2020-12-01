@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['table_75',['Table',['../struct_table.html',1,'']]]
+  ['raw_5fcommands_81',['Raw_commands',['../struct_raw__commands.html',1,'']]],
+  ['row_82',['Row',['../struct_row.html',1,'']]]
 ];

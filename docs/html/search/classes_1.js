@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['raw_5fcommands_73',['Raw_commands',['../struct_raw__commands.html',1,'']]],
-  ['row_74',['Row',['../struct_row.html',1,'']]]
+  ['cell_79',['Cell',['../struct_cell.html',1,'']]],
+  ['commands_80',['Commands',['../struct_commands.html',1,'']]]
 ];
