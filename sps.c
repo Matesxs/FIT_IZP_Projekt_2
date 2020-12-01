@@ -101,6 +101,196 @@ _Bool string_start_with(const char *base_string, const char *start_string)
     return strncmp(start_string, base_string, strlen(start_string)) == 0;
 }
 
+_Bool strings_equal(const char *s1, const char *s2)
+{
+    /**
+     * @brief Check if two string @p s1 and @p s2 are same
+     *
+     * @param s1 First string
+     * @param s2 Second string
+     *
+     * @return true if string are equal, false if dont
+     */
+
+    return strcmp(s1, s2) == 0;
+}
+
+long long int count_char(char *string, char c, _Bool ignore_escapes)
+{
+    /**
+     * @brief Count specific character in string
+     *
+     * Count ocurences of specific character in string with option to ignore escaped characters and parts in parentecies
+     *
+     * @param string Input string
+     * @param c Character we want to search
+     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
+     *
+     * @return Number of ocurences of searched character
+     */
+
+    if (string == NULL)
+        return 0;
+
+    size_t lenght_of_string = strlen(string);
+    _Bool in_parentecies = false;
+    long long int counter = 0;
+
+    for (size_t i = 0; i < lenght_of_string; i++)
+    {
+        char cc = string[i];
+
+        if (cc == '"')
+            in_parentecies = !in_parentecies;
+
+        if (cc == c)
+        {
+            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
+            {
+                counter++;
+            }
+        }
+    }
+
+    return counter;
+}
+
+long long int get_position_of_character(const char *string, char ch, long long int index, _Bool ignore_escapes)
+{
+    /**
+     * @brief Get position of character of certain index in string
+     *
+     * Iterate over each character in string and count character ocurences
+     * If ocurence counter coresponse to @p index then return position of current char in string
+     *
+     * @param string String where to find char
+     * @param ch Character we are looking for
+     * @param index Index of occurence of character in string we want position for
+     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
+     *
+     * @return Position of @p index ocurence of @p ch in string if valid ocurence is found, if not -1
+     *
+     * @todo Rework to strchr
+     */
+
+    long long int counter = 0;
+    _Bool in_parentecies = false;
+
+    for (size_t i = 0; string[i]; i++)
+    {
+        if (string[i] == '"')
+            in_parentecies = !in_parentecies;
+
+        if (string[i] == ch)
+        {
+            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
+            {
+                counter++;
+                if ((counter - 1) == index)
+                    return i;
+            }
+        }
+    }
+
+    return -1;
+}
+
+void rm_newline_chars(char *s) {
+    /**
+     * @brief Removing new line character from string
+     *
+     * Iterate over string until it new line character then replace it with 0
+     * @warning
+     * Rest of the string is REMOVED!
+     *
+     * @param s Pointer to string from which is new line character removed
+     */
+
+    while(*s && *s != '\n' && *s != '\r')
+        s++;
+
+    *s = 0;
+}
+
+int get_substring(char *string, char **substring, char delim, long long int index, _Bool ignore_escapes)
+{
+    /**
+     * @brief Get substring from string
+     *
+     * Extract Portion of string delimited by @p delim or by borders of main string @p string \n
+     * Wantend portion is selected by @p index
+     *
+     * @param string Base string
+     * @param substring Place where result will be saved, should be allocated large enough but if its not provided this function will allocate it
+     * @param delim Deliminator character
+     * @param index Index of substring
+     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (string == NULL)
+        return FUNCTION_ERROR;
+
+    long long int number_of_delims = count_char(string, delim, ignore_escapes);
+    size_t line_length = strlen(string);
+
+    long long int start_index = (index == 0) ? 0 : get_position_of_character(string, delim, index - 1, ignore_escapes) + 1;
+    long long int end_index = (index >= number_of_delims) ? ((long long int)line_length - 1) : get_position_of_character(string, delim, index, ignore_escapes) - 1;
+
+    // If there is no substring pointer init it
+    if ((*substring) == NULL)
+    {
+        (*substring) = (char*)malloc((line_length) * sizeof(char));
+        if ((*substring) == NULL)
+            return ALLOCATION_FAILED;
+    }
+
+    for (long long int i = 0, j = start_index; j <= end_index; i++, j++)
+    {
+        (*substring)[i] = string[j];
+    }
+    (*substring)[end_index - start_index + 1] = '\0';
+
+    return NO_ERROR;
+}
+
+void normalize_delims(char *line, const char *delims)
+{
+    /**
+     * @brief Normalize all delims to the first one
+     *
+     * Iterate over all delims and all characters in line and replace and valid delim from delims array in line by the first delim in delims array
+     *
+     * @param line Line string
+     * @param delims Array of deliminator characters
+     */
+
+    size_t num_of_delims = strlen(delims);
+    size_t length_of_line = strlen(line);
+
+    for (size_t i = 1; i < num_of_delims; i++)
+    {
+        _Bool in_parentecies = false;
+
+        for (size_t j = 0; j < length_of_line; j++)
+        {
+            char cc = line[j];
+
+            if (cc == '"')
+                in_parentecies = !in_parentecies;
+
+            if (cc == delims[i])
+            {
+                if (!in_parentecies && (j != 0 && line[j-1] != '\\'))
+                {
+                    line[j] = delims[0];
+                }
+            }
+        }
+    }
+}
+
 void dealocate_cell(Cell *cell)
 {
     /**
@@ -165,6 +355,28 @@ void deallocate_table(Table *table)
     table->rows = NULL;
     table->num_of_rows = 0;
     table->allocated_rows = 0;
+}
+
+void deallocate_raw_commands(Raw_commands *commands_store)
+{
+    /**
+     * @brief Deallocate raw commands structure
+     *
+     * @param commands_store Pointer to instance of #Raw_commands structure
+     */
+
+    if (commands_store->commands == NULL)
+        return;
+
+    for (long long int i = 0; i < commands_store->num_of_commands; i++)
+    {
+        free(commands_store->commands[i]);
+        commands_store->commands[i] = NULL;
+    }
+
+    free(commands_store->commands);
+    commands_store->commands = NULL;
+    commands_store->num_of_commands = 0;
 }
 
 int allocate_rows(Table *table)
@@ -302,77 +514,6 @@ int allocate_content(Cell *cell)
     return NO_ERROR;
 }
 
-_Bool strings_equal(const char *s1, const char *s2)
-{
-    /**
-     * @brief Check if two string @p s1 and @p s2 are same
-     *
-     * @param s1 First string
-     * @param s2 Second string
-     *
-     * @return true if string are equal, false if dont
-     */
-
-    return strcmp(s1, s2) == 0;
-}
-
-long long int count_char(char *string, char c, _Bool ignore_escapes)
-{
-    /**
-     * @brief Count specific character in string
-     *
-     * Count ocurences of specific character in string with option to ignore escaped characters and parts in parentecies
-     *
-     * @param string Input string
-     * @param c Character we want to search
-     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
-     *
-     * @return Number of ocurences of searched character
-     */
-
-    if (string == NULL)
-        return 0;
-
-    size_t lenght_of_string = strlen(string);
-    _Bool in_parentecies = false;
-    long long int counter = 0;
-
-    for (size_t i = 0; i < lenght_of_string; i++)
-    {
-        char cc = string[i];
-
-        if (cc == '"')
-            in_parentecies = !in_parentecies;
-
-        if (cc == c)
-        {
-            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
-            {
-                counter++;
-            }
-        }
-    }
-
-    return counter;
-}
-
-void rm_newline_chars(char *s) {
-    /**
-     * @brief Removing new line character from string
-     *
-     * Iterate over string until it new line character then replace it with 0
-     * @warning
-     * Rest of the string is REMOVED!
-     *
-     * @param s Pointer to string from which is new line character removed
-     */
-
-    while(*s && *s != '\n' && *s != '\r')
-        s++;
-
-    *s = 0;
-}
-
 long long int get_line(char **line_buffer, FILE *file)
 {
     /**
@@ -433,40 +574,147 @@ long long int get_line(char **line_buffer, FILE *file)
     return allocated;
 }
 
-void normalize_delims(char *line, const char *delims)
+int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_present)
 {
     /**
-     * @brief Normalize all delims to the first one
+     * @brief Get raw commands
      *
-     * Iterate over all delims and all characters in line and replace and valid delim from delims array in line by the first delim in delims array
+     * Get command string for aguments and open it as file and parse it to individual commands or parse the argument as individual commands
      *
-     * @param line Line string
-     * @param delims Array of deliminator characters
+     * @param argv Array of arguments
+     * @param commands_store Pointer to instance of #Raw_commands structure where individual commands will be saved
+     * @param delim_flag_present Flag if in argument is delim flag (only for calculating proper position of commands argument)
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
-    size_t num_of_delims = strlen(delims);
-    size_t length_of_line = strlen(line);
+    char *raw_commands = delim_flag_present ? argv[3] : argv[2];
+    long long int num_of_commands = 0;
 
-    for (size_t i = 1; i < num_of_delims; i++)
+    if (string_start_with(raw_commands, "-c"))
     {
-        _Bool in_parentecies = false;
+        // Raw commands are path to command file
+        // Parse commands from commands file
 
-        for (size_t j = 0; j < length_of_line; j++)
+        // Trim out prefix
+        size_t len = strlen(raw_commands);
+        memmove(raw_commands, raw_commands + 2, len - 1);
+
+        // Try to open command file
+        FILE *file = fopen(raw_commands, "r");
+        if (file == NULL)
+            return FILE_DOESNT_EXIST;
+
+        char *line = NULL;
+
+        // Count number of lines (commands because individual commands are on separated lines)
+        while (get_line(&line, file) != -1)
         {
-            char cc = line[j];
+            free(line);
+            line = NULL;
+            num_of_commands++;
+        }
 
-            if (cc == '"')
-                in_parentecies = !in_parentecies;
+        // Rewind to start of file
+        rewind(file);
 
-            if (cc == delims[i])
-            {
-                if (!in_parentecies && (j != 0 && line[j-1] != '\\'))
-                {
-                    line[j] = delims[0];
-                }
-            }
+        if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+        long long int i = 0;
+        while (get_line(&line, file) != -1)
+        {
+            rm_newline_chars(line);
+            commands_store->commands[i] = line;
+            line = NULL;
+
+            i++;
+        }
+
+        fclose(file);
+    }
+    else
+    {
+        // Parse commands from argument
+
+        num_of_commands = count_char(raw_commands, ';', true) + 1;
+        char *command = NULL;
+        int ret_val;
+
+        if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+        for (long long int i = 0; i < num_of_commands; i++)
+        {
+            if ((ret_val = get_substring(raw_commands, &command, ';', i, true)) != NO_ERROR)
+                return ret_val;
+
+            commands_store->commands[i] = command;
+            command = NULL;
         }
     }
+
+    return NO_ERROR;
+}
+
+void print_table(Table *table)
+{
+    /**
+     * @brief Print table to console
+     *
+     * Debug functing for printing loaded table to console
+     * @todo Remove
+     *
+     * @param table Pointer to instance of #Table structure
+     */
+
+    if (table->rows == NULL)
+        return;
+
+    for (long long int i = 0; i < table->num_of_rows; i++)
+    {
+        if (table->rows[i].cells == NULL)
+            return;
+
+        for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
+        {
+            if (table->rows[i].cells[j].content != NULL)
+            {
+                printf("%s", table->rows[i].cells[j].content);
+                if (j < (table->rows[i].num_of_cells - 1))
+                    printf("%c", table->delim);
+            }
+        }
+
+        printf("\n");
+    }
+}
+
+_Bool check_sanity_of_delims(char *delims)
+{
+    /**
+     * @brief Check delims
+     *
+     * Check if in delims are no blacklisted characters
+     *
+     * @param delims Array of deliminators
+     *
+     * @return true if deliminator are without blacklisted characters else false
+     */
+
+    size_t length_of_delims = strlen(delims);
+    size_t length_of_blacklisted_delims = strlen(BLACKLISTED_DELIMS);
+
+    for (size_t i = 0; i < length_of_delims; i++)
+    {
+        for (size_t j = 0; j < length_of_blacklisted_delims; j++)
+        {
+            if (delims[i] == BLACKLISTED_DELIMS[j])
+                return false;
+        }
+    }
+
+    return true;
 }
 
 int set_cell(char *string, Cell *cell)
@@ -520,305 +768,6 @@ int append_empty_cell(Row *row)
     row->num_of_cells++;
 
     return NO_ERROR;
-}
-
-long long int get_position_of_character(const char *string, char ch, long long int index, _Bool ignore_escapes)
-{
-    /**
-     * @brief Get position of character of certain index in string
-     *
-     * Iterate over each character in string and count character ocurences
-     * If ocurence counter coresponse to @p index then return position of current char in string
-     *
-     * @param string String where to find char
-     * @param ch Character we are looking for
-     * @param index Index of occurence of character in string we want position for
-     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
-     *
-     * @return Position of @p index ocurence of @p ch in string if valid ocurence is found, if not -1
-     *
-     * @todo Rework to strchr
-     */
-
-    long long int counter = 0;
-    _Bool in_parentecies = false;
-
-    for (size_t i = 0; string[i]; i++)
-    {
-        if (string[i] == '"')
-            in_parentecies = !in_parentecies;
-
-        if (string[i] == ch)
-        {
-            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
-            {
-                counter++;
-                if ((counter - 1) == index)
-                    return i;
-            }
-        }
-    }
-
-    return -1;
-}
-
-int get_substring(char *string, char **substring, char delim, long long int index, _Bool ignore_escapes)
-{
-    /**
-     * @brief Get substring from string
-     *
-     * Extract Portion of string delimited by @p delim or by borders of main string @p string \n
-     * Wantend portion is selected by @p index
-     *
-     * @param string Base string
-     * @param substring Place where result will be saved, should be allocated large enough but if its not provided this function will allocate it
-     * @param delim Deliminator character
-     * @param index Index of substring
-     * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
-     *
-     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
-     */
-
-    if (string == NULL)
-        return FUNCTION_ERROR;
-
-    long long int number_of_delims = count_char(string, delim, ignore_escapes);
-    size_t line_length = strlen(string);
-
-    long long int start_index = (index == 0) ? 0 : get_position_of_character(string, delim, index - 1, ignore_escapes) + 1;
-    long long int end_index = (index >= number_of_delims) ? ((long long int)line_length - 1) : get_position_of_character(string, delim, index, ignore_escapes) - 1;
-
-    // If there is no substring pointer init it
-    if ((*substring) == NULL)
-    {
-        (*substring) = (char*)malloc((line_length) * sizeof(char));
-        if ((*substring) == NULL)
-            return ALLOCATION_FAILED;
-    }
-
-    for (long long int i = 0, j = start_index; j <= end_index; i++, j++)
-    {
-        (*substring)[i] = string[j];
-    }
-    (*substring)[end_index - start_index + 1] = '\0';
-
-    return NO_ERROR;
-}
-
-int create_row_from_data(char *line, Table *table)
-{
-    /**
-     * @brief Create row from line data
-     *
-     * Parse and save line data
-     *
-     * @param line Input string to parse
-     * @param table Pointer to instance #Table structure where row will be saved
-     *
-     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
-     */
-
-    if (line == NULL)
-        return FUNCTION_ERROR;
-
-    // Allocate base number of cells in row
-    if (allocate_cells(&table->rows[table->num_of_rows]) != NO_ERROR)
-        return ALLOCATION_FAILED;
-
-    long long int number_of_cells = count_char(line, table->delim, false) + 1;
-
-    char *substring_buffer = NULL;
-    int ret_val;
-
-    for (long long int i = 0; i < number_of_cells; i++)
-    {
-        if (i >= table->rows[table->num_of_rows].allocated_cells)
-        {
-            if (allocate_cells(&table->rows[table->num_of_rows]) != NO_ERROR)
-                return ALLOCATION_FAILED;
-        }
-
-        if ((ret_val = get_substring(line, &substring_buffer, table->delim, i, false)) != NO_ERROR)
-            return ret_val;
-
-        if (set_cell(substring_buffer, &table->rows[table->num_of_rows].cells[i]) != NO_ERROR)
-            return ALLOCATION_FAILED;
-
-        table->rows[table->num_of_rows].num_of_cells++;
-    }
-
-    free(substring_buffer);
-
-    table->num_of_rows++;
-    return NO_ERROR;
-}
-
-int delete_col(Table *table, long long int index)
-{
-    /**
-     * @brief Delete column
-     *
-     * Delete content of cells in colm of @p index and shift all cols on the right side of it leftside
-     *
-     * @param table Pointer to instance of #Table structure
-     * @param index Index of column we want to delete
-     *
-     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
-     */
-
-    if (table->rows == NULL || table->num_of_rows == 0)
-        return VALUE_ERROR;
-
-
-    for (long long int i = 0; i < table->num_of_rows; i++)
-    {
-        if (table->rows[i].num_of_cells <= index || index < 0)
-            return FUNCTION_ARGUMENT_ERROR;
-
-        if ((table->rows[i].num_of_cells - 1) > index)
-        {
-            long long int j;
-            for (j = index + 1; j < table->rows[i].num_of_cells; j++)
-            {
-                if (set_cell(table->rows[i].cells[j].content, &table->rows[i].cells[j - 1]) != NO_ERROR)
-                    return ALLOCATION_FAILED;
-            }
-
-            dealocate_cell(&table->rows[i].cells[j - 1]);
-        }
-
-        table->rows[i].num_of_cells--;
-    }
-
-    return NO_ERROR;
-}
-
-int load_table(const char *delims, char *filepath, Table *table)
-{
-    /**
-     * @brief Load table from file
-     *
-     * Load and parse data from file
-     *
-     * @param delims Array with all posible delimiters
-     * @param filepath Path to input file
-     * @param table Pointer #Table where data will be saved
-     *
-     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
-     */
-
-    int ret_val = NO_ERROR;
-    FILE *file;
-    char *line = NULL;
-    long long int line_index = 0;
-
-    // Try to open input file
-    file = fopen(filepath, "r");
-    if (file == NULL)
-        return FILE_DOESNT_EXIST;
-
-    // Allocate first row
-    if (allocate_rows(table) != NO_ERROR)
-    {
-        fclose(file);
-        return ALLOCATION_FAILED;
-    }
-
-    // Iterate thru input file
-    // When we set buffer size to 0 and output char pointer to NULL then getline will allocate memory itself
-    while (get_line(&line, file) != -1)
-    {
-        if (line == NULL)
-        {
-            ret_val = ALLOCATION_FAILED;
-            break;
-        }
-
-        rm_newline_chars(line);
-
-        normalize_delims(line, delims);
-
-        // Check if we still have room in rows array
-        if (line_index >= table->allocated_rows)
-            // Allocate larger array of rows
-            if (allocate_rows(table) != NO_ERROR)
-            {
-                ret_val = ALLOCATION_FAILED;
-                break;
-            }
-
-        if ((ret_val = create_row_from_data(line, table)) != NO_ERROR)
-            break;
-
-        free(line);
-        line_index++;
-    }
-
-
-    // Close input file
-    fclose(file);
-
-    return ret_val;
-}
-
-_Bool check_sanity_of_delims(char *delims)
-{
-    /**
-     * @brief Check delims
-     *
-     * Check if in delims are no blacklisted characters
-     *
-     * @param delims Array of deliminators
-     *
-     * @return true if deliminator are without blacklisted characters else false
-     */
-
-    size_t length_of_delims = strlen(delims);
-    size_t length_of_blacklisted_delims = strlen(BLACKLISTED_DELIMS);
-
-    for (size_t i = 0; i < length_of_delims; i++)
-    {
-        for (size_t j = 0; j < length_of_blacklisted_delims; j++)
-        {
-            if (delims[i] == BLACKLISTED_DELIMS[j])
-                return false;
-        }
-    }
-
-    return true;
-}
-
-void print_table(Table *table)
-{
-    /**
-     * @brief Print table to console
-     *
-     * Debug functing for printing loaded table to console
-     * @todo Remove
-     *
-     * @param table Pointer to instance of #Table structure
-     */
-
-    if (table->rows == NULL)
-        return;
-
-    for (long long int i = 0; i < table->num_of_rows; i++)
-    {
-        if (table->rows[i].cells == NULL)
-            return;
-
-        for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
-        {
-            if (table->rows[i].cells[j].content != NULL)
-            {
-                printf("%s", table->rows[i].cells[j].content);
-                if (j < (table->rows[i].num_of_cells - 1))
-                    printf("%c", table->delim);
-            }
-        }
-
-        printf("\n");
-    }
 }
 
 int normalize_row_lengths(Table *table)
@@ -917,109 +866,160 @@ int normalize_number_of_cols(Table *table)
     return ret_code;
 }
 
-int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_present)
+int create_row_from_data(char *line, Table *table)
 {
     /**
-     * @brief Get raw commands
+     * @brief Create row from line data
      *
-     * Get command string for aguments and open it as file and parse it to individual commands or parse the argument as individual commands
+     * Parse and save line data
      *
-     * @param argv Array of arguments
-     * @param commands_store Pointer to instance of #Raw_commands structure where individual commands will be saved
-     * @param delim_flag_present Flag if in argument is delim flag (only for calculating proper position of commands argument)
+     * @param line Input string to parse
+     * @param table Pointer to instance #Table structure where row will be saved
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
-    char *raw_commands = delim_flag_present ? argv[3] : argv[2];
-    long long int num_of_commands = 0;
+    if (line == NULL)
+        return FUNCTION_ERROR;
 
-    if (string_start_with(raw_commands, "-c"))
+    // Allocate base number of cells in row
+    if (allocate_cells(&table->rows[table->num_of_rows]) != NO_ERROR)
+        return ALLOCATION_FAILED;
+
+    long long int number_of_cells = count_char(line, table->delim, false) + 1;
+
+    char *substring_buffer = NULL;
+    int ret_val;
+
+    for (long long int i = 0; i < number_of_cells; i++)
     {
-        // Raw commands are path to command file
-        // Parse commands from commands file
-
-        // Trim out prefix
-        size_t len = strlen(raw_commands);
-        memmove(raw_commands, raw_commands + 2, len - 1);
-
-        // Try to open command file
-        FILE *file = fopen(raw_commands, "r");
-        if (file == NULL)
-            return FILE_DOESNT_EXIST;
-
-        char *line = NULL;
-
-        // Count number of lines (commands because individual commands are on separated lines)
-        while (get_line(&line, file) != -1)
+        if (i >= table->rows[table->num_of_rows].allocated_cells)
         {
-            free(line);
-            line = NULL;
-            num_of_commands++;
+            if (allocate_cells(&table->rows[table->num_of_rows]) != NO_ERROR)
+                return ALLOCATION_FAILED;
         }
 
-        // Rewind to start of file
-        rewind(file);
+        if ((ret_val = get_substring(line, &substring_buffer, table->delim, i, false)) != NO_ERROR)
+            return ret_val;
 
-        if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
+        if (set_cell(substring_buffer, &table->rows[table->num_of_rows].cells[i]) != NO_ERROR)
             return ALLOCATION_FAILED;
 
-        long long int i = 0;
-        while (get_line(&line, file) != -1)
-        {
-            rm_newline_chars(line);
-            commands_store->commands[i] = line;
-            line = NULL;
-
-            i++;
-        }
-
-        fclose(file);
-    }
-    else
-    {
-        // Parse commands from argument
-
-        num_of_commands = count_char(raw_commands, ';', true) + 1;
-        char *command = NULL;
-        int ret_val;
-
-        if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
-            return ALLOCATION_FAILED;
-
-        for (long long int i = 0; i < num_of_commands; i++)
-        {
-            if ((ret_val = get_substring(raw_commands, &command, ';', i, true)) != NO_ERROR)
-                return ret_val;
-
-            commands_store->commands[i] = command;
-            command = NULL;
-        }
+        table->rows[table->num_of_rows].num_of_cells++;
     }
 
+    free(substring_buffer);
+
+    table->num_of_rows++;
     return NO_ERROR;
 }
 
-void deallocate_raw_commands(Raw_commands *commands_store)
+int load_table(const char *delims, char *filepath, Table *table)
 {
     /**
-     * @brief Deallocate raw commands structure
+     * @brief Load table from file
      *
-     * @param commands_store Pointer to instance of #Raw_commands structure
+     * Load and parse data from file
+     *
+     * @param delims Array with all posible delimiters
+     * @param filepath Path to input file
+     * @param table Pointer #Table where data will be saved
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
-    if (commands_store->commands == NULL)
-        return;
+    int ret_val = NO_ERROR;
+    FILE *file;
+    char *line = NULL;
+    long long int line_index = 0;
 
-    for (long long int i = 0; i < commands_store->num_of_commands; i++)
+    // Try to open input file
+    file = fopen(filepath, "r");
+    if (file == NULL)
+        return FILE_DOESNT_EXIST;
+
+    // Allocate first row
+    if (allocate_rows(table) != NO_ERROR)
     {
-        free(commands_store->commands[i]);
-        commands_store->commands[i] = NULL;
+        fclose(file);
+        return ALLOCATION_FAILED;
     }
 
-    free(commands_store->commands);
-    commands_store->commands = NULL;
-    commands_store->num_of_commands = 0;
+    // Iterate thru input file
+    // When we set buffer size to 0 and output char pointer to NULL then getline will allocate memory itself
+    while (get_line(&line, file) != -1)
+    {
+        if (line == NULL)
+        {
+            ret_val = ALLOCATION_FAILED;
+            break;
+        }
+
+        rm_newline_chars(line);
+
+        normalize_delims(line, delims);
+
+        // Check if we still have room in rows array
+        if (line_index >= table->allocated_rows)
+            // Allocate larger array of rows
+            if (allocate_rows(table) != NO_ERROR)
+            {
+                ret_val = ALLOCATION_FAILED;
+                break;
+            }
+
+        if ((ret_val = create_row_from_data(line, table)) != NO_ERROR)
+            break;
+
+        free(line);
+        line_index++;
+    }
+
+
+    // Close input file
+    fclose(file);
+
+    return ret_val;
+}
+
+int delete_col(Table *table, long long int index)
+{
+    /**
+     * @brief Delete column
+     *
+     * Delete content of cells in colm of @p index and shift all cols on the right side of it leftside
+     *
+     * @param table Pointer to instance of #Table structure
+     * @param index Index of column we want to delete
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (table->rows == NULL || table->num_of_rows == 0)
+        return VALUE_ERROR;
+
+
+    for (long long int i = 0; i < table->num_of_rows; i++)
+    {
+        if (table->rows[i].num_of_cells <= index || index < 0)
+            return FUNCTION_ARGUMENT_ERROR;
+
+        if ((table->rows[i].num_of_cells - 1) > index)
+        {
+            long long int j;
+            for (j = index + 1; j < table->rows[i].num_of_cells; j++)
+            {
+                if (set_cell(table->rows[i].cells[j].content, &table->rows[i].cells[j - 1]) != NO_ERROR)
+                    return ALLOCATION_FAILED;
+            }
+
+            dealocate_cell(&table->rows[i].cells[j - 1]);
+        }
+
+        table->rows[i].num_of_cells--;
+    }
+
+    return NO_ERROR;
 }
 
 int main(int argc, char *argv[]) {
