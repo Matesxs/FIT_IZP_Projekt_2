@@ -124,6 +124,12 @@ _Bool strings_equal(const char *s1, const char *s2)
      * @return true if string are equal, false if dont
      */
 
+    if (s1 == NULL && s2 == NULL)
+        return true;
+
+    if (s1 == NULL || s2 == NULL)
+        return false;
+
     return strcmp(s1, s2) == 0;
 }
 
@@ -224,7 +230,7 @@ void rm_newline_chars(char *s) {
     *s = 0;
 }
 
-int get_substring(char *string, char **substring, char delim, long long int index, _Bool ignore_escapes)
+int get_substring(char *string, char **substring, char delim, long long int index, _Bool ignore_escapes, char **rest, _Bool want_rest)
 {
     /**
      * @brief Get substring from string
@@ -237,6 +243,8 @@ int get_substring(char *string, char **substring, char delim, long long int inde
      * @param delim Deliminator character
      * @param index Index of substring
      * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
+     * @param rest There will be saved rest of the string
+     * @param want_rest Flag if we want save rest of the flag
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
@@ -245,24 +253,53 @@ int get_substring(char *string, char **substring, char delim, long long int inde
         return FUNCTION_ERROR;
 
     long long int number_of_delims = count_char(string, delim, ignore_escapes);
-    size_t line_length = strlen(string);
+    size_t string_length = strlen(string);
 
     long long int start_index = (index == 0) ? 0 : get_position_of_character(string, delim, index - 1, ignore_escapes) + 1;
-    long long int end_index = (index >= number_of_delims) ? ((long long int)line_length - 1) : get_position_of_character(string, delim, index, ignore_escapes) - 1;
+    long long int end_index = (index >= number_of_delims) ? ((long long int)string_length - 1) : get_position_of_character(string, delim, index, ignore_escapes) - 1;
 
     // If there is no substring pointer init it
     if ((*substring) == NULL)
     {
-        (*substring) = (char*)malloc((line_length) * sizeof(char));
+        if ((end_index - start_index + 1) == 0)
+            return NO_ERROR;
+
+        (*substring) = (char*)malloc((string_length + 1) * sizeof(char));
         if ((*substring) == NULL)
             return ALLOCATION_FAILED;
     }
 
-    for (long long int i = 0, j = start_index; j <= end_index; i++, j++)
+    long long int i = 0, j = start_index;
+
+    for (; j <= end_index; i++, j++)
     {
         (*substring)[i] = string[j];
     }
     (*substring)[end_index - start_index + 1] = '\0';
+
+    if (want_rest)
+    {
+        j += 1;
+        long long int rest_len = (long long int)string_length - j + 1;
+
+        if (rest_len == 0)
+            return NO_ERROR;
+
+        (*rest) = (char*)malloc((rest_len) * sizeof(char));
+        if (rest == NULL)
+        {
+            free(*substring);
+            (*substring) = NULL;
+            return ALLOCATION_FAILED;
+        }
+
+        i = 0;
+        for (; j < (long long int)string_length; j++, i++)
+        {
+            (*rest)[i] = string[j];
+        }
+        (*rest)[i] = '\0';
+    }
 
     return NO_ERROR;
 }
@@ -389,6 +426,23 @@ void deallocate_raw_commands(Raw_commands *commands_store)
     free(commands_store->commands);
     commands_store->commands = NULL;
     commands_store->num_of_commands = 0;
+}
+
+void deallocate_base_commands(Base_commands *base_commands)
+{
+    if (base_commands->commands == NULL)
+        return;
+
+    for (long long int i = 0; i < base_commands->num_of_commands; i++)
+    {
+        free(base_commands->commands[i].function);
+        base_commands->commands[i].function = NULL;
+        free(base_commands->commands[i].arguments);
+        base_commands->commands[i].arguments = NULL;
+    }
+
+    free(base_commands->commands);
+    base_commands->commands = NULL;
 }
 
 int allocate_rows(Table *table)
@@ -653,16 +707,79 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
         char *command = NULL;
         int ret_val;
 
+        if (num_of_commands == 1 && strings_equal(raw_commands, EMPTY_CELL))
+            return NO_ERROR;
+
         if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
             return ALLOCATION_FAILED;
 
         for (long long int i = 0; i < num_of_commands; i++)
         {
-            if ((ret_val = get_substring(raw_commands, &command, ';', i, true)) != NO_ERROR)
+            if ((ret_val = get_substring(raw_commands, &command, ';', i, true, NULL, false)) != NO_ERROR)
                 return ret_val;
 
             commands_store->commands[i] = command;
             command = NULL;
+        }
+    }
+
+    return NO_ERROR;
+}
+
+int parse_commands(Raw_commands *raw_command_store, Base_commands *base_command_store)
+{
+    /**
+     * @brief Parse raw commands to base commands
+     *
+     * Split raw commands to function part and argument part
+     *
+     * @param raw_command_store Pointer to instance of #Raw_commands structure where raw commands are stored
+     * @param base_command_store Pointer to instance #Base_commands structure where parsed commands will be stored
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (raw_command_store == NULL)
+        return FUNCTION_ERROR;
+
+    if (raw_command_store->num_of_commands != 0)
+    {
+        base_command_store->commands = (Base_command*)malloc(raw_command_store->num_of_commands * sizeof(Base_command));
+        if (base_command_store->commands == NULL)
+            return ALLOCATION_FAILED;
+
+        base_command_store->num_of_commands = raw_command_store->num_of_commands;
+
+        for (long long int i = 0; i < base_command_store->num_of_commands; i++)
+        {
+            base_command_store->commands[i].function = NULL;
+            base_command_store->commands[i].arguments = NULL;
+        }
+
+        char *substring_buf = NULL;
+        char *rest = NULL;
+        int ret_val;
+
+        for (long long int i = 0; i < raw_command_store->num_of_commands; i++)
+        {
+            long long int num_of_parts = count_char(raw_command_store->commands[i], ' ', false) + 1;
+            if (num_of_parts >= 3)
+                return COMMAND_ERROR;
+
+            if ((ret_val = get_substring(raw_command_store->commands[i], &substring_buf, ' ', 0, false, &rest, true)) != NO_ERROR)
+                return ret_val;
+
+            if (rest != NULL && strings_equal(rest, EMPTY_CELL))
+            {
+                free(rest);
+                rest = NULL;
+            }
+
+            base_command_store->commands[i].function = substring_buf;
+            base_command_store->commands[i].arguments = rest;
+
+            substring_buf = NULL;
+            rest = NULL;
         }
     }
 
@@ -961,7 +1078,7 @@ int create_row_from_data(char *line, Table *table)
                 return ALLOCATION_FAILED;
         }
 
-        if ((ret_val = get_substring(line, &substring_buffer, table->delim, i, false)) != NO_ERROR)
+        if ((ret_val = get_substring(line, &substring_buffer, table->delim, i, false, NULL, false)) != NO_ERROR)
             return ret_val;
 
         if (set_cell(substring_buffer, &table->rows[table->num_of_rows].cells[i]) != NO_ERROR)
@@ -1321,6 +1438,19 @@ int main(int argc, char *argv[]) {
         return error_flag;
     }
 
+    Base_commands base_commands_store = { .commands = NULL,
+                                          .num_of_commands = 0 };
+
+    if ((error_flag = parse_commands(&raw_commands_store, &base_commands_store)) != NO_ERROR)
+    {
+        fprintf(stderr, "Failed to parse commands\n");
+        deallocate_raw_commands(&raw_commands_store);
+        deallocate_base_commands(&base_commands_store);
+        return error_flag;
+    }
+
+    deallocate_raw_commands(&raw_commands_store);
+
     Table table = { .delim = delims[0],
                     .rows = NULL,
                     .num_of_rows = 0,
@@ -1330,7 +1460,7 @@ int main(int argc, char *argv[]) {
     {
         fprintf(stderr, "Failed to load table properly\n");
         deallocate_table(&table);
-        deallocate_raw_commands(&raw_commands_store);
+        deallocate_base_commands(&base_commands_store);
         return error_flag;
     }
 
@@ -1338,7 +1468,7 @@ int main(int argc, char *argv[]) {
     {
         fprintf(stderr, "Failed to normalize colums\n");
         deallocate_table(&table);
-        deallocate_raw_commands(&raw_commands_store);
+        deallocate_base_commands(&base_commands_store);
         return error_flag;
     }
 
@@ -1347,9 +1477,11 @@ int main(int argc, char *argv[]) {
     printf("\n\nDebug:\n");
     printf("Allocated rows: %llu, Allocated cells: %llu\n", table.allocated_rows, table.rows[0].allocated_cells);
     printf("Delim: '%c'\n", table.delim);
+    printf("Number of commands: %lld\n", base_commands_store.num_of_commands);
     printf("Commands: ");
-    for (long long int i = 0; i < raw_commands_store.num_of_commands; i++)
-        printf("'%s'%c", raw_commands_store.commands[i], i == (raw_commands_store.num_of_commands - 1) ? '\n' : ' ');
+    for (long long int i = 0; i < base_commands_store.num_of_commands; i++)
+        printf("'%s - %s' ", base_commands_store.commands[i].function, base_commands_store.commands[i].arguments);
+    printf("\n");
     printf("Args: ");
     for (int i = 1; i < argc; i++)
         printf("%s%c", argv[i], i == (argc - 1) ? '\n' : ' ');
@@ -1358,7 +1490,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     deallocate_table(&table);
-    deallocate_raw_commands(&raw_commands_store);
+    deallocate_base_commands(&base_commands_store);
 
     return NO_ERROR;
 }
