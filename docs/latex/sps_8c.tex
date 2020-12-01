@@ -44,7 +44,7 @@ enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}} \
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}}, 
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}{M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS}}, 
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b}{I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+E\+L\+I\+M\+I\+T\+ER}}, 
-\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}{F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST}}, 
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a7f2c49fa939c7752b915cc5e036d71f5}{C\+A\+N\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+LE}}, 
 \newline
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}}, 
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+R\+R\+OR}}, 
@@ -59,11 +59,25 @@ enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}} \
 \item 
 \+\_\+\+Bool \mbox{\hyperlink{sps_8c_af4932339917c5fae2fcb74b7ff9ad32e}{string\+\_\+start\+\_\+with}} (const char $\ast$base\+\_\+string, const char $\ast$start\+\_\+string)
 \item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}{strings\+\_\+equal}} (const char $\ast$s1, const char $\ast$s2)
+\item 
+long long int \mbox{\hyperlink{sps_8c_a1c11c9f3858a530dba3a17798f4a48be}{count\+\_\+char}} (char $\ast$string, char c, \+\_\+\+Bool ignore\+\_\+escapes)
+\item 
+long long int \mbox{\hyperlink{sps_8c_a6a32ddf51ec63ae7b1dfaabefbcb9a4f}{get\+\_\+position\+\_\+of\+\_\+character}} (const char $\ast$string, char ch, long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
+\item 
+void \mbox{\hyperlink{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9}{rm\+\_\+newline\+\_\+chars}} (char $\ast$s)
+\item 
+int \mbox{\hyperlink{sps_8c_a39b04566cfa99d42121717a07f8acf04}{get\+\_\+substring}} (char $\ast$string, char $\ast$$\ast$substring, char delim, long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
+\item 
+void \mbox{\hyperlink{sps_8c_a72c7045ef865d17564d1de763604c72c}{normalize\+\_\+delims}} (char $\ast$line, const char $\ast$delims)
+\item 
 void \mbox{\hyperlink{sps_8c_a37cdb33275fa1cc58f89b03cd68c1686}{dealocate\+\_\+cell}} (\mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
 \item 
 void \mbox{\hyperlink{sps_8c_a236efc88a3389c5b12ac7b42c4bcb584}{dealocate\+\_\+row}} (\mbox{\hyperlink{struct_row}{Row}} $\ast$row)
 \item 
 void \mbox{\hyperlink{sps_8c_aeb018262f5c915cc72b989daf95df488}{deallocate\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+void \mbox{\hyperlink{sps_8c_a3963fb3c2d8d535c2fdb55870588647f}{deallocate\+\_\+raw\+\_\+commands}} (\mbox{\hyperlink{struct_raw__commands}{Raw\+\_\+commands}} $\ast$commands\+\_\+store)
 \item 
 int \mbox{\hyperlink{sps_8c_a253cc5911a34258e8c205f47beca7e4e}{allocate\+\_\+rows}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
@@ -73,33 +87,19 @@ int \mbox{\hyperlink{sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2}{allocate\+\_\+cel
 \item 
 int \mbox{\hyperlink{sps_8c_a0af18f65fcd7ac86c20aa8abd52453d6}{allocate\+\_\+content}} (\mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
 \item 
-\+\_\+\+Bool \mbox{\hyperlink{sps_8c_affb54c1b3d5475d9216a8d070b21ff8b}{strings\+\_\+equal}} (const char $\ast$s1, const char $\ast$s2)
-\item 
-long long int \mbox{\hyperlink{sps_8c_a1c11c9f3858a530dba3a17798f4a48be}{count\+\_\+char}} (char $\ast$string, char c, \+\_\+\+Bool ignore\+\_\+escapes)
-\item 
-void \mbox{\hyperlink{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9}{rm\+\_\+newline\+\_\+chars}} (char $\ast$s)
-\item 
 long long int \mbox{\hyperlink{sps_8c_a402e704273d7f0d445b26907631fd6ba}{get\+\_\+line}} (char $\ast$$\ast$line\+\_\+buffer, F\+I\+LE $\ast$file)
 \item 
-void \mbox{\hyperlink{sps_8c_a72c7045ef865d17564d1de763604c72c}{normalize\+\_\+delims}} (char $\ast$line, const char $\ast$delims)
+int \mbox{\hyperlink{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}{get\+\_\+commands}} (char $\ast$argv\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_raw__commands}{Raw\+\_\+commands}} $\ast$commands\+\_\+store, \+\_\+\+Bool delim\+\_\+flag\+\_\+present)
+\item 
+void \mbox{\hyperlink{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}{print\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+int \mbox{\hyperlink{sps_8c_a20ba3aa14d56509d7b6b0942680b2e92}{save\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, char $\ast$path)
+\item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_afd8907535a986b58ff3a78d3e74495ad}{check\+\_\+sanity\+\_\+of\+\_\+delims}} (char $\ast$delims)
 \item 
 int \mbox{\hyperlink{sps_8c_a27192fb50be75e2b837926af9c17a084}{set\+\_\+cell}} (char $\ast$string, \mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
 \item 
 int \mbox{\hyperlink{sps_8c_ac2b3081ef455b92a62692541d283e512}{append\+\_\+empty\+\_\+cell}} (\mbox{\hyperlink{struct_row}{Row}} $\ast$row)
-\item 
-long long int \mbox{\hyperlink{sps_8c_a6a32ddf51ec63ae7b1dfaabefbcb9a4f}{get\+\_\+position\+\_\+of\+\_\+character}} (const char $\ast$string, char ch, long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
-\item 
-int \mbox{\hyperlink{sps_8c_a39b04566cfa99d42121717a07f8acf04}{get\+\_\+substring}} (char $\ast$string, char $\ast$$\ast$substring, char delim, long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
-\item 
-int \mbox{\hyperlink{sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb}{create\+\_\+row\+\_\+from\+\_\+data}} (char $\ast$line, \mbox{\hyperlink{struct_table}{Table}} $\ast$table)
-\item 
-int \mbox{\hyperlink{sps_8c_a34d9aeaf00f132febb6a918ccbd5edf3}{delete\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
-\item 
-int \mbox{\hyperlink{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}{load\+\_\+table}} (const char $\ast$delims, char $\ast$filepath, \mbox{\hyperlink{struct_table}{Table}} $\ast$table)
-\item 
-\+\_\+\+Bool \mbox{\hyperlink{sps_8c_afd8907535a986b58ff3a78d3e74495ad}{check\+\_\+sanity\+\_\+of\+\_\+delims}} (char $\ast$delims)
-\item 
-void \mbox{\hyperlink{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f}{print\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
 int \mbox{\hyperlink{sps_8c_aab923a2fcd8cde3ddee65b5bdfdc4298}{normalize\+\_\+row\+\_\+lengths}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
@@ -107,9 +107,13 @@ void \mbox{\hyperlink{sps_8c_a35b4d9bc7065ff111cb050980cc25b0c}{normalize\+\_\+e
 \item 
 int \mbox{\hyperlink{sps_8c_a768adbb60c21d8b13dedee118ca0d076}{normalize\+\_\+number\+\_\+of\+\_\+cols}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
-int \mbox{\hyperlink{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}{get\+\_\+commands}} (char $\ast$argv\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{struct_raw__commands}{Raw\+\_\+commands}} $\ast$commands\+\_\+store, \+\_\+\+Bool delim\+\_\+flag\+\_\+present)
+int \mbox{\hyperlink{sps_8c_a8abe333dd33c0dae8649cc1fed7a55fb}{create\+\_\+row\+\_\+from\+\_\+data}} (char $\ast$line, \mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
-void \mbox{\hyperlink{sps_8c_a3963fb3c2d8d535c2fdb55870588647f}{deallocate\+\_\+raw\+\_\+commands}} (\mbox{\hyperlink{struct_raw__commands}{Raw\+\_\+commands}} $\ast$commands\+\_\+store)
+int \mbox{\hyperlink{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}{load\+\_\+table}} (const char $\ast$delims, char $\ast$filepath, \mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+int \mbox{\hyperlink{sps_8c_a34d9aeaf00f132febb6a918ccbd5edf3}{delete\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
+\item 
+int \mbox{\hyperlink{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}{append\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
 int \mbox{\hyperlink{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
 \end{DoxyCompactItemize}
@@ -187,42 +191,42 @@ Flags that will be returned on error.
 
 \begin{DoxyEnumFields}{Enumerator}
 \raisebox{\heightof{T}}[0pt][0pt]{\index{NO\_ERROR@{NO\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!NO\_ERROR@{NO\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}} 
-N\+O\+\_\+\+E\+R\+R\+OR&No error detected (default return code) \\
+N\+O\+\_\+\+E\+R\+R\+OR&No error detected (default return code) -\/ 0 \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{MISSING\_ARGS@{MISSING\_ARGS}!sps.c@{sps.c}}\index{sps.c@{sps.c}!MISSING\_ARGS@{MISSING\_ARGS}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}} 
-M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS&Some arguments are missing \\
+M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS&Some arguments are missing -\/ 1 \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{INVALID\_DELIMITER@{INVALID\_DELIMITER}!sps.c@{sps.c}}\index{sps.c@{sps.c}!INVALID\_DELIMITER@{INVALID\_DELIMITER}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a089dfce3d05d06ee7d4caea6ce44692b}} 
-I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+E\+L\+I\+M\+I\+T\+ER&Found invalid character in delimiters from arguments \\
+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+E\+L\+I\+M\+I\+T\+ER&Found invalid character in delimiters from arguments -\/ 2 \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FILE\_DOESNT\_EXIST@{FILE\_DOESNT\_EXIST}!sps.c@{sps.c}}\index{sps.c@{sps.c}!FILE\_DOESNT\_EXIST@{FILE\_DOESNT\_EXIST}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a86df4f77623fbb28cd81f51a1c60f01a}} 
-F\+I\+L\+E\+\_\+\+D\+O\+E\+S\+N\+T\+\_\+\+E\+X\+I\+ST&Error if input file doesnt exist or is used by another process \\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CANT\_OPEN\_FILE@{CANT\_OPEN\_FILE}!sps.c@{sps.c}}\index{sps.c@{sps.c}!CANT\_OPEN\_FILE@{CANT\_OPEN\_FILE}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a7f2c49fa939c7752b915cc5e036d71f5}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a7f2c49fa939c7752b915cc5e036d71f5}} 
+C\+A\+N\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+LE&Error if given file cant be opened -\/ 3 \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{ALLOCATION\_FAILED@{ALLOCATION\_FAILED}!sps.c@{sps.c}}\index{sps.c@{sps.c}!ALLOCATION\_FAILED@{ALLOCATION\_FAILED}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}} 
-A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED&Error when program failed to allocate memory \\
+A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED&Error when program failed to allocate memory -\/ 4 \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{FUNCTION\_ERROR@{FUNCTION\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!FUNCTION\_ERROR@{FUNCTION\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}} 
 F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+R\+R\+OR&Generic function error \begin{DoxyWarning}{Warning}
-This should not occur! 
+This should not occur! -\/ 5 
 \end{DoxyWarning}
 \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{FUNCTION\_ARGUMENT\_ERROR@{FUNCTION\_ARGUMENT\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!FUNCTION\_ARGUMENT\_ERROR@{FUNCTION\_ARGUMENT\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a024b75a9b863b75fcb6adee1297c41e7}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a024b75a9b863b75fcb6adee1297c41e7}} 
-F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T\+\_\+\+E\+R\+R\+OR&Error when function gets unexpected value in argument \\
+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T\+\_\+\+E\+R\+R\+OR&Error when function gets unexpected value in argument -\/ 6 \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{VALUE\_ERROR@{VALUE\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!VALUE\_ERROR@{VALUE\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a2b832712dabcc4b914c966f6102a1eac}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a2b832712dabcc4b914c966f6102a1eac}} 
-V\+A\+L\+U\+E\+\_\+\+E\+R\+R\+OR&Error when function gets bad value in argument \\
+V\+A\+L\+U\+E\+\_\+\+E\+R\+R\+OR&Error when function gets bad value in argument -\/ 7 \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{COMMAND\_ERROR@{COMMAND\_ERROR}!sps.c@{sps.c}}\index{sps.c@{sps.c}!COMMAND\_ERROR@{COMMAND\_ERROR}}}\mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0cfd5af1f777f6919ddef94e81b94b00}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0cfd5af1f777f6919ddef94e81b94b00}} 
-C\+O\+M\+M\+A\+N\+D\+\_\+\+E\+R\+R\+OR&Error when received invalid commands \\
+C\+O\+M\+M\+A\+N\+D\+\_\+\+E\+R\+R\+OR&Error when received invalid commands -\/ 8 \\
 \hline
 
 \end{DoxyEnumFields}
@@ -247,7 +251,8 @@ Allocate cell array in instance of \mbox{\hyperlink{struct_row}{Row}} structure 
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -272,7 +277,8 @@ Allocate content (char array) in instance of \mbox{\hyperlink{struct_cell}{Cell}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -329,6 +335,32 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=327pt]{sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}\label{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}} 
+\index{sps.c@{sps.c}!append\_col@{append\_col}}
+\index{append\_col@{append\_col}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{append\_col()}{append\_col()}}
+{\footnotesize\ttfamily int append\+\_\+col (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Append empty column to right of the table
+
+Iterate over all rows and add empty column to the end of each of them
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_af4b6098a72165553e7b1cd839ffc03ee_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_ac2b3081ef455b92a62692541d283e512}\label{sps_8c_ac2b3081ef455b92a62692541d283e512}} 
 \index{sps.c@{sps.c}!append\_empty\_cell@{append\_empty\_cell}}
 \index{append\_empty\_cell@{append\_empty\_cell}!sps.c@{sps.c}}
@@ -352,7 +384,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -489,11 +522,12 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_aeb018262f5c915cc72b989daf95df488_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=338pt]{sps_8c_aeb018262f5c915cc72b989daf95df488_icgraph}
+\includegraphics[width=241pt]{sps_8c_aeb018262f5c915cc72b989daf95df488_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a37cdb33275fa1cc58f89b03cd68c1686}\label{sps_8c_a37cdb33275fa1cc58f89b03cd68c1686}} 
@@ -511,7 +545,8 @@ Free content of cell
 {\em cell} & Pointer to instance of \mbox{\hyperlink{struct_cell}{Cell}} strucutre\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -540,7 +575,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=274pt]{sps_8c_a236efc88a3389c5b12ac7b42c4bcb584_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -733,7 +769,8 @@ Load and parse data from file
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -754,8 +791,9 @@ Here is the caller graph for this function\+:\nopagebreak
 {\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
 Main of whole program \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling \end{DoxyRefDesc}
-Here is the call graph for this function\+:\nopagebreak
+\item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling -\/ separate to own function \end{DoxyRefDesc}
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -926,6 +964,34 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{sps_8c_a20ba3aa14d56509d7b6b0942680b2e92}\label{sps_8c_a20ba3aa14d56509d7b6b0942680b2e92}} 
+\index{sps.c@{sps.c}!save\_table@{save\_table}}
+\index{save\_table@{save\_table}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{save\_table()}{save\_table()}}
+{\footnotesize\ttfamily int save\+\_\+table (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{char $\ast$}]{path }\end{DoxyParamCaption})}
+
+Save table to file
+
+Iterate over table and write to file its content
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure \\
+\hline
+{\em path} & Path to output file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{sps_8c_a20ba3aa14d56509d7b6b0942680b2e92_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_a27192fb50be75e2b837926af9c17a084}\label{sps_8c_a27192fb50be75e2b837926af9c17a084}} 
 \index{sps.c@{sps.c}!set\_cell@{set\_cell}}
 \index{set\_cell@{set\_cell}!sps.c@{sps.c}}
@@ -953,7 +1019,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=254pt]{sps_8c_a27192fb50be75e2b837926af9c17a084_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

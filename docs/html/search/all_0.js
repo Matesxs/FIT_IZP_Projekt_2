@@ -8,5 +8,6 @@ var searchData=
   ['allocated_5fchars_5',['allocated_chars',['../struct_cell.html#a6e3183cdeb67f7785547a9152ecde185',1,'Cell']]],
   ['allocated_5frows_6',['allocated_rows',['../struct_table.html#ad91697f51b8488492848e864c1d48c46',1,'Table']]],
   ['allocation_5ffailed_7',['ALLOCATION_FAILED',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c',1,'sps.c']]],
-  ['append_5fempty_5fcell_8',['append_empty_cell',['../sps_8c.html#ac2b3081ef455b92a62692541d283e512',1,'sps.c']]]
+  ['append_5fcol_8',['append_col',['../sps_8c.html#af4b6098a72165553e7b1cd839ffc03ee',1,'sps.c']]],
+  ['append_5fempty_5fcell_9',['append_empty_cell',['../sps_8c.html#ac2b3081ef455b92a62692541d283e512',1,'sps.c']]]
 ];
