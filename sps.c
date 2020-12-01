@@ -49,6 +49,18 @@ typedef struct
     char **commands; /**< Array of commands */
 } Raw_commands;
 
+typedef struct
+{
+    char *function;
+    char *arguments;
+} Base_command;
+
+typedef struct
+{
+    long long int num_of_commands;
+    Base_command *commands;
+} Base_commands;
+
 /**
  * @struct Cell
  * @brief Store for data of single cell
@@ -770,8 +782,10 @@ int set_cell(char *string, Cell *cell)
     /**
      * @brief Set value to cell content
      *
-     * Try to allocate content in #Cell structure if content doesnt exist or rewrite existing data in it
+     * Try to allocate content in #Cell structure if content doesnt exist or rewrite existing data in it \n
      * If content is too small then extend it
+     * @warning
+     * If there are some data in cell it will be rewritten
      *
      * @param string String we want to set to cell
      * @param cell Pointer to instance of #Cell structure
@@ -1328,9 +1342,8 @@ int main(int argc, char *argv[]) {
         return error_flag;
     }
 
-    print_table(&table);
-
 #ifdef DEBUG
+    print_table(&table);
     printf("\n\nDebug:\n");
     printf("Allocated rows: %llu, Allocated cells: %llu\n", table.allocated_rows, table.rows[0].allocated_cells);
     printf("Delim: '%c'\n", table.delim);
@@ -1339,10 +1352,7 @@ int main(int argc, char *argv[]) {
         printf("'%s'%c", raw_commands_store.commands[i], i == (raw_commands_store.num_of_commands - 1) ? '\n' : ' ');
     printf("Args: ");
     for (int i = 1; i < argc; i++)
-    {
-        printf("%s ", argv[i]);
-    }
-    printf("\n");
+        printf("%s%c", argv[i], i == (argc - 1) ? '\n' : ' ');
 #else
     save_table(&table, argv[argc-1]);
 #endif
