@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['allocated_5fcells_97',['allocated_cells',['../struct_row.html#adade67d3729172dc19a240f9e9ab327e',1,'Row']]],
-  ['allocated_5fchars_98',['allocated_chars',['../struct_cell.html#ae51d29c1ec364fb9d023f3e198f96e0f',1,'Cell']]],
-  ['allocated_5frows_99',['allocated_rows',['../struct_table.html#a2a32f36e2083660e713a53ca3a8cff53',1,'Table']]]
+  ['allocated_5fcells_102',['allocated_cells',['../struct_row.html#a45fe2720c93e25378ee78c79079e6a37',1,'Row']]],
+  ['allocated_5fchars_103',['allocated_chars',['../struct_cell.html#a6e3183cdeb67f7785547a9152ecde185',1,'Cell']]],
+  ['allocated_5frows_104',['allocated_rows',['../struct_table.html#ad91697f51b8488492848e864c1d48c46',1,'Table']]]
 ];

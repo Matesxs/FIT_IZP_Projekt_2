@@ -20,7 +20,7 @@
 #define BASE_NUMBER_OF_CELLS 3 /**< Base number of cells that will be allocated */
 #define BASE_CELL_LENGTH 6 /**< Base length of content in cell that will be allocated */
 
-#define EMPTY_CELL ""
+#define EMPTY_CELL "" /**< How should look like empty cell */
 
 /**
  * @enum ErrorCodes
@@ -33,9 +33,10 @@ enum ErrorCodes
     INVALID_DELIMITER,            /**< Found invalid character in delimiters from arguments */
     FILE_DOESNT_EXIST,            /**< Error if input file doesnt exist or is used by another process */
     ALLOCATION_FAILED,            /**< Error when program failed to allocate memory */
-    FUNCTION_ERROR,               /**< Generic function error, @warning This should not occur! */
-    ARGUMENT_ERROR,               /**< Error when function gets unexpected value in argument */
+    FUNCTION_ERROR,               /**< Generic function error @warning This should not occur! */
+    FUNCTION_ARGUMENT_ERROR,      /**< Error when function gets unexpected value in argument */
     VALUE_ERROR,                  /**< Error when function gets bad value in argument */
+    COMMAND_ERROR,                /**< Error when received invalid commands */
 };
 
 /**
@@ -107,7 +108,7 @@ void dealocate_cell(Cell *cell)
      *
      * Free content of cell
      *
-     * @param cell Pointer to instance of cell strucutre
+     * @param cell Pointer to instance of #Cell strucutre
      */
 
     if (cell->content == NULL)
@@ -125,7 +126,7 @@ void dealocate_row(Row *row)
      *
      * Iterate over all cells and dealocate them
      *
-     * @param row Pointer to instance of row structure
+     * @param row Pointer to instance of #Row structure
      */
 
     if (row->cells == NULL)
@@ -149,7 +150,7 @@ void deallocate_table(Table *table)
      *
      * Iterate over all rows and dealocate them
      *
-     * @param table Pointer to instance of table structure
+     * @param table Pointer to instance of #Table structure
      */
 
     if (table->rows == NULL)
@@ -173,9 +174,9 @@ int allocate_rows(Table *table)
      *
      * Allocate new rows array or extend existing one
      *
-     * @param table Pointer to instance of table structure
+     * @param table Pointer to instance of #Table structure
      *
-     * @return NO_ERROR when table is allocated properly in other cases return ALLOCATION_FAILED
+     * @return #NO_ERROR when table is allocated properly in other cases return #ALLOCATION_FAILED
      */
 
     if (table->rows == NULL)
@@ -213,10 +214,10 @@ int allocate_raw_commands(Raw_commands *commands_store, long long int number_of_
     /**
      * @brief Allocate commands store
      *
-     * @param commands_store Pointer to instance of raw commands structure
+     * @param commands_store Pointer to instance of #Raw_commands structure
      * @param number_of_commands Number of commands we want to allocate
      *
-     * @return NO_ERROR on success, ALLOCATION_FAILED on fail
+     * @return #NO_ERROR on success, #ALLOCATION_FAILED on fail
      */
 
     commands_store->commands = (char**)malloc(number_of_commands * sizeof(char*));
@@ -230,13 +231,13 @@ int allocate_raw_commands(Raw_commands *commands_store, long long int number_of_
 int allocate_cells(Row *row)
 {
     /**
-     * @brief Allocate cells in row strucuture
+     * @brief Allocate cells in row
      *
-     * Allocate cell array in instance of row structure or extend existing one
+     * Allocate cell array in instance of #Row structure or extend existing one
      *
-     * @param row Pointer to instance of row structure
+     * @param row Pointer to instance of #Row structure
      *
-     * @return NO_ERROR when table is allocated properly in other cases return ALLOCATION_FAILED
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     if (row->cells == NULL)
@@ -271,13 +272,13 @@ int allocate_cells(Row *row)
 int allocate_content(Cell *cell)
 {
     /**
-     * @brief Allocate content in cell structure
+     * @brief Allocate content in cell
      *
-     * Allocate content (char array) in instance of cell strucutre or extend existing one
+     * Allocate content (char array) in instance of #Cell strucutre or extend existing one
      *
-     * @param cell Pointer to instance of cell structure
+     * @param cell Pointer to instance of #Cell structure
      *
-     * @return NO_ERROR when table is allocated properly in other cases return ALLOCATION_FAILED
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     if (cell->content == NULL)
@@ -473,13 +474,13 @@ int set_cell(char *string, Cell *cell)
     /**
      * @brief Set value to cell content
      *
-     * Try to allocate content in cell structure if content doesnt exist or rewrite existing data in it
+     * Try to allocate content in #Cell structure if content doesnt exist or rewrite existing data in it
      * If content is too small then extend it
      *
      * @param string String we want to set to cell
-     * @param cell Pointer to instance of cell structure
+     * @param cell Pointer to instance of #Cell structure
      *
-     * @return NO_ERROR when setting value is successful or when allocation fails ALLOCATION_FAILED
+     * @return #NO_ERROR when setting value is successful or when allocation fails #ALLOCATION_FAILED
      */
 
     if (cell->content == NULL)
@@ -503,9 +504,9 @@ int append_empty_cell(Row *row)
     /**
      * @brief Append empty cell to the end of the row
      *
-     * @param row Row where we want to append empty cell
+     * @param row Pointer to instance of #Row structure where we want to append empty cell
      *
-     * @return NO_ERROR on success or ALLOCATION_FAILED on error
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     // If row have no cells or its already full allocate new cols
@@ -566,7 +567,7 @@ int get_substring(char *string, char **substring, char delim, long long int inde
     /**
      * @brief Get substring from string
      *
-     * Extract Portion of string delimited by @p delim or by borders of main string @p string
+     * Extract Portion of string delimited by @p delim or by borders of main string @p string \n
      * Wantend portion is selected by @p index
      *
      * @param string Base string
@@ -575,7 +576,7 @@ int get_substring(char *string, char **substring, char delim, long long int inde
      * @param index Index of substring
      * @param ignore_escapes Flag if we want ignore if characte is escaped or in parentecies and count it too
      *
-     * @return NO_ERROR on success or coresponding ErrorFlag on any error
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     if (string == NULL)
@@ -612,9 +613,9 @@ int create_row_from_data(char *line, Table *table)
      * Parse and save line data
      *
      * @param line Input string to parse
-     * @param table Pointer to instance table structure where row will be saved
+     * @param table Pointer to instance #Table structure where row will be saved
      *
-     * @return NO_ERROR on success in other cases coresponding ErrorFlag
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     if (line == NULL)
@@ -654,6 +655,17 @@ int create_row_from_data(char *line, Table *table)
 
 int delete_col(Table *table, long long int index)
 {
+    /**
+     * @brief Delete column
+     *
+     * Delete content of cells in colm of @p index and shift all cols on the right side of it leftside
+     *
+     * @param table Pointer to instance of #Table structure
+     * @param index Index of column we want to delete
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
     if (table->rows == NULL || table->num_of_rows == 0)
         return VALUE_ERROR;
 
@@ -661,7 +673,7 @@ int delete_col(Table *table, long long int index)
     for (long long int i = 0; i < table->num_of_rows; i++)
     {
         if (table->rows[i].num_of_cells <= index || index < 0)
-            return ARGUMENT_ERROR;
+            return FUNCTION_ARGUMENT_ERROR;
 
         if ((table->rows[i].num_of_cells - 1) > index)
         {
@@ -690,9 +702,9 @@ int load_table(const char *delims, char *filepath, Table *table)
      *
      * @param delims Array with all posible delimiters
      * @param filepath Path to input file
-     * @param table Pointer table where data will be saved
+     * @param table Pointer #Table where data will be saved
      *
-     * @return NO_ERROR if table data are loaded and parsed properly, in other scenarios return error code
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     int ret_val = NO_ERROR;
@@ -707,7 +719,10 @@ int load_table(const char *delims, char *filepath, Table *table)
 
     // Allocate first row
     if (allocate_rows(table) != NO_ERROR)
+    {
+        fclose(file);
         return ALLOCATION_FAILED;
+    }
 
     // Iterate thru input file
     // When we set buffer size to 0 and output char pointer to NULL then getline will allocate memory itself
@@ -716,7 +731,6 @@ int load_table(const char *delims, char *filepath, Table *table)
         if (line == NULL)
         {
             ret_val = ALLOCATION_FAILED;
-            deallocate_table(table);
             break;
         }
 
@@ -728,13 +742,13 @@ int load_table(const char *delims, char *filepath, Table *table)
         if (line_index >= table->allocated_rows)
             // Allocate larger array of rows
             if (allocate_rows(table) != NO_ERROR)
-                return ALLOCATION_FAILED;
+            {
+                ret_val = ALLOCATION_FAILED;
+                break;
+            }
 
         if ((ret_val = create_row_from_data(line, table)) != NO_ERROR)
-        {
-            deallocate_table(table);
             break;
-        }
 
         free(line);
         line_index++;
@@ -782,7 +796,7 @@ void print_table(Table *table)
      * Debug functing for printing loaded table to console
      * @todo Remove
      *
-     * @param table Pointer to instance of table structure
+     * @param table Pointer to instance of #Table structure
      */
 
     if (table->rows == NULL)
@@ -814,9 +828,9 @@ int normalize_row_lengths(Table *table)
      *
      * Append empty cells to the end of smaller rows than the longest one to make all rows same length
      *
-     * @param table Pointer to instance of table structure
+     * @param table Pointer to instance of #Table structure
      *
-     * @return NO_ERROR on success and ALLOCATION_FAILED on error
+     * @return #NO_ERROR on success and #ALLOCATION_FAILED on error
      */
 
     long long int max_number_of_cols = 0;
@@ -850,7 +864,7 @@ void normalize_empty_cols(Table *table)
      *
      * Destroy empty cols on the end of rows
      *
-     * @param table Pointer to instance of table structure
+     * @param table Pointer to instance of #Table structure
      */
 
     if (table->num_of_rows > 0)
@@ -889,9 +903,9 @@ int normalize_number_of_cols(Table *table)
      *
      * Fill short rows to same size as the longest one and then trim all empty cols at the end
      *
-     * @param table Pointer to instance of table structure
+     * @param table Pointer to instance of #Table structure
      *
-     * @return NO_ERROR on success and ALLOCATION_FAILED on error
+     * @return #NO_ERROR on success and #ALLOCATION_FAILED on error
      */
 
     int ret_code;
@@ -911,10 +925,10 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
      * Get command string for aguments and open it as file and parse it to individual commands or parse the argument as individual commands
      *
      * @param argv Array of arguments
-     * @param commands_store Pointer to instance of raw commands structure where individual commands will be saved
+     * @param commands_store Pointer to instance of #Raw_commands structure where individual commands will be saved
      * @param delim_flag_present Flag if in argument is delim flag (only for calculating proper position of commands argument)
      *
-     * @return NO_ERROR on success, in other cases return coresponding ErrorFlag
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     char *raw_commands = delim_flag_present ? argv[3] : argv[2];
@@ -991,7 +1005,7 @@ void deallocate_raw_commands(Raw_commands *commands_store)
     /**
      * @brief Deallocate raw commands structure
      *
-     * @param commands_store Pointer to instance of raw commands structure
+     * @param commands_store Pointer to instance of #Raw_commands structure
      */
 
     if (commands_store->commands == NULL)
