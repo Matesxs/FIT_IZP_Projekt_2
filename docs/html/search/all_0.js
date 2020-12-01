@@ -9,5 +9,6 @@ var searchData=
   ['allocated_5frows_6',['allocated_rows',['../struct_table.html#ad91697f51b8488492848e864c1d48c46',1,'Table']]],
   ['allocation_5ffailed_7',['ALLOCATION_FAILED',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c',1,'sps.c']]],
   ['append_5fcol_8',['append_col',['../sps_8c.html#af4b6098a72165553e7b1cd839ffc03ee',1,'sps.c']]],
-  ['append_5fempty_5fcell_9',['append_empty_cell',['../sps_8c.html#ac2b3081ef455b92a62692541d283e512',1,'sps.c']]]
+  ['append_5fempty_5fcell_9',['append_empty_cell',['../sps_8c.html#ac2b3081ef455b92a62692541d283e512',1,'sps.c']]],
+  ['append_5frow_10',['append_row',['../sps_8c.html#aaf9107fec602ad1ebe1f719810141008',1,'sps.c']]]
 ];

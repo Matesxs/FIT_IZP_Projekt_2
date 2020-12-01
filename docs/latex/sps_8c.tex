@@ -115,6 +115,14 @@ int \mbox{\hyperlink{sps_8c_a34d9aeaf00f132febb6a918ccbd5edf3}{delete\+\_\+col}}
 \item 
 int \mbox{\hyperlink{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}{append\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
+int \mbox{\hyperlink{sps_8c_a3aec3e8664f49c9e9d73f89af6877712}{insert\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
+\item 
+int \mbox{\hyperlink{sps_8c_aaf9107fec602ad1ebe1f719810141008}{append\+\_\+row}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
+\item 
+int \mbox{\hyperlink{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c}{insert\+\_\+row}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
+\item 
+int \mbox{\hyperlink{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9}{delete\+\_\+row}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
+\item 
 int \mbox{\hyperlink{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
 \end{DoxyCompactItemize}
 
@@ -328,11 +336,12 @@ Allocate new rows array or extend existing one
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} when table is allocated properly in other cases return \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=327pt]{sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph}
+\includegraphics[width=334pt]{sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}\label{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}} 
@@ -353,8 +362,7 @@ Iterate over all rows and add empty column to the end of each of them
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -390,6 +398,30 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_ac2b3081ef455b92a62692541d283e512_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_aaf9107fec602ad1ebe1f719810141008}\label{sps_8c_aaf9107fec602ad1ebe1f719810141008}} 
+\index{sps.c@{sps.c}!append\_row@{append\_row}}
+\index{append\_row@{append\_row}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{append\_row()}{append\_row()}}
+{\footnotesize\ttfamily int append\+\_\+row (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table }\end{DoxyParamCaption})}
+
+Append row to the bottom of table
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success, \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}} on error
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_aaf9107fec602ad1ebe1f719810141008_cgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_afd8907535a986b58ff3a78d3e74495ad}\label{sps_8c_afd8907535a986b58ff3a78d3e74495ad}} 
@@ -522,8 +554,7 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_aeb018262f5c915cc72b989daf95df488_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -608,6 +639,34 @@ Here is the call graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_a34d9aeaf00f132febb6a918ccbd5edf3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9}\label{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9}} 
+\index{sps.c@{sps.c}!delete\_row@{delete\_row}}
+\index{delete\_row@{delete\_row}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{delete\_row()}{delete\_row()}}
+{\footnotesize\ttfamily int delete\+\_\+row (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{long long int}]{index }\end{DoxyParamCaption})}
+
+Delete row
+
+Delete content of row on {\ttfamily index} and shift all rows bellow it up
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure \\
+\hline
+{\em index} & Index of row we want to delete\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9_cgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}\label{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}} 
@@ -747,6 +806,62 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_a39b04566cfa99d42121717a07f8acf04_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{sps_8c_a3aec3e8664f49c9e9d73f89af6877712}\label{sps_8c_a3aec3e8664f49c9e9d73f89af6877712}} 
+\index{sps.c@{sps.c}!insert\_col@{insert\_col}}
+\index{insert\_col@{insert\_col}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{insert\_col()}{insert\_col()}}
+{\footnotesize\ttfamily int insert\+\_\+col (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{long long int}]{index }\end{DoxyParamCaption})}
+
+Insert column to table
+
+Insert empty column to table in the {\ttfamily index} and push all columns to the right
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} struct \\
+\hline
+{\em index} & Index of column where we want insert new one\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a3aec3e8664f49c9e9d73f89af6877712_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c}\label{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c}} 
+\index{sps.c@{sps.c}!insert\_row@{insert\_row}}
+\index{insert\_row@{insert\_row}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{insert\_row()}{insert\_row()}}
+{\footnotesize\ttfamily int insert\+\_\+row (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{long long int}]{index }\end{DoxyParamCaption})}
+
+Insert row to table
+
+Insert empty row to the table on place of {\ttfamily index} and shift all rows down
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} struct \\
+\hline
+{\em index} & Index of row where we want to place new row\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}\label{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}} 
 \index{sps.c@{sps.c}!load\_table@{load\_table}}
 \index{load\_table@{load\_table}!sps.c@{sps.c}}
@@ -769,8 +884,7 @@ Load and parse data from file
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -792,8 +906,7 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Main of whole program \begin{DoxyRefDesc}{Todo}
 \item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling -\/ separate to own function \end{DoxyRefDesc}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -984,8 +1097,7 @@ Iterate over table and write to file its content
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
