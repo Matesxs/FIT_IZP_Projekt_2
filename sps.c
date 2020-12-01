@@ -1057,6 +1057,9 @@ int delete_col(Table *table, long long int index)
         {
             for (j = index + 1; j < table->rows[i].num_of_cells; j++)
             {
+                if (table->rows[i].cells[j].content == NULL)
+                    return FUNCTION_ERROR;
+
                 if (set_cell(table->rows[i].cells[j].content, &table->rows[i].cells[j - 1]) != NO_ERROR)
                     return ALLOCATION_FAILED;
             }
@@ -1082,7 +1085,7 @@ int append_col(Table *table)
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
-    if (table->rows == NULL)
+    if (table->rows == NULL || table->num_of_rows == 0)
         return VALUE_ERROR;
 
     int ret_val;
@@ -1092,6 +1095,180 @@ int append_col(Table *table)
         if ((ret_val = append_empty_cell(&table->rows[i])) != NO_ERROR)
             return ret_val;
     }
+
+    return NO_ERROR;
+}
+
+int insert_col(Table *table, long long int index)
+{
+    /**
+     * @brief Insert column to table
+     *
+     * Insert empty column to table in the @p index and push all columns to the right
+     *
+     * @param table Pointer to instance of #Table struct
+     * @param index Index of column where we want insert new one
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (table->rows == NULL || table->num_of_rows == 0)
+        return VALUE_ERROR;
+
+    for (long long int i = 0; i < table->num_of_rows; i++)
+    {
+        if (table->rows[i].num_of_cells <= index || index < 0)
+            return FUNCTION_ARGUMENT_ERROR;
+
+        if (table->rows[i].cells == NULL)
+            return FUNCTION_ERROR;
+
+        if (table->rows[i].num_of_cells == table->rows[i].allocated_cells)
+        {
+            // Allocate more space
+            if (allocate_cells(&table->rows[i]) != NO_ERROR)
+                return ALLOCATION_FAILED;
+        }
+
+        for (long long j = table->rows[i].num_of_cells; j > index; j--)
+        {
+            if (table->rows[i].cells[j - 1].content == NULL)
+                return FUNCTION_ERROR;
+
+            if (set_cell(table->rows[i].cells[j - 1].content, &table->rows[i].cells[j]) != NO_ERROR)
+                return ALLOCATION_FAILED;
+        }
+
+        if (set_cell(EMPTY_CELL, &table->rows[i].cells[index]) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+        table->rows[i].num_of_cells++;
+    }
+
+    return NO_ERROR;
+}
+
+int append_row(Table *table)
+{
+    /**
+     * @brief Append row to the bottom of table
+     *
+     * @param table Pointer to instance of #Table structure
+     *
+     * @return #NO_ERROR on success, #ALLOCATION_FAILED on error
+     */
+
+    // if there is no reference row then create new row with one cell
+    long long int number_of_cells = table->num_of_rows > 0 ? table->rows[0].num_of_cells : 1;
+
+    // If there is no more space
+    if (table->num_of_rows == table->allocated_rows)
+    {
+        // Allocate more rows
+        if (allocate_rows(table) != NO_ERROR)
+            return ALLOCATION_FAILED;
+    }
+
+    for (long long int i = 0; i < number_of_cells; i++)
+    {
+        if (append_empty_cell(&table->rows[table->num_of_rows]) != NO_ERROR)
+            return ALLOCATION_FAILED;
+    }
+
+    table->num_of_rows++;
+
+    return NO_ERROR;
+}
+
+int insert_row(Table *table, long long int index)
+{
+    /**
+     * @brief Insert row to table
+     *
+     * Insert empty row to the table on place of @p index and shift all rows down
+     *
+     * @param table Pointer to instance of #Table struct
+     * @param index Index of row where we want to place new row
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (table->rows == NULL || table->num_of_rows == 0)
+        return VALUE_ERROR;
+
+    if (table->num_of_rows <= index || index < 0)
+        return FUNCTION_ARGUMENT_ERROR;
+
+    // if there is no reference row then create new row with one cell
+    long long int number_of_cells = table->num_of_rows > 0 ? table->rows[0].num_of_cells : 1;
+
+    // If there is no more space
+    if (table->num_of_rows == table->allocated_rows)
+    {
+        // Allocate more rows
+        if (allocate_rows(table) != NO_ERROR)
+            return ALLOCATION_FAILED;
+    }
+
+    for (long long int i = table->num_of_rows; i > index; i--)
+    {
+        if (table->rows[i - 1].cells == NULL)
+            return FUNCTION_ERROR;
+
+        table->rows[i].cells = table->rows[i - 1].cells;
+        table->rows[i].num_of_cells = table->rows[i - 1].num_of_cells;
+        table->rows[i].allocated_cells = table->rows[i - 1].allocated_cells;
+    }
+
+    // Clear what is in original index
+    table->rows[index].cells = NULL;
+    table->rows[index].num_of_cells = 0;
+    table->rows[index].allocated_cells = 0;
+
+    for (long long int i = 0; i < number_of_cells; i++)
+        if (append_empty_cell(&table->rows[index]) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
+    table->num_of_rows++;
+
+    return NO_ERROR;
+}
+
+int delete_row(Table *table, long long int index)
+{
+    /**
+     * @brief Delete row
+     *
+     * Delete content of row on @p index and shift all rows bellow it up
+     *
+     * @param table Pointer to instance of #Table structure
+     * @param index Index of row we want to delete
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (table->rows == NULL || table->num_of_rows == 0)
+        return VALUE_ERROR;
+
+    if (index < 0 || index >= table->num_of_rows)
+        return FUNCTION_ARGUMENT_ERROR;
+
+    dealocate_row(&table->rows[index]);
+
+    if (index < (table->num_of_rows - 1))
+    {
+        for (long long int i = (index + 1); i < table->num_of_rows; i++)
+        {
+            if (table->rows[i].cells == NULL)
+                return FUNCTION_ERROR;
+
+            table->rows[i - 1].num_of_cells = table->rows[i].num_of_cells;
+            table->rows[i - 1].allocated_cells = table->rows[i].allocated_cells;
+            table->rows[i - 1].cells = table->rows[i].cells;
+        }
+    }
+
+    table->num_of_rows--;
 
     return NO_ERROR;
 }
