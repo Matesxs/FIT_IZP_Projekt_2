@@ -34,6 +34,8 @@ enum ErrorCodes
     FILE_DOESNT_EXIST,            /**< Error if input file doesnt exist or is used by another process */
     ALLOCATION_FAILED,            /**< Error when program failed to allocate memory */
     FUNCTION_ERROR,               /**< Generic function error, @warning This should not occur! */
+    ARGUMENT_ERROR,               /**< Error when function gets unexpected value in argument */
+    VALUE_ERROR,                  /**< Error when function gets bad value in argument */
 };
 
 /**
@@ -42,7 +44,7 @@ enum ErrorCodes
  */
 typedef struct
 {
-    unsigned long long int num_of_commands;
+    long long int num_of_commands;
     char **commands; /**< Array of commands */
 } Raw_commands;
 
@@ -52,7 +54,7 @@ typedef struct
  */
 typedef struct
 {
-    unsigned long long int allocated_chars;
+    long long int allocated_chars;
     char *content; /**< Raw content of single cell */
 } Cell;
 
@@ -62,8 +64,8 @@ typedef struct
  */
 typedef struct
 {
-    unsigned long long int num_of_cells; /**< Number of cells in row */
-    unsigned long long int allocated_cells; /**< Number of cell pointers allocated in memory */
+    long long int num_of_cells; /**< Number of cells in row */
+    long long int allocated_cells; /**< Number of cell pointers allocated in memory */
     Cell *cells; /**< Pointer to first cell in row */
 } Row;
 
@@ -73,8 +75,8 @@ typedef struct
  */
 typedef struct
 {
-    unsigned long long int num_of_rows; /**< Number of rows in table */
-    unsigned long long int allocated_rows; /**< Number of row pointers allocated in memory */
+    long long int num_of_rows; /**< Number of rows in table */
+    long long int allocated_rows; /**< Number of row pointers allocated in memory */
     Row *rows; /**< Pointer to first row in table */
     char delim; /**< Delimiter for output */
 } Table;
@@ -129,7 +131,7 @@ void dealocate_row(Row *row)
     if (row->cells == NULL)
         return;
 
-    for (unsigned long long int i = 0; i < row->num_of_cells; i++)
+    for (long long int i = 0; i < row->num_of_cells; i++)
     {
         dealocate_cell(&row->cells[i]);
     }
@@ -153,7 +155,7 @@ void deallocate_table(Table *table)
     if (table->rows == NULL)
         return;
 
-    for (unsigned long long int i = 0; i < table->num_of_rows; i++)
+    for (long long int i = 0; i < table->num_of_rows; i++)
     {
         dealocate_row(&table->rows[i]);
     }
@@ -196,7 +198,7 @@ int allocate_rows(Table *table)
     }
 
     // Set default values
-    for (unsigned long long int i = table->num_of_rows; i < table->allocated_rows; i++)
+    for (long long int i = table->num_of_rows; i < table->allocated_rows; i++)
     {
         table->rows[i].cells = NULL;
         table->rows[i].num_of_cells = 0;
@@ -206,7 +208,7 @@ int allocate_rows(Table *table)
     return NO_ERROR;
 }
 
-int allocate_raw_commands(Raw_commands *commands_store, unsigned long long int number_of_commands)
+int allocate_raw_commands(Raw_commands *commands_store, long long int number_of_commands)
 {
     /**
      * @brief Allocate commands store
@@ -257,7 +259,7 @@ int allocate_cells(Row *row)
     }
 
     // Set default values
-    for (unsigned long long int i = row->num_of_cells; i < row->allocated_cells; i++)
+    for (long long int i = row->num_of_cells; i < row->allocated_cells; i++)
     {
         row->cells[i].content = NULL;
         row->cells[i].allocated_chars = 0;
@@ -313,7 +315,7 @@ _Bool strings_equal(const char *s1, const char *s2)
     return strcmp(s1, s2) == 0;
 }
 
-unsigned long long int count_char(char *string, char c, _Bool ignore_escapes)
+long long int count_char(char *string, char c, _Bool ignore_escapes)
 {
     /**
      * @brief Count specific character in string
@@ -332,7 +334,7 @@ unsigned long long int count_char(char *string, char c, _Bool ignore_escapes)
 
     size_t lenght_of_string = strlen(string);
     _Bool in_parentecies = false;
-    unsigned long long int counter = 0;
+    long long int counter = 0;
 
     for (size_t i = 0; i < lenght_of_string; i++)
     {
@@ -487,7 +489,7 @@ int set_cell(char *string, Cell *cell)
             return ALLOCATION_FAILED;
     }
 
-    while ((strlen(string) + 1) > cell->allocated_chars)
+    while ((strlen(string) + 1) > (unsigned long long)cell->allocated_chars)
         if (allocate_content(cell) != NO_ERROR)
             return ALLOCATION_FAILED;
 
@@ -519,7 +521,7 @@ int append_empty_cell(Row *row)
     return NO_ERROR;
 }
 
-long long int get_position_of_character(const char *string, char ch, unsigned long long int index, _Bool ignore_escapes)
+long long int get_position_of_character(const char *string, char ch, long long int index, _Bool ignore_escapes)
 {
     /**
      * @brief Get position of character of certain index in string
@@ -537,7 +539,7 @@ long long int get_position_of_character(const char *string, char ch, unsigned lo
      * @todo Rework to strchr
      */
 
-    unsigned long long int counter = 0;
+    long long int counter = 0;
     _Bool in_parentecies = false;
 
     for (size_t i = 0; string[i]; i++)
@@ -559,7 +561,7 @@ long long int get_position_of_character(const char *string, char ch, unsigned lo
     return -1;
 }
 
-int get_substring(char *string, char **substring, char delim, unsigned long long int index, _Bool ignore_escapes)
+int get_substring(char *string, char **substring, char delim, long long int index, _Bool ignore_escapes)
 {
     /**
      * @brief Get substring from string
@@ -579,7 +581,7 @@ int get_substring(char *string, char **substring, char delim, unsigned long long
     if (string == NULL)
         return FUNCTION_ERROR;
 
-    unsigned long long int number_of_delims = count_char(string, delim, ignore_escapes);
+    long long int number_of_delims = count_char(string, delim, ignore_escapes);
     size_t line_length = strlen(string);
 
     long long int start_index = (index == 0) ? 0 : get_position_of_character(string, delim, index - 1, ignore_escapes) + 1;
@@ -622,12 +624,12 @@ int create_row_from_data(char *line, Table *table)
     if (allocate_cells(&table->rows[table->num_of_rows]) != NO_ERROR)
         return ALLOCATION_FAILED;
 
-    unsigned long long int number_of_cells = count_char(line, table->delim, false) + 1;
+    long long int number_of_cells = count_char(line, table->delim, false) + 1;
 
     char *substring_buffer = NULL;
     int ret_val;
 
-    for (unsigned long long int i = 0; i < number_of_cells; i++)
+    for (long long int i = 0; i < number_of_cells; i++)
     {
         if (i >= table->rows[table->num_of_rows].allocated_cells)
         {
@@ -650,6 +652,32 @@ int create_row_from_data(char *line, Table *table)
     return NO_ERROR;
 }
 
+int delete_col(Table *table, long long int index)
+{
+    if (table->rows == NULL || table->num_of_rows == 0)
+        return VALUE_ERROR;
+
+
+    for (long long int i = 0; i < table->num_of_rows; i++)
+    {
+        if (table->rows[i].num_of_cells <= index || index < 0)
+            return ARGUMENT_ERROR;
+
+        dealocate_cell(&table->rows[i].cells[index]);
+
+        if ((table->rows[i].num_of_cells - 1) > index)
+        {
+            long long int j;
+            for (j = index + 1; j < table->rows[i].num_of_cells; j++)
+                table->rows[i].cells[j - 1] = table->rows[i].cells[j];
+        }
+
+        table->rows[i].num_of_cells--;
+    }
+
+    return NO_ERROR;
+}
+
 int load_table(const char *delims, char *filepath, Table *table)
 {
     /**
@@ -667,7 +695,7 @@ int load_table(const char *delims, char *filepath, Table *table)
     int ret_val = NO_ERROR;
     FILE *file;
     char *line = NULL;
-    unsigned long long int line_index = 0;
+    long long int line_index = 0;
 
     // Try to open input file
     file = fopen(filepath, "r");
@@ -757,12 +785,12 @@ void print_table(Table *table)
     if (table->rows == NULL)
         return;
 
-    for (unsigned long long int i = 0; i < table->num_of_rows; i++)
+    for (long long int i = 0; i < table->num_of_rows; i++)
     {
         if (table->rows[i].cells == NULL)
             return;
 
-        for (unsigned long long int j = 0; j < table->rows[i].num_of_cells; j++)
+        for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
         {
             if (table->rows[i].cells[j].content != NULL)
             {
@@ -788,22 +816,22 @@ int normalize_row_lengths(Table *table)
      * @return NO_ERROR on success and ALLOCATION_FAILED on error
      */
 
-    unsigned long long int max_number_of_cols = 0;
+    long long int max_number_of_cols = 0;
 
     // Get maximum cols in whole table
-    for (unsigned long long int i = 0; i < table->num_of_rows; i++)
+    for (long long int i = 0; i < table->num_of_rows; i++)
     {
         if (table->rows[i].num_of_cells > max_number_of_cols)
             max_number_of_cols = table->rows[i].num_of_cells;
     }
 
-    for (unsigned long long int i = 0; i < table->num_of_rows; i++)
+    for (long long int i = 0; i < table->num_of_rows; i++)
     {
-        unsigned long long int length_diff = max_number_of_cols - table->rows[i].num_of_cells;
+        long long int length_diff = max_number_of_cols - table->rows[i].num_of_cells;
 
         if (length_diff > 0)
         {
-            for (unsigned long long int j = 0; j < length_diff; j++)
+            for (long long int j = 0; j < length_diff; j++)
                 if (append_empty_cell(&table->rows[i]) != NO_ERROR)
                     return ALLOCATION_FAILED;
         }
@@ -824,11 +852,11 @@ void normalize_empty_cols(Table *table)
 
     if (table->num_of_rows > 0)
     {
-        for (unsigned long long int i = (table->rows[0].num_of_cells - 1); i > 0; i--)
+        for (long long int i = (table->rows[0].num_of_cells - 1); i > 0; i--)
         {
             _Bool all_empty = true;
 
-            for (unsigned long long int j = 0; j < table->num_of_rows; j++)
+            for (long long int j = 0; j < table->num_of_rows; j++)
             {
                 if (!strings_equal(table->rows[j].cells[i].content, EMPTY_CELL))
                     all_empty = false;
@@ -837,7 +865,7 @@ void normalize_empty_cols(Table *table)
             if (all_empty)
             {
                 // Destroy the empty ones
-                for (unsigned long long int j = 0; j < table->num_of_rows; j++)
+                for (long long int j = 0; j < table->num_of_rows; j++)
                 {
                     dealocate_cell(&table->rows[j].cells[i]);
                     table->rows[j].num_of_cells--;
@@ -887,7 +915,7 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
      */
 
     char *raw_commands = delim_flag_present ? argv[3] : argv[2];
-    unsigned long long int num_of_commands = 0;
+    long long int num_of_commands = 0;
 
     if (string_start_with(raw_commands, "-c"))
     {
@@ -919,7 +947,7 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
         if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
             return ALLOCATION_FAILED;
 
-        unsigned long long int i = 0;
+        long long int i = 0;
         while (get_line(&line, file) != -1)
         {
             rm_newline_chars(line);
@@ -942,7 +970,7 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
         if (allocate_raw_commands(commands_store, num_of_commands) != NO_ERROR)
             return ALLOCATION_FAILED;
 
-        for (unsigned long long int i = 0; i < num_of_commands; i++)
+        for (long long int i = 0; i < num_of_commands; i++)
         {
             if ((ret_val = get_substring(raw_commands, &command, ';', i, true)) != NO_ERROR)
                 return ret_val;
@@ -966,7 +994,7 @@ void deallocate_raw_commands(Raw_commands *commands_store)
     if (commands_store->commands == NULL)
         return;
 
-    for (unsigned long long int i = 0; i < commands_store->num_of_commands; i++)
+    for (long long int i = 0; i < commands_store->num_of_commands; i++)
     {
         free(commands_store->commands[i]);
         commands_store->commands[i] = NULL;
@@ -1031,7 +1059,7 @@ int main(int argc, char *argv[]) {
         deallocate_raw_commands(&raw_commands_store);
         return error_flag;
     }
-
+    
     print_table(&table);
 
 #ifdef DEBUG
@@ -1039,7 +1067,7 @@ int main(int argc, char *argv[]) {
     printf("Allocated rows: %llu, Allocated cells: %llu\n", table.allocated_rows, table.rows[0].allocated_cells);
     printf("Delim: '%c'\n", table.delim);
     printf("Commands: ");
-    for (unsigned long long int i = 0; i < raw_commands_store.num_of_commands; i++)
+    for (long long int i = 0; i < raw_commands_store.num_of_commands; i++)
         printf("'%s'%c", raw_commands_store.commands[i], i == (raw_commands_store.num_of_commands - 1) ? '\n' : ' ');
     printf("Args: ");
     for (int i = 1; i < argc; i++)
