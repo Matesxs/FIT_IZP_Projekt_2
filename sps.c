@@ -40,25 +40,52 @@ enum ErrorCodes
 };
 
 /**
+ * @struct Raw_selector
+ * @brief Stores raw data about table area selector
+ */
+typedef struct
+{
+    char *r1;                       /**< Top left row index */
+    char *c1;                       /**< Top left column index */
+    char *r2;                       /**< Bottom right row index */
+    char *c2;                       /**< Bottom right column index */
+
+    long long int lld_ir1;          /**< Numerical interpretation of r1 */
+    long long int lld_ic1;          /**< Numerical interpretation of c1 */
+    long long int lld_ir2;          /**< Numerical interpretation of r2 */
+    long long int lld_ic2;          /**< Numerical interpretation of c2 */
+
+    _Bool initialized;
+} Raw_selector;
+
+/**
  * @struct Commands
  * @brief Store raw commands in form of string array
  */
 typedef struct
 {
-    long long int num_of_commands;
+    long long int num_of_commands; /**< Number of commands in array */
     char **commands; /**< Array of commands */
 } Raw_commands;
 
+/**
+ * @struct Base_command
+ * @brief Stores parsed commands in form of strings
+ */
 typedef struct
 {
-    char *function;
-    char *arguments;
+    char *function; /**< Function part of command */
+    char *arguments; /**< Argument part of command */
 } Base_command;
 
+/**
+ * @struct Base_commands
+ * @brief Stores array of #Base_commands and info about their count
+ */
 typedef struct
 {
-    long long int num_of_commands;
-    Base_command *commands;
+    long long int num_of_commands; /**< Number of commands in array */
+    Base_command *commands; /**< Array of commands */
 } Base_commands;
 
 /**
@@ -67,7 +94,7 @@ typedef struct
  */
 typedef struct
 {
-    long long int allocated_chars;
+    long long int allocated_chars; /**< Size of allocated space in content */
     char *content; /**< Raw content of single cell */
 } Cell;
 
@@ -93,6 +120,25 @@ typedef struct
     Row *rows; /**< Pointer to first row in table */
     char delim; /**< Delimiter for output */
 } Table;
+
+_Bool string_end_with(const char *base_string, const char *end_string)
+{
+    /**
+     * @brief Check if string ends with other string
+     *
+     * Check if @p base_string ends with @p end_string
+     *
+     * @param base_string String where to look for substring
+     * @param start_string Substring to look for at the end of base_string
+     *
+     * @return true if @p base_string ends with @p end_string, false if dont
+     */
+
+    char *end_start = strrchr(base_string, end_string[0]);
+    if (end_start && strcmp(end_start, end_string) == 0)
+        return true;
+    return false;
+}
 
 _Bool string_start_with(const char *base_string, const char *start_string)
 {
@@ -340,10 +386,10 @@ void normalize_delims(char *line, const char *delims)
     }
 }
 
-void dealocate_cell(Cell *cell)
+void deallocate_cell(Cell *cell)
 {
     /**
-     * @brief Dealocate cell
+     * @brief Deallocate cell
      *
      * Free content of cell
      *
@@ -358,12 +404,12 @@ void dealocate_cell(Cell *cell)
     cell->allocated_chars = 0;
 }
 
-void dealocate_row(Row *row)
+void deallocate_row(Row *row)
 {
     /**
-     * @brief Dealocate row
+     * @brief Deallocate row
      *
-     * Iterate over all cells and dealocate them
+     * Iterate over all cells and deallocate them
      *
      * @param row Pointer to instance of #Row structure
      */
@@ -373,7 +419,7 @@ void dealocate_row(Row *row)
 
     for (long long int i = 0; i < row->num_of_cells; i++)
     {
-        dealocate_cell(&row->cells[i]);
+        deallocate_cell(&row->cells[i]);
     }
 
     free(row->cells);
@@ -397,7 +443,7 @@ void deallocate_table(Table *table)
 
     for (long long int i = 0; i < table->num_of_rows; i++)
     {
-        dealocate_row(&table->rows[i]);
+        deallocate_row(&table->rows[i]);
     }
 
     free(table->rows);
@@ -443,6 +489,30 @@ void deallocate_base_commands(Base_commands *base_commands)
 
     free(base_commands->commands);
     base_commands->commands = NULL;
+}
+
+void deallocate_selector(Raw_selector *selector)
+{
+    /**
+     * @brief Deallcate selector
+     *
+     * Clear and unitialize selector
+     *
+     * @param selector Poinnnter to instance of #Raw_selector structure
+     */
+
+    if (selector->initialized)
+    {
+        free(selector->r1);
+        selector->r1 = NULL;
+        free(selector->r2);
+        selector->r2 = NULL;
+        free(selector->c1);
+        selector->c1 = NULL;
+        free(selector->c2);
+        selector->c2 = NULL;
+        selector->initialized = false;
+    }
 }
 
 int allocate_rows(Table *table)
@@ -762,8 +832,17 @@ int parse_commands(Raw_commands *raw_command_store, Base_commands *base_command_
 
         for (long long int i = 0; i < raw_command_store->num_of_commands; i++)
         {
-            if ((ret_val = get_substring(raw_command_store->commands[i], &substring_buf, ' ', 0, false, &rest, true)) != NO_ERROR)
-                return ret_val;
+            // This is to not split find selector command
+            if (string_start_with(raw_command_store->commands[i], "[") && string_end_with(raw_command_store->commands[i], "]"))
+            {
+                if ((ret_val = get_substring(raw_command_store->commands[i], &substring_buf, '\0', 0, false, &rest, true)) != NO_ERROR)
+                    return ret_val;
+            }
+            else
+            {
+                if ((ret_val = get_substring(raw_command_store->commands[i], &substring_buf, ' ', 0, false, &rest, true)) != NO_ERROR)
+                    return ret_val;
+            }
 
             if (rest != NULL && strings_equal(rest, EMPTY_CELL))
             {
@@ -1008,7 +1087,7 @@ void normalize_empty_cols(Table *table)
                 // Destroy the empty ones
                 for (long long int j = 0; j < table->num_of_rows; j++)
                 {
-                    dealocate_cell(&table->rows[j].cells[i]);
+                    deallocate_cell(&table->rows[j].cells[i]);
                     table->rows[j].num_of_cells--;
                 }
 
@@ -1086,6 +1165,72 @@ int create_row_from_data(char *line, Table *table)
     free(substring_buffer);
 
     table->num_of_rows++;
+    return NO_ERROR;
+}
+
+int init_selector(Raw_selector *selector)
+{
+    /**
+     * @brief Initialize @p selector to default values
+     *
+     * @param selector Pointer to instance of #Raw_selector structure
+     *
+     * @return #NO_ERROR on success, #ALLOCATION_FAILED on fail and #FUNCTION_ERROR when unexpected selector is inputed (already initialized)
+     */
+
+    if (selector->initialized)
+        return FUNCTION_ERROR;
+
+    selector->c1 = (char*)malloc(2 * sizeof(char));
+    if (selector->c1 == NULL)
+        return ALLOCATION_FAILED;
+
+    selector->c2 = (char*)malloc(2 * sizeof(char));
+    if (selector->c2 == NULL)
+        return ALLOCATION_FAILED;
+
+    selector->r1 = (char*)malloc(2 * sizeof(char));
+    if (selector->r1 == NULL)
+        return ALLOCATION_FAILED;
+
+    selector->r2 = (char*)malloc(2 * sizeof(char));
+    if (selector->r2 == NULL)
+        return ALLOCATION_FAILED;
+
+    strcpy(selector->c1, "1");
+    strcpy(selector->c2, "1");
+    strcpy(selector->r1, "1");
+    strcpy(selector->r2, "1");
+    selector->initialized = true;
+
+    return NO_ERROR;
+}
+
+int set_selector(Raw_selector *selector, Base_command *command, Table *table) {
+    /**
+     * @brief Set values in @p selector
+     *
+     * Set values in selector based on inputed @p command and @p table
+     * @todo Blanc function - need some work
+     *
+     * @param selector Pointer to instance of #Raw_selector structure
+     * @param command Pointer to instance of #Base_command structure
+     * @param table Pointer to instance of #Table structure
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (!selector->initialized)
+        return FUNCTION_ERROR;
+
+    // Parse command
+    // Free existing selector
+    // Allocate new space
+    // Set new values
+    (void)selector;
+    (void)command;
+    (void)table;
+
     return NO_ERROR;
 }
 
@@ -1193,7 +1338,7 @@ int delete_col(Table *table, long long int index)
             j--;
         }
 
-        dealocate_cell(&table->rows[i].cells[j]);
+        deallocate_cell(&table->rows[i].cells[j]);
         table->rows[i].num_of_cells--;
     }
 
@@ -1380,7 +1525,7 @@ int delete_row(Table *table, long long int index)
     if (index < 0 || index >= table->num_of_rows)
         return FUNCTION_ARGUMENT_ERROR;
 
-    dealocate_row(&table->rows[index]);
+    deallocate_row(&table->rows[index]);
 
     if (index < (table->num_of_rows - 1))
     {
@@ -1396,6 +1541,56 @@ int delete_row(Table *table, long long int index)
     }
 
     table->num_of_rows--;
+
+    return NO_ERROR;
+}
+
+_Bool is_command_selector(Base_command *command)
+{
+    /**
+     * @brief Check if command is selector
+     *
+     * @param command Pointer to instance of #Base_command structure
+     *
+     * @return true if it is selector command and false if not
+     */
+
+    if (command->arguments == NULL && string_start_with(command->function, "[") && string_end_with(command->function, "]"))
+        return true;
+    return false;
+}
+
+int execute_commands(Table *table, Base_commands *base_commands_store)
+{
+    /**
+     * @brief Execute commands on @p table
+     *
+     * Iterate over all commands in @p base_commands_store and parse them and execute them on @p table
+     *
+     * @param table Pointer to instance of #Table structure
+     * @param base_commands_store Pointer to instance of #Base_commands structure
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    (void)table;
+
+    int ret_val;
+
+    Raw_selector selector = { .initialized = false };
+    if ((ret_val = init_selector(&selector)) != NO_ERROR)
+    {
+        deallocate_selector(&selector);
+        return ret_val;
+    }
+
+    for (long long int i = 0; i < base_commands_store->num_of_commands; i++)
+    {
+        // Base_command c_comm = base_commands_store->commands[i];
+        // printf("%s - %s - %d\n", c_comm.function, c_comm.arguments, is_command_selector(&c_comm));
+    }
+
+    deallocate_selector(&selector);
 
     return NO_ERROR;
 }
@@ -1468,17 +1663,24 @@ int main(int argc, char *argv[]) {
         return error_flag;
     }
 
+    if ((error_flag = execute_commands(&table, &base_commands_store)) != NO_ERROR)
+    {
+        fprintf(stderr, "Failed to execute all commands\n");
+        deallocate_table(&table);
+        deallocate_base_commands(&base_commands_store);
+        return error_flag;
+    }
+
 #ifdef DEBUG
     print_table(&table);
     printf("\n\nDebug:\n");
     printf("Allocated rows: %llu, Allocated cells: %llu\n", table.allocated_rows, table.rows[0].allocated_cells);
     printf("Delim: '%c'\n", table.delim);
-    printf("Number of commands: %lld\n", base_commands_store.num_of_commands);
-    printf("Commands: ");
+    printf("Commands (%lld): ", base_commands_store.num_of_commands);
     for (long long int i = 0; i < base_commands_store.num_of_commands; i++)
-        printf("'%s - %s' ", base_commands_store.commands[i].function, base_commands_store.commands[i].arguments);
+        printf("'Com[f(%s), arg(%s)]' ", base_commands_store.commands[i].function, base_commands_store.commands[i].arguments);
     printf("\n");
-    printf("Args: ");
+    printf("Raw Args: ");
     for (int i = 1; i < argc; i++)
         printf("%s%c", argv[i], i == (argc - 1) ? '\n' : ' ');
 #else

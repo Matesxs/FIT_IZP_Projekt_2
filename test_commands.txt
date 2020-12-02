@@ -3,4 +3,4 @@
 def _0
 [2,3,-,3]
 use _0
-set kokotina1 kokotina2 fafafaf fas fsa a fs sa faf asf as fas fasfasfa
+[find test]
