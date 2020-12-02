@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_112',['main',['../sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'sps.c']]]
+  ['load_5ftable_132',['load_table',['../sps_8c.html#aaf046bcf81cb87196c26a02fe84d7107',1,'sps.c']]]
 ];
