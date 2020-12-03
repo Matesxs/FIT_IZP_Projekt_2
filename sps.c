@@ -10,10 +10,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h>
+#include <float.h>
 
 #define DEBUG
 
-#define BLACKLISTED_DELIMS "\"\\" /**< Character that are not allowed to use as delim character */
+#define BLACKLISTED_DELIMS "\'\"\\" /**< Character that are not allowed to use as delim character */
 #define DEFAULT_DELIM " " /**< Default delimiter array */
 
 #define BASE_NUMBER_OF_ROWS 3 /**< Base number of rows that will be allocated */
@@ -37,6 +39,8 @@ enum ErrorCodes
     FUNCTION_ARGUMENT_ERROR,      /**< Error when function gets unexpected value in argument - 6 */
     VALUE_ERROR,                  /**< Error when function gets bad value in argument - 7 */
     COMMAND_ERROR,                /**< Error when received invalid commands - 8 */
+    SELECTOR_ERROR,               /**< Error when invalid selector is received - 9 */
+    NUM_CONVERSION_FAILED,        /**< Error when converting string to numeric value failed - 10 */
 };
 
 /**
@@ -45,11 +49,6 @@ enum ErrorCodes
  */
 typedef struct
 {
-    char *r1;                       /**< Top left row index */
-    char *c1;                       /**< Top left column index */
-    char *r2;                       /**< Bottom right row index */
-    char *c2;                       /**< Bottom right column index */
-
     long long int lld_ir1;          /**< Numerical interpretation of r1 */
     long long int lld_ic1;          /**< Numerical interpretation of c1 */
     long long int lld_ir2;          /**< Numerical interpretation of r2 */
@@ -121,6 +120,30 @@ typedef struct
     char delim; /**< Delimiter for output */
 } Table;
 
+int trim_se(char *string)
+{
+    /**
+     * @brief Trim start and end of string
+     *
+     * @param string String that we want to trim
+     *
+     * @return
+     */
+
+    if (string == NULL)
+        return FUNCTION_ERROR;
+
+    unsigned long long int i = 1, len = strlen(string);
+    if (len > 1)
+    {
+        for(; i < (len - 1); i++)
+            string[i-1]=string[i];
+    }
+    string[i-1]='\0';
+
+    return NO_ERROR;
+}
+
 _Bool string_end_with(const char *base_string, const char *end_string)
 {
     /**
@@ -179,6 +202,92 @@ _Bool strings_equal(const char *s1, const char *s2)
     return strcmp(s1, s2) == 0;
 }
 
+_Bool is_string_llint(char *string)
+{
+    /**
+     * @brief Check if @p string should be converted to long long int
+     *
+     * @param string String that we want to test
+     *
+     * @return true if it can be converted, false if not
+     */
+
+    if (string == NULL)
+        return false;
+
+    char *rest;
+    strtoll(string, &rest, 10);
+    if (strings_equal(rest, EMPTY_CELL))
+        return true;
+    return false;
+}
+
+_Bool is_string_ldouble(char *string)
+{
+    /**
+     * @brief Check if @p string should be converted to long double
+     *
+     * @param string String that we want to test
+     *
+     * @return true if it can be converted, false if not
+     */
+
+    if (string == NULL)
+        return false;
+
+    char *rest;
+    strtold(string, &rest);
+    if (strings_equal(rest, EMPTY_CELL))
+        return true;
+    return false;
+}
+
+int string_to_llint(char *string, long long int *val)
+{
+    /**
+     * @brief Convert string to long long int
+     *
+     * @param string String we want to convert
+     * @param val Pointer to long long int where output will be saved
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (string == NULL)
+        return FUNCTION_ARGUMENT_ERROR;
+
+    char *rest;
+    *val = strtoll(string, &rest, 10);
+
+    if (!strings_equal(rest, EMPTY_CELL))
+        return NUM_CONVERSION_FAILED;
+
+    return NO_ERROR;
+}
+
+int string_to_ldouble(char *string, long double *val)
+{
+    /**
+     * @brief Convert string to long double
+     *
+     * @param string String we want to convert
+     * @param val Pointer to long double where output will be saved
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (string == NULL)
+        return FUNCTION_ARGUMENT_ERROR;
+
+    char *rest;
+    *val = strtold(string, &rest);
+
+    if (!strings_equal(rest, EMPTY_CELL))
+        return NUM_CONVERSION_FAILED;
+
+    return NO_ERROR;
+}
+
 long long int count_char(char *string, char c, _Bool ignore_escapes)
 {
     /**
@@ -198,18 +307,24 @@ long long int count_char(char *string, char c, _Bool ignore_escapes)
 
     size_t lenght_of_string = strlen(string);
     _Bool in_parentecies = false;
+    _Bool in_double_parentecies = false;
     long long int counter = 0;
 
     for (size_t i = 0; i < lenght_of_string; i++)
     {
         char cc = string[i];
 
-        if (cc == '"')
-            in_parentecies = !in_parentecies;
+        if (!in_parentecies)
+            if (cc == '"')
+                in_double_parentecies = !in_double_parentecies;
+
+        if (!in_double_parentecies)
+            if (cc == '\'')
+                in_parentecies = !in_parentecies;
 
         if (cc == c)
         {
-            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
+            if (ignore_escapes || (!in_parentecies && !in_double_parentecies && (i != 0 && string[i-1] != '\\')))
             {
                 counter++;
             }
@@ -239,15 +354,22 @@ long long int get_position_of_character(const char *string, char ch, long long i
 
     long long int counter = 0;
     _Bool in_parentecies = false;
+    _Bool in_double_parentecies = false;
 
     for (size_t i = 0; string[i]; i++)
     {
-        if (string[i] == '"')
-            in_parentecies = !in_parentecies;
+        if (!in_parentecies)
+            if (string[i] == '"')
+                in_double_parentecies = !in_double_parentecies;
+
+        if (!in_double_parentecies)
+            if (string[i] == '\'')
+                in_parentecies = !in_parentecies;
+
 
         if (string[i] == ch)
         {
-            if (ignore_escapes || (!in_parentecies && (i != 0 && string[i-1] != '\\')))
+            if (ignore_escapes || (!in_parentecies && !in_double_parentecies && (i != 0 && string[i-1] != '\\')))
             {
                 counter++;
                 if ((counter - 1) == index)
@@ -367,17 +489,23 @@ void normalize_delims(char *line, const char *delims)
     for (size_t i = 1; i < num_of_delims; i++)
     {
         _Bool in_parentecies = false;
+        _Bool in_double_parentecies = false;
 
         for (size_t j = 0; j < length_of_line; j++)
         {
             char cc = line[j];
 
-            if (cc == '"')
-                in_parentecies = !in_parentecies;
+            if (!in_parentecies)
+                if (cc == '"')
+                    in_double_parentecies = !in_double_parentecies;
+
+            if (!in_double_parentecies)
+                if (cc == '\'')
+                    in_parentecies = !in_parentecies;
 
             if (cc == delims[i])
             {
-                if (!in_parentecies && (j != 0 && line[j-1] != '\\'))
+                if (!in_parentecies && !in_double_parentecies && (j != 0 && line[j-1] != '\\'))
                 {
                     line[j] = delims[0];
                 }
@@ -489,30 +617,6 @@ void deallocate_base_commands(Base_commands *base_commands)
 
     free(base_commands->commands);
     base_commands->commands = NULL;
-}
-
-void deallocate_selector(Raw_selector *selector)
-{
-    /**
-     * @brief Deallcate selector
-     *
-     * Clear and unitialize selector
-     *
-     * @param selector Poinnnter to instance of #Raw_selector structure
-     */
-
-    if (selector->initialized)
-    {
-        free(selector->r1);
-        selector->r1 = NULL;
-        free(selector->r2);
-        selector->r2 = NULL;
-        free(selector->c1);
-        selector->c1 = NULL;
-        free(selector->c2);
-        selector->c2 = NULL;
-        selector->initialized = false;
-    }
 }
 
 int allocate_rows(Table *table)
@@ -1168,70 +1272,424 @@ int create_row_from_data(char *line, Table *table)
     return NO_ERROR;
 }
 
-int init_selector(Raw_selector *selector)
+void init_selector(Raw_selector *selector)
 {
     /**
      * @brief Initialize @p selector to default values
      *
      * @param selector Pointer to instance of #Raw_selector structure
-     *
-     * @return #NO_ERROR on success, #ALLOCATION_FAILED on fail and #FUNCTION_ERROR when unexpected selector is inputed (already initialized)
      */
 
-    if (selector->initialized)
-        return FUNCTION_ERROR;
-
-    selector->c1 = (char*)malloc(2 * sizeof(char));
-    if (selector->c1 == NULL)
-        return ALLOCATION_FAILED;
-
-    selector->c2 = (char*)malloc(2 * sizeof(char));
-    if (selector->c2 == NULL)
-        return ALLOCATION_FAILED;
-
-    selector->r1 = (char*)malloc(2 * sizeof(char));
-    if (selector->r1 == NULL)
-        return ALLOCATION_FAILED;
-
-    selector->r2 = (char*)malloc(2 * sizeof(char));
-    if (selector->r2 == NULL)
-        return ALLOCATION_FAILED;
-
-    strcpy(selector->c1, "1");
-    strcpy(selector->c2, "1");
-    strcpy(selector->r1, "1");
-    strcpy(selector->r2, "1");
+    selector->lld_ic1 = 0;
+    selector->lld_ic2 = 0;
+    selector->lld_ir1 = 0;
+    selector->lld_ir2 = 0;
     selector->initialized = true;
-
-    return NO_ERROR;
 }
 
-int set_selector(Raw_selector *selector, Base_command *command, Table *table) {
+void copy_selector(Raw_selector *source, Raw_selector *dest)
+{
+    /**
+     * @brief Copy values from selector @p source to selector @p dest
+     *
+     * @param source Pointer to instance of #Raw_selector struct from which we want copy data
+     * @param source Pointer to instance of #Raw_selector struct where we want save data
+     */
+
+    dest->lld_ir1 = source->lld_ir1;
+    dest->lld_ir2 = source->lld_ir2;
+    dest->lld_ic1 = source->lld_ic1;
+    dest->lld_ic2 = source->lld_ic2;
+}
+
+void selector_find(Raw_selector *selector, Table *table, char *string)
+{
+    /**
+     * @brief Select cell that starts with @p string
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     * @param string String we want to find at the beginning of cell
+     */
+
+    _Bool found = false;
+
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
+    {
+        for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if (string_start_with(table->rows[i].cells[j].content, string))
+            {
+                selector->lld_ir1 = selector->lld_ir2 = i;
+                selector->lld_ic1 = selector->lld_ic2 = j;
+                found = true;
+            }
+
+            if (found)
+                break;
+        }
+
+        if (found)
+            break;
+    }
+}
+
+int selector_max(Raw_selector *selector, Table *table)
+{
+    /**
+     * @brief Select cell with maximum numeric value in current selection
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+    long double max = -LDBL_MAX;
+    long long int r = 0, c = 0;
+    _Bool found = false;
+
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
+    {
+        for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if (is_string_ldouble(table->rows[i].cells[j].content))
+            {
+                long double ret;
+                if ((ret_val = string_to_ldouble(table->rows[i].cells[j].content, &ret)) != NO_ERROR)
+                    break;
+
+                if (ret > max)
+                {
+                    max = ret;
+                    r = i;
+                    c = j;
+                    found = true;
+                }
+            }
+        }
+    }
+
+    if (ret_val == NO_ERROR)
+    {
+        if (found)
+        {
+            selector->lld_ir1 = selector->lld_ir2 = r;
+            selector->lld_ic1 = selector->lld_ic2 = c;
+        }
+        else
+        {
+            fprintf(stdout, "[WARNING] Cant find maximum in [%llu, %llu, %llu, %llu] selection\n", selector->lld_ir1 + 1, selector->lld_ic1 + 1, selector->lld_ir2 + 1, selector->lld_ic2 + 1);
+        }
+    }
+
+    return ret_val;
+}
+
+int selector_min(Raw_selector *selector, Table *table)
+{
+    /**
+     * @brief Select cell with minimum numeric value in current selection
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+    long double min = LDBL_MAX;
+    long long int r = 0, c = 0;
+    _Bool found = false;
+
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
+    {
+        for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if (is_string_ldouble(table->rows[i].cells[j].content))
+            {
+                long double ret;
+                if ((ret_val = string_to_ldouble(table->rows[i].cells[j].content, &ret)) != NO_ERROR)
+                    break;
+
+                if (ret < min)
+                {
+                    min = ret;
+                    r = i;
+                    c = j;
+                    found = true;
+                }
+            }
+        }
+    }
+
+    if (ret_val == NO_ERROR)
+    {
+        if (found)
+        {
+            selector->lld_ir1 = selector->lld_ir2 = r;
+            selector->lld_ic1 = selector->lld_ic2 = c;
+        }
+        else
+        {
+            fprintf(stdout, "[WARNING] Cant find minimum in [%llu, %llu, %llu, %llu] selection\n", selector->lld_ir1 + 1, selector->lld_ic1 + 1, selector->lld_ir2 + 1, selector->lld_ic2 + 1);
+        }
+    }
+
+    return ret_val;
+}
+
+void selector_select_all(Raw_selector *selector, Table *table)
+{
+    /**
+     * @brief Select whole table
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     */
+
+    selector->lld_ir1 = selector->lld_ic1 = 0;
+    selector->lld_ir2 = table->num_of_rows - 1;
+    selector->lld_ic1 = 0;
+    selector->lld_ic2 = table->rows[0].num_of_cells - 1;
+}
+
+void selector_select_last(Raw_selector *selector, Table *table)
+{
+    /**
+     * @brief Select last cell in last row
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     */
+
+    selector->lld_ir1 = selector->lld_ir2 = table->num_of_rows - 1;
+    selector->lld_ic1 = selector->lld_ic2 = table->rows[0].num_of_cells - 1;
+}
+
+int selector_select_4p_area(Raw_selector *selector, Table *table, char **parts, const _Bool *part_is_llint, const long long int *parts_llint)
+{
+    /**
+     * @brief Parse and set data to selector for 4 parameter selectors
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     * @param parts Pointer to string array where splited data are stored
+     * @param part_is_llint Pointer to array of bools that indicates if corespoding part is long long int
+     * @param parts_llint Pointer to array of long long ints that are converted values from @p parts array if it was possible
+     *
+     * @return #NO_ERROR on success and #SELECTOR_ERROR if something failed
+     */
+
+    // Check if there are no _ characters in parts of selector
+    if (!((!part_is_llint[2] && !strings_equal(parts[2], "-")) || (!part_is_llint[3] && !strings_equal(parts[3], "-"))) &&
+        !((!part_is_llint[0] && !strings_equal(parts[0], "-")) || (!part_is_llint[1] && !strings_equal(parts[1], "-"))))
+    {
+        // Check if - chars are only on valid positions ([-,C1,R2,C2] doesnt make sense)
+        if ((!part_is_llint[0] && part_is_llint[2]) || (!part_is_llint[1] && part_is_llint[3]) ||
+            // Check if rows and cols values are valid (R1 <= R2, etc.)
+            (part_is_llint[0] && part_is_llint[2] && parts_llint[0] > parts_llint[2]) ||
+            (part_is_llint[1] && part_is_llint[3] && parts_llint[1] > parts_llint[3]) ||
+            // Check ranges of numerical parts
+            (part_is_llint[0] && (parts_llint[0] > table->num_of_rows || parts_llint[0] < 1)) || (part_is_llint[2] && (parts_llint[2] > table->num_of_rows || parts_llint[2] < 1)) ||
+            (part_is_llint[1] && (parts_llint[1] > table->rows[0].num_of_cells || parts_llint[1] < 1)) || (part_is_llint[3] && (parts_llint[3] > table->rows[0].num_of_cells || parts_llint[3] < 1)))
+        {
+            return SELECTOR_ERROR;
+        }
+
+        selector->lld_ir1 = part_is_llint[0] ? parts_llint[0] - 1 : table->num_of_rows - 1;
+        selector->lld_ic1 = part_is_llint[1] ? parts_llint[1] - 1 : table->rows[0].num_of_cells - 1;
+        selector->lld_ir2 = part_is_llint[2] ? parts_llint[2] - 1 : table->num_of_rows - 1;
+        selector->lld_ic2 = part_is_llint[3] ? parts_llint[3] - 1 : table->rows[0].num_of_cells - 1;
+
+        return NO_ERROR;
+    }
+
+    return SELECTOR_ERROR;
+}
+
+int selector_select_2p_area(Raw_selector *selector, Table *table, char **parts, const _Bool *part_is_llint, const long long int *parts_llint)
+{
+    /**
+     * @brief Parse and set data to selector for 2 parameter selectors
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     * @param parts Pointer to string array where splited data are stored
+     * @param part_is_llint Pointer to array of bools that indicates if corespoding part is long long int
+     * @param parts_llint Pointer to array of long long ints that are converted values from @p parts array if it was possible
+     *
+     * @return #NO_ERROR on success and #SELECTOR_ERROR if something failed
+     */
+
+    if (part_is_llint[0] && part_is_llint[1])
+    {
+        // [R,C]
+        if (parts_llint[0] > 0 && parts_llint[0] <= table->num_of_rows && parts_llint[1] > 0 && parts_llint[1] <= table->rows[0].num_of_cells)
+        {
+            selector->lld_ir1 = selector->lld_ir2 = parts_llint[0] - 1;
+            selector->lld_ic1 = selector->lld_ic2 = parts_llint[1] - 1;
+            return NO_ERROR;
+        }
+    }
+    else if (part_is_llint[0] && !part_is_llint[1])
+    {
+        // [R,_]
+        if (parts_llint[0] > 0 && parts_llint[0] <= table->num_of_rows && strings_equal(parts[1], "_"))
+        {
+            selector->lld_ir1 = selector->lld_ir2 = parts_llint[0] - 1;
+            selector->lld_ic1 = 0;
+            selector->lld_ic2 = table->rows[0].num_of_cells - 1;
+            return NO_ERROR;
+        }
+            // [R,-]
+        else if (parts_llint[0] > 0 && parts_llint[0] <= table->num_of_rows && strings_equal(parts[1], "-"))
+        {
+            selector->lld_ir1 = selector->lld_ir2 = parts_llint[0] - 1;
+            selector->lld_ic1 = selector->lld_ic2 = table->rows[0].num_of_cells - 1;
+            return NO_ERROR;
+        }
+    }
+    else if (!part_is_llint[0] && part_is_llint[1])
+    {
+        // [_,C]
+        if (strings_equal(parts[0], "_") && parts_llint[1] > 0 && parts_llint[1] <= table->rows[0].num_of_cells)
+        {
+            selector->lld_ir1 = 0;
+            selector->lld_ir2 = table->num_of_rows - 1;
+            selector->lld_ic1 = selector->lld_ic2 = parts_llint[1] - 1;
+            return NO_ERROR;
+        }
+            // [-,C]
+        else if (strings_equal(parts[0], "-") && parts_llint[1] > 0 && parts_llint[1] <= table->rows[0].num_of_cells)
+        {
+            selector->lld_ir1 = selector->lld_ir2 = table->num_of_rows - 1;
+            selector->lld_ic1 = selector->lld_ic2 = parts_llint[1] - 1;
+            return NO_ERROR;
+        }
+    }
+
+    return SELECTOR_ERROR;
+}
+
+int set_selector(Raw_selector *selector, Raw_selector *temp_selector, Base_command *command, Table *table) {
     /**
      * @brief Set values in @p selector
      *
      * Set values in selector based on inputed @p command and @p table
-     * @todo Blanc function - need some work
      *
-     * @param selector Pointer to instance of #Raw_selector structure
+     * @param selector Pointer to instance of #Raw_selector structure (main selector)
+     * @param temp_selector Pointer to instance of #Raw_selector structure (temporary selector)
      * @param command Pointer to instance of #Base_command structure
      * @param table Pointer to instance of #Table structure
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
-    if (!selector->initialized)
+    int ret_val;
+
+    if (!selector->initialized || !temp_selector->initialized)
         return FUNCTION_ERROR;
 
-    // Parse command
-    // Free existing selector
-    // Allocate new space
-    // Set new values
-    (void)selector;
-    (void)command;
-    (void)table;
+    // Get rid of
+    if ((ret_val = trim_se(command->function)) != NO_ERROR)
+        return ret_val;
 
-    return NO_ERROR;
+    char *buffer = NULL;
+    char *rest_buf = NULL;
+    if ((ret_val = get_substring(command->function, &buffer, ' ', 0, true, &rest_buf, true)) != NO_ERROR)
+        return ret_val;
+
+    if (strings_equal(buffer, "find"))
+    {
+        selector_find(selector, table, rest_buf);
+    }
+    else
+    {
+        // Static selections
+        if (strings_equal(buffer, "max"))
+        {
+            ret_val = selector_max(selector, table);
+        }
+        else if (strings_equal(buffer, "min"))
+        {
+            ret_val = selector_min(selector, table);
+        }
+        else if (strings_equal(buffer, "_,_"))
+        {
+            selector_select_all(selector, table);
+        }
+        else if (strings_equal(buffer, "-,-") || strings_equal(buffer, "-,-,-,-"))
+        {
+            selector_select_last(selector, table);
+        }
+        else if (strings_equal(buffer, "_"))
+        {
+            copy_selector(temp_selector, selector);
+        }
+        else if (strings_equal(buffer, "set"))
+        {
+            copy_selector(selector, temp_selector);
+        }
+        else
+        {
+            long long int num_of_parts = count_char(buffer, ',', true) + 1;
+            char *parts[4] = { NULL };
+            _Bool part_is_llint[4] = { false };
+            long long int parts_llint[4] = { 0 };
+
+            // Parse more complex selections
+            for (long long int i = 0; i < num_of_parts; i++)
+            {
+                if ((ret_val = get_substring(buffer, &parts[i], ',', i, true, NULL, false)) != NO_ERROR)
+                    break;
+
+                if ((part_is_llint[i] = is_string_llint(parts[i])) == true)
+                {
+                    if ((ret_val = string_to_llint(parts[i], &parts_llint[i])) != NO_ERROR)
+                        break;
+                }
+                else
+                {
+                    if (!strings_equal(parts[i], "-") && !strings_equal(parts[i], "_"))
+                    {
+                        ret_val = SELECTOR_ERROR;
+                        break;
+                    }
+                }
+            }
+
+            // If there is no error continue to validity check and setting new selector
+            if (ret_val == NO_ERROR)
+            {
+                switch (num_of_parts)
+                {
+                    case 2:
+                        // Parser for 2 parts selectors
+                        ret_val = selector_select_2p_area(selector, table, parts, part_is_llint, parts_llint);
+                        break;
+
+                    case 4:
+                        // Parser for 4 parts selectors like [R1,C1,R2,C2], [R1,C1,R2,-], etc
+                        ret_val = selector_select_4p_area(selector, table, parts, part_is_llint, parts_llint);
+                        break;
+
+                    default:
+                        ret_val = SELECTOR_ERROR;
+                        break;
+                }
+            }
+
+            for (int j = 0; j < 4; j++)
+                free(parts[j]);
+        }
+    }
+
+    free(buffer);
+    free(rest_buf);
+
+    return ret_val;
 }
 
 int load_table(const char *delims, char *filepath, Table *table)
@@ -1575,24 +2033,28 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
 
     (void)table;
 
-    int ret_val;
+    int ret_val = NO_ERROR;
 
     Raw_selector selector = { .initialized = false };
-    if ((ret_val = init_selector(&selector)) != NO_ERROR)
-    {
-        deallocate_selector(&selector);
-        return ret_val;
-    }
+    Raw_selector temp_selector = { .initialized = false };
+    init_selector(&selector);
+    init_selector(&temp_selector);
 
     for (long long int i = 0; i < base_commands_store->num_of_commands; i++)
     {
-        // Base_command c_comm = base_commands_store->commands[i];
-        // printf("%s - %s - %d\n", c_comm.function, c_comm.arguments, is_command_selector(&c_comm));
+        Base_command c_comm = base_commands_store->commands[i];
+        if (is_command_selector(&c_comm))
+        {
+            // Set new selector
+            if ((ret_val = set_selector(&selector, &temp_selector, &c_comm, table)) != NO_ERROR)
+                break;
+            continue;
+        }
+
+        printf("%llu, %llu, %llu, %llu\n", selector.lld_ir1, selector.lld_ic1, selector.lld_ir2, selector.lld_ic2);
     }
 
-    deallocate_selector(&selector);
-
-    return NO_ERROR;
+    return ret_val;
 }
 
 int main(int argc, char *argv[]) {

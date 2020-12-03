@@ -3,4 +3,6 @@
 def _0
 [2,3,-,3]
 use _0
-[find test]
+[_,_]
+[find ga]
+set Test
