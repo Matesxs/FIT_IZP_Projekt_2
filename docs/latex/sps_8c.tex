@@ -43,10 +43,22 @@ struct \mbox{\hyperlink{struct_table}{Table}}
 \#define \mbox{\hyperlink{sps_8c_a77468b2060160061f74208f619e4b613}{B\+A\+S\+E\+\_\+\+C\+E\+L\+L\+\_\+\+L\+E\+N\+G\+TH}}~6
 \item 
 \#define \mbox{\hyperlink{sps_8c_a5432531fa160d0b2a4db3d9fa0de0947}{E\+M\+P\+T\+Y\+\_\+\+C\+E\+LL}}~\char`\"{}\char`\"{}
+\item 
+\#define \mbox{\hyperlink{sps_8c_a352904004bb1a651eaf11f7ecc476d6d}{N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+T\+A\+B\+L\+E\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS}}~6
+\item 
+\#define \mbox{\hyperlink{sps_8c_a4d3c0fe7c64861c2057d887c08c6a52f}{N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+D\+A\+T\+A\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS}}~7
+\item 
+\#define \mbox{\hyperlink{sps_8c_acf5fbd0f1da482a51f69aaddf2c20f4a}{N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+T\+E\+M\+P\+\_\+\+V\+A\+R\+\_\+\+C\+O\+M\+M\+A\+N\+DS}}~3
 \end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
+enum \mbox{\hyperlink{sps_8c_a21e038f5b8958e203d28bc4f18472352}{Command\+Type}} \{ \mbox{\hyperlink{sps_8c_a21e038f5b8958e203d28bc4f18472352ac58df8378512c50b3611b131c6cb09c1}{T\+A\+B\+L\+E\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+ND}}, 
+\mbox{\hyperlink{sps_8c_a21e038f5b8958e203d28bc4f18472352ac22f712877b40bb1559550a2a583a40b}{D\+A\+T\+A\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+ND}}, 
+\mbox{\hyperlink{sps_8c_a21e038f5b8958e203d28bc4f18472352a7e3af1eeab0821c4fb702206654d7669}{T\+E\+M\+P\+\_\+\+V\+A\+R\+\_\+\+C\+O\+M\+M\+A\+ND}}, 
+\mbox{\hyperlink{sps_8c_a21e038f5b8958e203d28bc4f18472352a6ce26a62afab55d7606ad4e92428b30c}{U\+N\+K\+N\+O\+WN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Flags to indicate what type of command is currently executed. \end{DoxyCompactList}\item 
 enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}} \{ \newline
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}}, 
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3aa8f6abeff4faed6b23cf848c031aa1fe}{M\+I\+S\+S\+I\+N\+G\+\_\+\+A\+R\+GS}}, 
@@ -67,6 +79,8 @@ enum \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}} \
 \begin{DoxyCompactItemize}
 \item 
 int \mbox{\hyperlink{sps_8c_abf27f7bf393c7b48bb5bfc200bd9650f}{trim\+\_\+se}} (char $\ast$string)
+\item 
+int \mbox{\hyperlink{sps_8c_a1d170746d24356b570615ca63dc3003c}{string\+\_\+copy}} (char $\ast$$\ast$source, char $\ast$$\ast$dest)
 \item 
 \+\_\+\+Bool \mbox{\hyperlink{sps_8c_ad6776de7f7f2aab3645102cfc18f75fc}{string\+\_\+end\+\_\+with}} (const char $\ast$base\+\_\+string, const char $\ast$end\+\_\+string)
 \item 
@@ -158,6 +172,8 @@ int \mbox{\hyperlink{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}{load\+\_\+table}}
 \item 
 int \mbox{\hyperlink{sps_8c_a34d9aeaf00f132febb6a918ccbd5edf3}{delete\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
 \item 
+int \mbox{\hyperlink{sps_8c_aeecb2eaf3214005a64f2890a9a4dfc5b}{delete\+\_\+cols}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int start\+\_\+index, long long int end\+\_\+index)
+\item 
 int \mbox{\hyperlink{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}{append\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
 int \mbox{\hyperlink{sps_8c_a3aec3e8664f49c9e9d73f89af6877712}{insert\+\_\+col}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
@@ -168,11 +184,38 @@ int \mbox{\hyperlink{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c}{insert\+\_\+row}}
 \item 
 int \mbox{\hyperlink{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9}{delete\+\_\+row}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int index)
 \item 
+int \mbox{\hyperlink{sps_8c_a5b9f56402d2d82297154948f41c912c5}{delete\+\_\+rows}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, long long int start\+\_\+index, long long int end\+\_\+index)
+\item 
 \+\_\+\+Bool \mbox{\hyperlink{sps_8c_a85eaf0a82fa0a547a84c9ebe6e730d45}{is\+\_\+command\+\_\+selector}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_a92d5e5e9a48a53f156a5cadf18b58e3f}{is\+\_\+table\+\_\+editing\+\_\+command}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_a9b167a82da33f3ef2f524698bcf2072f}{is\+\_\+data\+\_\+editing\+\_\+command}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+\+\_\+\+Bool \mbox{\hyperlink{sps_8c_ac8493cca0bd08e7feeff3abbe47b94ee}{is\+\_\+temp\+\_\+var\+\_\+command}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+int \mbox{\hyperlink{sps_8c_abf351b32894f13b9c92241129156a8be}{get\+\_\+table\+\_\+editing\+\_\+command\+\_\+index}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+int \mbox{\hyperlink{sps_8c_ab6fea7fb7d7c358cb469f84c641beb10}{get\+\_\+data\+\_\+editing\+\_\+command\+\_\+index}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+int \mbox{\hyperlink{sps_8c_a2fa86952aa5d31c93e87f77aac823b89}{get\+\_\+temp\+\_\+var\+\_\+command\+\_\+index}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+int \mbox{\hyperlink{sps_8c_a70b55a5475ce61a4e18a85821faf25eb}{execute\+\_\+table\+\_\+editing\+\_\+comm}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, \mbox{\hyperlink{struct_raw__selector}{Raw\+\_\+selector}} $\ast$selector, \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
+\item 
+int \mbox{\hyperlink{sps_8c_a152eb247ed8cce5bbf1632549ddb88d2}{get\+\_\+type\+\_\+of\+\_\+command}} (\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$command)
 \item 
 int \mbox{\hyperlink{sps_8c_a6789412cb694aa5cf8f6b66151693719}{execute\+\_\+commands}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, \mbox{\hyperlink{struct_base__commands}{Base\+\_\+commands}} $\ast$base\+\_\+commands\+\_\+store)
 \item 
 int \mbox{\hyperlink{sps_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \mbox{\hyperlink{sps_8c_a31b2c70cf50791a05de864beb0b640d8}{T\+A\+B\+L\+E\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS}} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}irow\char`\"{}, \char`\"{}arow\char`\"{}, \char`\"{}drow\char`\"{}, \char`\"{}icol\char`\"{}, \char`\"{}acol\char`\"{}, \char`\"{}dcol\char`\"{} \}
+\item 
+const char $\ast$ \mbox{\hyperlink{sps_8c_adea85ea38484d138b1f9b2a505897f37}{D\+A\+T\+A\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS}} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}set\char`\"{}, \char`\"{}clear\char`\"{}, \char`\"{}swap\char`\"{}, \char`\"{}sum\char`\"{}, \char`\"{}avg\char`\"{}, \char`\"{}count\char`\"{}, \char`\"{}len\char`\"{} \}
+\item 
+const char $\ast$ \mbox{\hyperlink{sps_8c_adc0053bfa80934b202f85caeb694b37b}{T\+E\+M\+P\+\_\+\+V\+A\+R\+\_\+\+C\+O\+M\+M\+A\+N\+DS}} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}def\char`\"{}, \char`\"{}use\char`\"{}, \char`\"{}inc\char`\"{} \}
 \end{DoxyCompactItemize}
 
 
@@ -233,9 +276,55 @@ Default delimiter array \mbox{\Hypertarget{sps_8c_a5432531fa160d0b2a4db3d9fa0de0
 \doxysubsubsection{\texorpdfstring{EMPTY\_CELL}{EMPTY\_CELL}}
 {\footnotesize\ttfamily \#define E\+M\+P\+T\+Y\+\_\+\+C\+E\+LL~\char`\"{}\char`\"{}}
 
-How should look like empty cell 
+How should look like empty cell \mbox{\Hypertarget{sps_8c_a4d3c0fe7c64861c2057d887c08c6a52f}\label{sps_8c_a4d3c0fe7c64861c2057d887c08c6a52f}} 
+\index{sps.c@{sps.c}!NUMBER\_OF\_DATA\_EDITING\_COMMANDS@{NUMBER\_OF\_DATA\_EDITING\_COMMANDS}}
+\index{NUMBER\_OF\_DATA\_EDITING\_COMMANDS@{NUMBER\_OF\_DATA\_EDITING\_COMMANDS}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{NUMBER\_OF\_DATA\_EDITING\_COMMANDS}{NUMBER\_OF\_DATA\_EDITING\_COMMANDS}}
+{\footnotesize\ttfamily \#define N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+D\+A\+T\+A\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS~7}
+
+Number of data editing commands for iterating over array \mbox{\Hypertarget{sps_8c_a352904004bb1a651eaf11f7ecc476d6d}\label{sps_8c_a352904004bb1a651eaf11f7ecc476d6d}} 
+\index{sps.c@{sps.c}!NUMBER\_OF\_TABLE\_EDITING\_COMMANDS@{NUMBER\_OF\_TABLE\_EDITING\_COMMANDS}}
+\index{NUMBER\_OF\_TABLE\_EDITING\_COMMANDS@{NUMBER\_OF\_TABLE\_EDITING\_COMMANDS}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{NUMBER\_OF\_TABLE\_EDITING\_COMMANDS}{NUMBER\_OF\_TABLE\_EDITING\_COMMANDS}}
+{\footnotesize\ttfamily \#define N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+T\+A\+B\+L\+E\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS~6}
+
+Number of table editing commands for iterating over array \mbox{\Hypertarget{sps_8c_acf5fbd0f1da482a51f69aaddf2c20f4a}\label{sps_8c_acf5fbd0f1da482a51f69aaddf2c20f4a}} 
+\index{sps.c@{sps.c}!NUMBER\_OF\_TEMP\_VAR\_COMMANDS@{NUMBER\_OF\_TEMP\_VAR\_COMMANDS}}
+\index{NUMBER\_OF\_TEMP\_VAR\_COMMANDS@{NUMBER\_OF\_TEMP\_VAR\_COMMANDS}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{NUMBER\_OF\_TEMP\_VAR\_COMMANDS}{NUMBER\_OF\_TEMP\_VAR\_COMMANDS}}
+{\footnotesize\ttfamily \#define N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+T\+E\+M\+P\+\_\+\+V\+A\+R\+\_\+\+C\+O\+M\+M\+A\+N\+DS~3}
+
+Number of temporary variable commands for iterating over array 
 
 \doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{sps_8c_a21e038f5b8958e203d28bc4f18472352}\label{sps_8c_a21e038f5b8958e203d28bc4f18472352}} 
+\index{sps.c@{sps.c}!CommandType@{CommandType}}
+\index{CommandType@{CommandType}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{CommandType}{CommandType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{sps_8c_a21e038f5b8958e203d28bc4f18472352}{Command\+Type}}}
+
+
+
+Flags to indicate what type of command is currently executed. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TABLE\_EDITING\_COMMAND@{TABLE\_EDITING\_COMMAND}!sps.c@{sps.c}}\index{sps.c@{sps.c}!TABLE\_EDITING\_COMMAND@{TABLE\_EDITING\_COMMAND}}}\mbox{\Hypertarget{sps_8c_a21e038f5b8958e203d28bc4f18472352ac58df8378512c50b3611b131c6cb09c1}\label{sps_8c_a21e038f5b8958e203d28bc4f18472352ac58df8378512c50b3611b131c6cb09c1}} 
+T\+A\+B\+L\+E\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+ND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DATA\_EDITING\_COMMAND@{DATA\_EDITING\_COMMAND}!sps.c@{sps.c}}\index{sps.c@{sps.c}!DATA\_EDITING\_COMMAND@{DATA\_EDITING\_COMMAND}}}\mbox{\Hypertarget{sps_8c_a21e038f5b8958e203d28bc4f18472352ac22f712877b40bb1559550a2a583a40b}\label{sps_8c_a21e038f5b8958e203d28bc4f18472352ac22f712877b40bb1559550a2a583a40b}} 
+D\+A\+T\+A\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+ND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TEMP\_VAR\_COMMAND@{TEMP\_VAR\_COMMAND}!sps.c@{sps.c}}\index{sps.c@{sps.c}!TEMP\_VAR\_COMMAND@{TEMP\_VAR\_COMMAND}}}\mbox{\Hypertarget{sps_8c_a21e038f5b8958e203d28bc4f18472352a7e3af1eeab0821c4fb702206654d7669}\label{sps_8c_a21e038f5b8958e203d28bc4f18472352a7e3af1eeab0821c4fb702206654d7669}} 
+T\+E\+M\+P\+\_\+\+V\+A\+R\+\_\+\+C\+O\+M\+M\+A\+ND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UNKNOWN@{UNKNOWN}!sps.c@{sps.c}}\index{sps.c@{sps.c}!UNKNOWN@{UNKNOWN}}}\mbox{\Hypertarget{sps_8c_a21e038f5b8958e203d28bc4f18472352a6ce26a62afab55d7606ad4e92428b30c}\label{sps_8c_a21e038f5b8958e203d28bc4f18472352a6ce26a62afab55d7606ad4e92428b30c}} 
+U\+N\+K\+N\+O\+WN&\\
+\hline
+
+\end{DoxyEnumFields}
 \mbox{\Hypertarget{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}\label{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}} 
 \index{sps.c@{sps.c}!ErrorCodes@{ErrorCodes}}
 \index{ErrorCodes@{ErrorCodes}!sps.c@{sps.c}}
@@ -316,7 +405,8 @@ Allocate cell array in instance of \mbox{\hyperlink{struct_row}{Row}} structure 
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -341,7 +431,8 @@ Allocate content (char array) in instance of \mbox{\hyperlink{struct_cell}{Cell}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -391,11 +482,12 @@ Allocate new rows array or extend existing one
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} when table is allocated properly in other cases return \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=334pt]{sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph}
+\includegraphics[width=350pt]{sps_8c_a253cc5911a34258e8c205f47beca7e4e_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}\label{sps_8c_af4b6098a72165553e7b1cd839ffc03ee}} 
@@ -423,6 +515,14 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_af4b6098a72165553e7b1cd839ffc03ee_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_af4b6098a72165553e7b1cd839ffc03ee_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_ac2b3081ef455b92a62692541d283e512}\label{sps_8c_ac2b3081ef455b92a62692541d283e512}} 
 \index{sps.c@{sps.c}!append\_empty\_cell@{append\_empty\_cell}}
 \index{append\_empty\_cell@{append\_empty\_cell}!sps.c@{sps.c}}
@@ -446,7 +546,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_ac2b3081ef455b92a62692541d283e512_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -474,6 +575,14 @@ Here is the call graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_aaf9107fec602ad1ebe1f719810141008_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_aaf9107fec602ad1ebe1f719810141008_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_afd8907535a986b58ff3a78d3e74495ad}\label{sps_8c_afd8907535a986b58ff3a78d3e74495ad}} 
@@ -614,7 +723,8 @@ Free content of cell
 {\em cell} & Pointer to instance of \mbox{\hyperlink{struct_cell}{Cell}} strucutre\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -663,7 +773,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=278pt]{sps_8c_a41fdf9a16b25ab47834645fe25c4a4fa_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -726,6 +837,52 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_a34d9aeaf00f132febb6a918ccbd5edf3_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a34d9aeaf00f132febb6a918ccbd5edf3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_aeecb2eaf3214005a64f2890a9a4dfc5b}\label{sps_8c_aeecb2eaf3214005a64f2890a9a4dfc5b}} 
+\index{sps.c@{sps.c}!delete\_cols@{delete\_cols}}
+\index{delete\_cols@{delete\_cols}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{delete\_cols()}{delete\_cols()}}
+{\footnotesize\ttfamily int delete\+\_\+cols (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{long long int}]{start\+\_\+index,  }\item[{long long int}]{end\+\_\+index }\end{DoxyParamCaption})}
+
+Delete columns
+
+Delete content of cells in colms within range of {\ttfamily start\+\_\+index} and {\ttfamily end\+\_\+index} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure \\
+\hline
+{\em start\+\_\+index} & Start index of column we want to delete \\
+\hline
+{\em end\+\_\+index} & End index of column we want to delete\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_aeecb2eaf3214005a64f2890a9a4dfc5b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_aeecb2eaf3214005a64f2890a9a4dfc5b_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9}\label{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9}} 
 \index{sps.c@{sps.c}!delete\_row@{delete\_row}}
 \index{delete\_row@{delete\_row}!sps.c@{sps.c}}
@@ -753,6 +910,52 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a163f3c62afdae40df7609d1bd4ec40b9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a5b9f56402d2d82297154948f41c912c5}\label{sps_8c_a5b9f56402d2d82297154948f41c912c5}} 
+\index{sps.c@{sps.c}!delete\_rows@{delete\_rows}}
+\index{delete\_rows@{delete\_rows}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{delete\_rows()}{delete\_rows()}}
+{\footnotesize\ttfamily int delete\+\_\+rows (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{long long int}]{start\+\_\+index,  }\item[{long long int}]{end\+\_\+index }\end{DoxyParamCaption})}
+
+Delete rows
+
+Delete content of rows and cells in them in rows within range of {\ttfamily start\+\_\+index} and {\ttfamily end\+\_\+index} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure \\
+\hline
+{\em start\+\_\+index} & Start index of column we want to delete \\
+\hline
+{\em end\+\_\+index} & End index of column we want to delete\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a5b9f56402d2d82297154948f41c912c5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a5b9f56402d2d82297154948f41c912c5_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_a6789412cb694aa5cf8f6b66151693719}\label{sps_8c_a6789412cb694aa5cf8f6b66151693719}} 
 \index{sps.c@{sps.c}!execute\_commands@{execute\_commands}}
 \index{execute\_commands@{execute\_commands}!sps.c@{sps.c}}
@@ -773,7 +976,8 @@ Iterate over all commands in {\ttfamily base\+\_\+commands\+\_\+store} and parse
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -785,6 +989,44 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=258pt]{sps_8c_a6789412cb694aa5cf8f6b66151693719_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a70b55a5475ce61a4e18a85821faf25eb}\label{sps_8c_a70b55a5475ce61a4e18a85821faf25eb}} 
+\index{sps.c@{sps.c}!execute\_table\_editing\_comm@{execute\_table\_editing\_comm}}
+\index{execute\_table\_editing\_comm@{execute\_table\_editing\_comm}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{execute\_table\_editing\_comm()}{execute\_table\_editing\_comm()}}
+{\footnotesize\ttfamily int execute\+\_\+table\+\_\+editing\+\_\+comm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{\mbox{\hyperlink{struct_raw__selector}{Raw\+\_\+selector}} $\ast$}]{selector,  }\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Execute table editing command on {\ttfamily table} 
+
+Assign proper function to {\ttfamily command} and execute it to edit table
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure that will be eddited \\
+\hline
+{\em selector} & Pointer to instance of \mbox{\hyperlink{struct_raw__selector}{Raw\+\_\+selector}} structure for selecting part of {\ttfamily table} to edit \\
+\hline
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure that will select function to use\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a70b55a5475ce61a4e18a85821faf25eb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a70b55a5475ce61a4e18a85821faf25eb_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}\label{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}} 
@@ -821,6 +1063,30 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=237pt]{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_ab6fea7fb7d7c358cb469f84c641beb10}\label{sps_8c_ab6fea7fb7d7c358cb469f84c641beb10}} 
+\index{sps.c@{sps.c}!get\_data\_editing\_command\_index@{get\_data\_editing\_command\_index}}
+\index{get\_data\_editing\_command\_index@{get\_data\_editing\_command\_index}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{get\_data\_editing\_command\_index()}{get\_data\_editing\_command\_index()}}
+{\footnotesize\ttfamily int get\+\_\+data\+\_\+editing\+\_\+command\+\_\+index (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Get index of data editing command from reference array
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Index of command from reference \mbox{\hyperlink{sps_8c_adea85ea38484d138b1f9b2a505897f37}{D\+A\+T\+A\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS}} array if command is found, in other cases return -\/1
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_ab6fea7fb7d7c358cb469f84c641beb10_cgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a402e704273d7f0d445b26907631fd6ba}\label{sps_8c_a402e704273d7f0d445b26907631fd6ba}} 
@@ -928,6 +1194,94 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_a5e37b05207a4987d72860356d6e68a35_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{sps_8c_abf351b32894f13b9c92241129156a8be}\label{sps_8c_abf351b32894f13b9c92241129156a8be}} 
+\index{sps.c@{sps.c}!get\_table\_editing\_command\_index@{get\_table\_editing\_command\_index}}
+\index{get\_table\_editing\_command\_index@{get\_table\_editing\_command\_index}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{get\_table\_editing\_command\_index()}{get\_table\_editing\_command\_index()}}
+{\footnotesize\ttfamily int get\+\_\+table\+\_\+editing\+\_\+command\+\_\+index (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Get index of table editing command from reference array
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Index of command from reference \mbox{\hyperlink{sps_8c_a31b2c70cf50791a05de864beb0b640d8}{T\+A\+B\+L\+E\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS}} array if command is found, in other cases return -\/1
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_abf351b32894f13b9c92241129156a8be_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_abf351b32894f13b9c92241129156a8be_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a2fa86952aa5d31c93e87f77aac823b89}\label{sps_8c_a2fa86952aa5d31c93e87f77aac823b89}} 
+\index{sps.c@{sps.c}!get\_temp\_var\_command\_index@{get\_temp\_var\_command\_index}}
+\index{get\_temp\_var\_command\_index@{get\_temp\_var\_command\_index}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{get\_temp\_var\_command\_index()}{get\_temp\_var\_command\_index()}}
+{\footnotesize\ttfamily int get\+\_\+temp\+\_\+var\+\_\+command\+\_\+index (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Get index of temporary variable command from reference array
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Index of command from reference \mbox{\hyperlink{sps_8c_adc0053bfa80934b202f85caeb694b37b}{T\+E\+M\+P\+\_\+\+V\+A\+R\+\_\+\+C\+O\+M\+M\+A\+N\+DS}} array if command is found, in other cases return -\/1
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a2fa86952aa5d31c93e87f77aac823b89_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a152eb247ed8cce5bbf1632549ddb88d2}\label{sps_8c_a152eb247ed8cce5bbf1632549ddb88d2}} 
+\index{sps.c@{sps.c}!get\_type\_of\_command@{get\_type\_of\_command}}
+\index{get\_type\_of\_command@{get\_type\_of\_command}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{get\_type\_of\_command()}{get\_type\_of\_command()}}
+{\footnotesize\ttfamily int get\+\_\+type\+\_\+of\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Get type of inputed {\ttfamily command} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure that will be tested\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Type of command based on \mbox{\hyperlink{sps_8c_a21e038f5b8958e203d28bc4f18472352}{Command\+Type}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a152eb247ed8cce5bbf1632549ddb88d2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a152eb247ed8cce5bbf1632549ddb88d2_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_a8bc8670a3ff4022d7aca6709ff965360}\label{sps_8c_a8bc8670a3ff4022d7aca6709ff965360}} 
 \index{sps.c@{sps.c}!init\_selector@{init\_selector}}
 \index{init\_selector@{init\_selector}!sps.c@{sps.c}}
@@ -975,6 +1329,14 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_a3aec3e8664f49c9e9d73f89af6877712_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a3aec3e8664f49c9e9d73f89af6877712_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c}\label{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c}} 
 \index{sps.c@{sps.c}!insert\_row@{insert\_row}}
 \index{insert\_row@{insert\_row}!sps.c@{sps.c}}
@@ -1000,6 +1362,14 @@ Here is the call graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a80c4b2daccc19f6a97b0adeaf86cde1c_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a85eaf0a82fa0a547a84c9ebe6e730d45}\label{sps_8c_a85eaf0a82fa0a547a84c9ebe6e730d45}} 
@@ -1030,6 +1400,38 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_a85eaf0a82fa0a547a84c9ebe6e730d45_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a9b167a82da33f3ef2f524698bcf2072f}\label{sps_8c_a9b167a82da33f3ef2f524698bcf2072f}} 
+\index{sps.c@{sps.c}!is\_data\_editing\_command@{is\_data\_editing\_command}}
+\index{is\_data\_editing\_command@{is\_data\_editing\_command}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{is\_data\_editing\_command()}{is\_data\_editing\_command()}}
+{\footnotesize\ttfamily \+\_\+\+Bool is\+\_\+data\+\_\+editing\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Check if inputed command is table data command
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if its data editing command, false if not
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{sps_8c_a9b167a82da33f3ef2f524698bcf2072f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a9b167a82da33f3ef2f524698bcf2072f_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_ae8307927d56e47471f48fef43cde3b7e}\label{sps_8c_ae8307927d56e47471f48fef43cde3b7e}} 
@@ -1092,6 +1494,70 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{sps_8c_a59c7248bb7f5601a4d1c060cd5991b6c_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{sps_8c_a92d5e5e9a48a53f156a5cadf18b58e3f}\label{sps_8c_a92d5e5e9a48a53f156a5cadf18b58e3f}} 
+\index{sps.c@{sps.c}!is\_table\_editing\_command@{is\_table\_editing\_command}}
+\index{is\_table\_editing\_command@{is\_table\_editing\_command}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{is\_table\_editing\_command()}{is\_table\_editing\_command()}}
+{\footnotesize\ttfamily \+\_\+\+Bool is\+\_\+table\+\_\+editing\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Check if inputed command is table editing command
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if its table editing command, false if not
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{sps_8c_a92d5e5e9a48a53f156a5cadf18b58e3f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a92d5e5e9a48a53f156a5cadf18b58e3f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_ac8493cca0bd08e7feeff3abbe47b94ee}\label{sps_8c_ac8493cca0bd08e7feeff3abbe47b94ee}} 
+\index{sps.c@{sps.c}!is\_temp\_var\_command@{is\_temp\_var\_command}}
+\index{is\_temp\_var\_command@{is\_temp\_var\_command}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{is\_temp\_var\_command()}{is\_temp\_var\_command()}}
+{\footnotesize\ttfamily \+\_\+\+Bool is\+\_\+temp\+\_\+var\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} $\ast$}]{command }\end{DoxyParamCaption})}
+
+Check if inputed command is temporary variable command
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Pointer to instance of \mbox{\hyperlink{struct_base__command}{Base\+\_\+command}} structure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if its temporary variable command, false if not
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{sps_8c_ac8493cca0bd08e7feeff3abbe47b94ee_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_ac8493cca0bd08e7feeff3abbe47b94ee_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}\label{sps_8c_aaf046bcf81cb87196c26a02fe84d7107}} 
 \index{sps.c@{sps.c}!load\_table@{load\_table}}
 \index{load\_table@{load\_table}!sps.c@{sps.c}}
@@ -1136,7 +1602,8 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Main of whole program \begin{DoxyRefDesc}{Todo}
 \item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling -\/ separate to own function \end{DoxyRefDesc}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1311,11 +1778,12 @@ Debug functing for printing loaded table to console \begin{DoxyRefDesc}{Todo}
 {\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure\\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=216pt]{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f_icgraph}
+\includegraphics[width=350pt]{sps_8c_a9a5e00e275d7301ebea0d3374e622a9f_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9}\label{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9}} 
@@ -1417,7 +1885,8 @@ Select cell with maximum numeric value in current selection
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1449,7 +1918,8 @@ Select cell with minimum numeric value in current selection
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1612,7 +2082,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=254pt]{sps_8c_a27192fb50be75e2b837926af9c17a084_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1643,7 +2114,8 @@ Set values in selector based on inputed {\ttfamily command} and {\ttfamily table
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1655,6 +2127,32 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_ad0ecb7e4c1c905d65324e4408fd361d0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a1d170746d24356b570615ca63dc3003c}\label{sps_8c_a1d170746d24356b570615ca63dc3003c}} 
+\index{sps.c@{sps.c}!string\_copy@{string\_copy}}
+\index{string\_copy@{string\_copy}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{string\_copy()}{string\_copy()}}
+{\footnotesize\ttfamily int string\+\_\+copy (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{source,  }\item[{char $\ast$$\ast$}]{dest }\end{DoxyParamCaption})}
+
+Copy {\ttfamily source} string to {\ttfamily dest} string
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & Pointer to source string \\
+\hline
+{\em dest} & Pointer to destination string\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success, \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}} on error
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a1d170746d24356b570615ca63dc3003c_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_ad6776de7f7f2aab3645102cfc18f75fc}\label{sps_8c_ad6776de7f7f2aab3645102cfc18f75fc}} 
@@ -1677,7 +2175,8 @@ Check if {\ttfamily base\+\_\+string} ends with {\ttfamily end\+\_\+string}
 \begin{DoxyReturn}{Returns}
 true if {\ttfamily base\+\_\+string} ends with {\ttfamily end\+\_\+string}, false if dont
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1704,7 +2203,8 @@ Check if {\ttfamily base\+\_\+string} starts with {\ttfamily start\+\_\+string}
 \begin{DoxyReturn}{Returns}
 true if {\ttfamily base\+\_\+string} starts with {\ttfamily start\+\_\+string}, false if dont
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1793,7 +2293,8 @@ Check if two string {\ttfamily s1} and {\ttfamily s2} are same
 \begin{DoxyReturn}{Returns}
 true if string are equal, false if dont
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1814,12 +2315,35 @@ Trim start and end of string
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success, \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+R\+R\+OR}} on error
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_abf27f7bf393c7b48bb5bfc200bd9650f_icgraph}
 \end{center}
 \end{figure}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{sps_8c_adea85ea38484d138b1f9b2a505897f37}\label{sps_8c_adea85ea38484d138b1f9b2a505897f37}} 
+\index{sps.c@{sps.c}!DATA\_EDITING\_COMMANDS@{DATA\_EDITING\_COMMANDS}}
+\index{DATA\_EDITING\_COMMANDS@{DATA\_EDITING\_COMMANDS}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{DATA\_EDITING\_COMMANDS}{DATA\_EDITING\_COMMANDS}}
+{\footnotesize\ttfamily const char$\ast$ D\+A\+T\+A\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS\mbox{[}$\,$\mbox{]} = \{ \char`\"{}set\char`\"{}, \char`\"{}clear\char`\"{}, \char`\"{}swap\char`\"{}, \char`\"{}sum\char`\"{}, \char`\"{}avg\char`\"{}, \char`\"{}count\char`\"{}, \char`\"{}len\char`\"{} \}}
+
+Spreadsheet with data editing commands \mbox{\Hypertarget{sps_8c_a31b2c70cf50791a05de864beb0b640d8}\label{sps_8c_a31b2c70cf50791a05de864beb0b640d8}} 
+\index{sps.c@{sps.c}!TABLE\_EDITING\_COMMANDS@{TABLE\_EDITING\_COMMANDS}}
+\index{TABLE\_EDITING\_COMMANDS@{TABLE\_EDITING\_COMMANDS}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{TABLE\_EDITING\_COMMANDS}{TABLE\_EDITING\_COMMANDS}}
+{\footnotesize\ttfamily const char$\ast$ T\+A\+B\+L\+E\+\_\+\+E\+D\+I\+T\+I\+N\+G\+\_\+\+C\+O\+M\+M\+A\+N\+DS\mbox{[}$\,$\mbox{]} = \{ \char`\"{}irow\char`\"{}, \char`\"{}arow\char`\"{}, \char`\"{}drow\char`\"{}, \char`\"{}icol\char`\"{}, \char`\"{}acol\char`\"{}, \char`\"{}dcol\char`\"{} \}}
+
+Spreadsheet with table editing commands \mbox{\Hypertarget{sps_8c_adc0053bfa80934b202f85caeb694b37b}\label{sps_8c_adc0053bfa80934b202f85caeb694b37b}} 
+\index{sps.c@{sps.c}!TEMP\_VAR\_COMMANDS@{TEMP\_VAR\_COMMANDS}}
+\index{TEMP\_VAR\_COMMANDS@{TEMP\_VAR\_COMMANDS}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{TEMP\_VAR\_COMMANDS}{TEMP\_VAR\_COMMANDS}}
+{\footnotesize\ttfamily const char$\ast$ T\+E\+M\+P\+\_\+\+V\+A\+R\+\_\+\+C\+O\+M\+M\+A\+N\+DS\mbox{[}$\,$\mbox{]} = \{ \char`\"{}def\char`\"{}, \char`\"{}use\char`\"{}, \char`\"{}inc\char`\"{} \}}
+
+Spreadsheet with temporary variable commands 

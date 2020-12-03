@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_5ferror_102',['VALUE_ERROR',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a2b832712dabcc4b914c966f6102a1eac',1,'sps.c']]]
+  ['unknown_123',['UNKNOWN',['../sps_8c.html#a21e038f5b8958e203d28bc4f18472352a6ce26a62afab55d7606ad4e92428b30c',1,'sps.c']]]
 ];

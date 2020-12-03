@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['function_5fargument_5ferror_190',['FUNCTION_ARGUMENT_ERROR',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a024b75a9b863b75fcb6adee1297c41e7',1,'sps.c']]],
-  ['function_5ferror_191',['FUNCTION_ERROR',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095',1,'sps.c']]]
+  ['data_5fediting_5fcommand_227',['DATA_EDITING_COMMAND',['../sps_8c.html#a21e038f5b8958e203d28bc4f18472352ac22f712877b40bb1559550a2a583a40b',1,'sps.c']]]
 ];

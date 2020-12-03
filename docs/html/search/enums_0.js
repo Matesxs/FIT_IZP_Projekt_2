@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errorcodes_186',['ErrorCodes',['../sps_8c.html#a3878e89dc5c88d823f4f923ef90dbcb3',1,'sps.c']]]
+  ['commandtype_222',['CommandType',['../sps_8c.html#a21e038f5b8958e203d28bc4f18472352',1,'sps.c']]]
 ];

@@ -1,9 +1,11 @@
 <map id="append_empty_cell" name="append_empty_cell">
-<area shape="rect" id="node1" title=" " alt="" coords="531,81,665,108"/>
-<area shape="rect" id="node2" href="$sps_8c.html#af4b6098a72165553e7b1cd839ffc03ee" title=" " alt="" coords="361,5,449,32"/>
-<area shape="rect" id="node3" href="$sps_8c.html#aaf9107fec602ad1ebe1f719810141008" title=" " alt="" coords="360,56,451,83"/>
-<area shape="rect" id="node4" href="$sps_8c.html#a80c4b2daccc19f6a97b0adeaf86cde1c" title=" " alt="" coords="365,107,446,133"/>
-<area shape="rect" id="node5" href="$sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="328,157,483,184"/>
-<area shape="rect" id="node6" href="$sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,157,280,184"/>
-<area shape="rect" id="node7" href="$sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,157,56,184"/>
+<area shape="rect" id="node1" title=" " alt="" coords="705,81,840,108"/>
+<area shape="rect" id="node2" href="$sps_8c.html#af4b6098a72165553e7b1cd839ffc03ee" title=" " alt="" coords="568,5,656,32"/>
+<area shape="rect" id="node6" href="$sps_8c.html#aaf9107fec602ad1ebe1f719810141008" title=" " alt="" coords="567,56,657,83"/>
+<area shape="rect" id="node7" href="$sps_8c.html#a80c4b2daccc19f6a97b0adeaf86cde1c" title=" " alt="" coords="571,107,653,133"/>
+<area shape="rect" id="node8" href="$sps_8c.html#aab923a2fcd8cde3ddee65b5bdfdc4298" title=" " alt="" coords="346,132,501,159"/>
+<area shape="rect" id="node3" href="$sps_8c.html#a70b55a5475ce61a4e18a85821faf25eb" title=" " alt="" coords="328,60,519,87"/>
+<area shape="rect" id="node4" href="$sps_8c.html#a6789412cb694aa5cf8f6b66151693719" title=" " alt="" coords="123,72,261,99"/>
+<area shape="rect" id="node5" href="$sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,101,56,128"/>
+<area shape="rect" id="node9" href="$sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,129,280,156"/>
 </map>
