@@ -57,7 +57,7 @@ typedef struct
 } Raw_selector;
 
 /**
- * @struct Commands
+ * @struct Raw_commands
  * @brief Store raw commands in form of string array
  */
 typedef struct
@@ -2050,7 +2050,9 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
             continue;
         }
 
-        printf("%llu, %llu, %llu, %llu\n", selector.lld_ir1, selector.lld_ic1, selector.lld_ir2, selector.lld_ic2);
+#ifdef DEBUG
+        printf("Current selector: [%llu,%llu,%llu,%llu]\n", selector.lld_ir1, selector.lld_ic1, selector.lld_ir2, selector.lld_ic2);
+#endif
     }
 
     return ret_val;
