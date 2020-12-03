@@ -86,6 +86,7 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores raw data about table area selector.  <a href="struct_raw__selector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_raw__commands.html">Raw_commands</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store raw commands in form of string array.  <a href="struct_raw__commands.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_base__command.html">Base_command</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores parsed commands in form of strings.  <a href="struct_base__command.html#details">More...</a><br /></td></tr>
@@ -524,7 +525,7 @@ Here is the caller graph for this function:</div>
 <p>Allocate commands store</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">commands_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html">Raw_commands</a> structure </td></tr>
+    <tr><td class="paramname">commands_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html" title="Store raw commands in form of string array.">Raw_commands</a> structure </td></tr>
     <tr><td class="paramname">number_of_commands</td><td>Number of commands we want to allocate</td></tr>
   </table>
   </dd>
@@ -1003,7 +1004,7 @@ Here is the caller graph for this function:</div>
 <p>Deallocate raw commands structure</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">commands_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html">Raw_commands</a> structure</td></tr>
+    <tr><td class="paramname">commands_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html" title="Store raw commands in form of string array.">Raw_commands</a> structure</td></tr>
   </table>
   </dd>
 </dl>
@@ -1320,7 +1321,7 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argv</td><td>Array of arguments </td></tr>
-    <tr><td class="paramname">commands_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html">Raw_commands</a> structure where individual commands will be saved </td></tr>
+    <tr><td class="paramname">commands_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html" title="Store raw commands in form of string array.">Raw_commands</a> structure where individual commands will be saved </td></tr>
     <tr><td class="paramname">delim_flag_present</td><td>Flag if in argument is delim flag (only for calculating proper position of commands argument)</td></tr>
   </table>
   </dd>
@@ -2226,7 +2227,7 @@ Here is the caller graph for this function:</div>
 <p>Split raw commands to function part and argument part</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raw_command_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html">Raw_commands</a> structure where raw commands are stored </td></tr>
+    <tr><td class="paramname">raw_command_store</td><td>Pointer to instance of <a class="el" href="struct_raw__commands.html" title="Store raw commands in form of string array.">Raw_commands</a> structure where raw commands are stored </td></tr>
     <tr><td class="paramname">base_command_store</td><td>Pointer to instance <a class="el" href="struct_base__commands.html" title="Stores array of Base_commands and info about their count.">Base_commands</a> structure where parsed commands will be stored</td></tr>
   </table>
   </dd>

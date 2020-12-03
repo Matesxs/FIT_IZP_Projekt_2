@@ -23,6 +23,25 @@
 
 #define EMPTY_CELL "" /**< How should look like empty cell */
 
+const char *TABLE_EDITING_COMMANDS[] = { "irow", "arow", "drow", "icol", "acol", "dcol" };         /**< Spreadsheet with table editing commands */
+#define NUMBER_OF_TABLE_EDITING_COMMANDS 6                                                         /**< Number of table editing commands for iterating over array */
+const char *DATA_EDITING_COMMANDS[] = { "set", "clear", "swap", "sum", "avg", "count", "len" };    /**< Spreadsheet with data editing commands */
+#define NUMBER_OF_DATA_EDITING_COMMANDS 7                                                          /**< Number of data editing commands for iterating over array */
+const char *TEMP_VAR_COMMANDS[] = { "def", "use", "inc" };                                         /**< Spreadsheet with temporary variable commands */
+#define NUMBER_OF_TEMP_VAR_COMMANDS 3                                                              /**< Number of temporary variable commands for iterating over array */
+
+/**
+ * @enum CommandType
+ * @brief Flags to indicate what type of command is currently executed
+ */
+enum CommandType
+{
+    TABLE_EDITING_COMMAND,
+    DATA_EDITING_COMMAND,
+    TEMP_VAR_COMMAND,
+    UNKNOWN,
+};
+
 /**
  * @enum ErrorCodes
  * @brief Flags that will be returned on error
@@ -126,7 +145,7 @@ int trim_se(char *string)
      *
      * @param string String that we want to trim
      *
-     * @return
+     * @return #NO_ERROR on success, #FUNCTION_ERROR on error
      */
 
     if (string == NULL)
@@ -139,6 +158,29 @@ int trim_se(char *string)
             string[i-1]=string[i];
     }
     string[i-1]='\0';
+
+    return NO_ERROR;
+}
+
+int string_copy(char **source, char **dest)
+{
+    /**
+     * @brief Copy @p source string to @p dest string
+     *
+     * @param source Pointer to source string
+     * @param dest Pointer to destination string
+     *
+     * @return #NO_ERROR on success, #ALLOCATION_FAILED on error
+     */
+
+    if (source == NULL)
+        return NO_ERROR;
+
+    *dest = (char*)malloc((strlen(*source) + 1) * sizeof(char));
+    if (*dest == NULL)
+        return ALLOCATION_FAILED;
+
+    strcpy(*dest, *source);
 
     return NO_ERROR;
 }
@@ -1349,14 +1391,29 @@ int selector_max(Raw_selector *selector, Table *table)
     long long int r = 0, c = 0;
     _Bool found = false;
 
+    char *testing_string = NULL;
+
     for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
     {
         for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
         {
-            if (is_string_ldouble(table->rows[i].cells[j].content))
+            if (string_copy(&table->rows[i].cells[j].content, &testing_string) != NO_ERROR)
+                return ALLOCATION_FAILED;
+
+            if ((string_start_with(testing_string, "\"") && string_end_with(testing_string, "\"")) ||
+                (string_start_with(testing_string, "\'") && string_end_with(testing_string, "\'")))
+            {
+                if (trim_se(testing_string) != NO_ERROR)
+                {
+                    free(testing_string);
+                    return FUNCTION_ERROR;
+                }
+            }
+
+            if (is_string_ldouble(testing_string))
             {
                 long double ret;
-                if ((ret_val = string_to_ldouble(table->rows[i].cells[j].content, &ret)) != NO_ERROR)
+                if ((ret_val = string_to_ldouble(testing_string, &ret)) != NO_ERROR)
                     break;
 
                 if (ret > max)
@@ -1367,6 +1424,9 @@ int selector_max(Raw_selector *selector, Table *table)
                     found = true;
                 }
             }
+
+            free(testing_string);
+            testing_string = NULL;
         }
     }
 
@@ -1402,14 +1462,29 @@ int selector_min(Raw_selector *selector, Table *table)
     long long int r = 0, c = 0;
     _Bool found = false;
 
+    char *testing_string = NULL;
+
     for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
     {
         for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
         {
-            if (is_string_ldouble(table->rows[i].cells[j].content))
+            if (string_copy(&table->rows[i].cells[j].content, &testing_string) != NO_ERROR)
+                return ALLOCATION_FAILED;
+
+            if ((string_start_with(testing_string, "\"") && string_end_with(testing_string, "\"")) ||
+                (string_start_with(testing_string, "\'") && string_end_with(testing_string, "\'")))
+            {
+                if (trim_se(testing_string) != NO_ERROR)
+                {
+                    free(testing_string);
+                    return FUNCTION_ERROR;
+                }
+            }
+
+            if (is_string_ldouble(testing_string))
             {
                 long double ret;
-                if ((ret_val = string_to_ldouble(table->rows[i].cells[j].content, &ret)) != NO_ERROR)
+                if ((ret_val = string_to_ldouble(testing_string, &ret)) != NO_ERROR)
                     break;
 
                 if (ret < min)
@@ -1420,6 +1495,9 @@ int selector_min(Raw_selector *selector, Table *table)
                     found = true;
                 }
             }
+
+            free(testing_string);
+            testing_string = NULL;
         }
     }
 
@@ -1802,6 +1880,34 @@ int delete_col(Table *table, long long int index)
     return NO_ERROR;
 }
 
+int delete_cols(Table *table, long long int start_index, long long int end_index)
+{
+    /**
+     * @brief Delete columns
+     *
+     * Delete content of cells in colms within range of @p start_index and @p end_index
+     *
+     * @param table Pointer to instance of #Table structure
+     * @param start_index Start index of column we want to delete
+     * @param end_index End index of column we want to delete
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    if (end_index >= table->rows[0].num_of_cells)
+        end_index = table->rows[0].num_of_cells - 1;
+
+    for (long long int i = end_index; i >= start_index; i--)
+    {
+        if ((ret_val = delete_col(table, i)) != NO_ERROR)
+            break;
+    }
+
+    return ret_val;
+}
+
 int append_col(Table *table)
 {
     /**
@@ -2002,6 +2108,34 @@ int delete_row(Table *table, long long int index)
     return NO_ERROR;
 }
 
+int delete_rows(Table *table, long long int start_index, long long int end_index)
+{
+    /**
+     * @brief Delete rows
+     *
+     * Delete content of rows and cells in them in rows within range of @p start_index and @p end_index
+     *
+     * @param table Pointer to instance of #Table structure
+     * @param start_index Start index of column we want to delete
+     * @param end_index End index of column we want to delete
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    if (end_index >= table->num_of_rows)
+        end_index = table->num_of_rows - 1;
+
+    for (long long int i = end_index; i >= start_index; i--)
+    {
+        if ((ret_val = delete_row(table, i)) != NO_ERROR)
+            return ret_val;
+    }
+
+    return ret_val;
+}
+
 _Bool is_command_selector(Base_command *command)
 {
     /**
@@ -2017,6 +2151,223 @@ _Bool is_command_selector(Base_command *command)
     return false;
 }
 
+_Bool is_table_editing_command(Base_command *command)
+{
+    /**
+     * @brief Check if inputed command is table editing command
+     *
+     * @param command Pointer to instance of #Base_command structure
+     *
+     * @return true if its table editing command, false if not
+     */
+
+    for (int i = 0; i < NUMBER_OF_TABLE_EDITING_COMMANDS; i++)
+    {
+        if (strings_equal(command->function, TABLE_EDITING_COMMANDS[i]))
+            return true;
+    }
+
+    return false;
+}
+
+_Bool is_data_editing_command(Base_command *command)
+{
+    /**
+     * @brief Check if inputed command is table data command
+     *
+     * @param command Pointer to instance of #Base_command structure
+     *
+     * @return true if its data editing command, false if not
+     */
+
+    for (int i = 0; i < NUMBER_OF_DATA_EDITING_COMMANDS; i++)
+    {
+        if (strings_equal(command->function, DATA_EDITING_COMMANDS[i]))
+            return true;
+    }
+
+    return false;
+}
+
+_Bool is_temp_var_command(Base_command *command)
+{
+    /**
+     * @brief Check if inputed command is temporary variable command
+     *
+     * @param command Pointer to instance of #Base_command structure
+     *
+     * @return true if its temporary variable command, false if not
+     */
+
+    for (int i = 0; i < NUMBER_OF_TEMP_VAR_COMMANDS; i++)
+    {
+        if (strings_equal(command->function, TEMP_VAR_COMMANDS[i]))
+            return true;
+    }
+
+    return false;
+}
+
+int get_table_editing_command_index(Base_command *command)
+{
+    /**
+     * @brief Get index of table editing command from reference array
+     *
+     * @param command Pointer to instance of #Base_command structure
+     *
+     * @return Index of command from reference #TABLE_EDITING_COMMANDS array if command is found, in other cases return -1
+     */
+
+    if (!is_table_editing_command(command))
+        return -1;
+
+    for (int i = 0; i < NUMBER_OF_TABLE_EDITING_COMMANDS; i++)
+    {
+        if (strings_equal(command->function, TABLE_EDITING_COMMANDS[i]))
+            return i;
+    }
+
+    return -1;
+}
+
+int get_data_editing_command_index(Base_command *command)
+{
+    /**
+     * @brief Get index of data editing command from reference array
+     *
+     * @param command Pointer to instance of #Base_command structure
+     *
+     * @return Index of command from reference #DATA_EDITING_COMMANDS array if command is found, in other cases return -1
+     */
+
+    if (!is_data_editing_command(command))
+        return -1;
+
+    for (int i = 0; i < NUMBER_OF_DATA_EDITING_COMMANDS; i++)
+    {
+        if (strings_equal(command->function, DATA_EDITING_COMMANDS[i]))
+            return i;
+    }
+
+    return -1;
+}
+
+int get_temp_var_command_index(Base_command *command)
+{
+    /**
+     * @brief Get index of temporary variable command from reference array
+     *
+     * @param command Pointer to instance of #Base_command structure
+     *
+     * @return Index of command from reference #TEMP_VAR_COMMANDS array if command is found, in other cases return -1
+     */
+
+    if (!is_temp_var_command(command))
+        return -1;
+
+    for (int i = 0; i < NUMBER_OF_TEMP_VAR_COMMANDS; i++)
+    {
+        if (strings_equal(command->function, TEMP_VAR_COMMANDS[i]))
+            return i;
+    }
+
+    return -1;
+}
+
+int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_command *command)
+{
+    /**
+     * @brief Execute table editing command on @p table
+     *
+     * Assign proper function to @p command and execute it to edit table
+     *
+     * @param table Pointer to instance of #Table structure that will be eddited
+     * @param selector Pointer to instance of #Raw_selector structure for selecting part of @p table to edit
+     * @param command Pointer to instance of #Base_command structure that will select function to use
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+    int findex = get_table_editing_command_index(command);
+    if (findex == -1)
+        return NO_ERROR;
+
+    switch (findex)
+    {
+        // irow
+        case 0:
+            ret_val = insert_row(table, selector->lld_ir1);
+            break;
+
+        // arow
+        case 1:
+            if (selector->lld_ir2 >= table->num_of_rows - 1)
+                ret_val = append_row(table);
+            else
+                ret_val = insert_row(table, selector->lld_ir2 + 1);
+            break;
+
+        // drow
+        case 2:
+            ret_val = delete_rows(table, selector->lld_ir1, selector->lld_ir2);
+            break;
+
+        // icol
+        case 3:
+            if (table->num_of_rows > 0)
+                ret_val = insert_col(table, selector->lld_ic1);
+            break;
+
+        // acol
+        case 4:
+            if (table->num_of_rows > 0)
+            {
+                if (selector->lld_ic2 >= table->rows[0].num_of_cells - 1)
+                    ret_val = append_col(table);
+                else
+                    ret_val = insert_col(table, selector->lld_ic2 + 1);
+            }
+            break;
+
+        // dcol
+        case 5:
+            if (table->num_of_rows > 0)
+                ret_val = delete_cols(table, selector->lld_ic1, selector->lld_ic2);
+            break;
+
+        default:
+            return COMMAND_ERROR;
+    }
+
+    return ret_val;
+}
+
+int get_type_of_command(Base_command *command)
+{
+    /**
+     * @brief Get type of inputed @p command
+     *
+     * @param command Pointer to instance of #Base_command structure that will be tested
+     *
+     * @return Type of command based on #CommandType
+     */
+
+    if (command == NULL)
+        return UNKNOWN;
+
+    if (is_table_editing_command(command))
+        return TABLE_EDITING_COMMAND;
+
+    if (is_data_editing_command(command))
+        return DATA_EDITING_COMMAND;
+
+    if (is_temp_var_command(command))
+        return TEMP_VAR_COMMAND;
+
+    return UNKNOWN;
+}
+
 int execute_commands(Table *table, Base_commands *base_commands_store)
 {
     /**
@@ -2029,8 +2380,6 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
-
-    (void)table;
 
     int ret_val = NO_ERROR;
 
@@ -2052,6 +2401,32 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
 
 #ifdef DEBUG
         printf("Current selector: [%llu,%llu,%llu,%llu]\n", selector.lld_ir1, selector.lld_ic1, selector.lld_ir2, selector.lld_ic2);
+        printf("Current command: [%s,%s]\n", c_comm.function, c_comm.arguments);
+        printf("Before table:\n");
+        print_table(table);
+#endif
+
+        switch (get_type_of_command(&c_comm))
+        {
+            case TABLE_EDITING_COMMAND:
+                if ((ret_val = execute_table_editing_comm(table, &selector, &c_comm)) != NO_ERROR)
+                    return ret_val;
+                break;
+
+            case DATA_EDITING_COMMAND:
+                break;
+
+            case TEMP_VAR_COMMAND:
+                break;
+
+            default:
+                return COMMAND_ERROR;
+        }
+
+#ifdef DEBUG
+        printf("\nAfter table:\n");
+        print_table(table);
+        printf("\n#####################################################\n\n");
 #endif
     }
 
@@ -2135,8 +2510,9 @@ int main(int argc, char *argv[]) {
     }
 
 #ifdef DEBUG
+    printf("\nFinal table:\n");
     print_table(&table);
-    printf("\n\nDebug:\n");
+    printf("\nAdditional info:\n");
     printf("Allocated rows: %llu, Allocated cells: %llu\n", table.allocated_rows, table.rows[0].allocated_cells);
     printf("Delim: '%c'\n", table.delim);
     printf("Commands (%lld): ", base_commands_store.num_of_commands);
