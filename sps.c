@@ -21,6 +21,8 @@
 #define BASE_NUMBER_OF_CELLS 3 /**< Base number of cells that will be allocated */
 #define BASE_CELL_LENGTH 6 /**< Base length of content in cell that will be allocated */
 
+#define NUMBER_OF_TEMPORARY_VARIABLES 10 /**< Number of how much temporarz variables should be allocated/used */
+
 #define EMPTY_CELL "" /**< How should look like empty cell */
 
 const char *TABLE_EDITING_COMMANDS[] = { "irow", "arow", "drow", "icol", "acol", "dcol" };         /**< Spreadsheet with table editing commands */
@@ -60,6 +62,15 @@ enum ErrorCodes
     SELECTOR_ERROR,               /**< Error when invalid selector is received - 9 */
     NUM_CONVERSION_FAILED,        /**< Error when converting string to numeric value failed - 10 */
 };
+
+/**
+ * @struct TempVariableStore
+ * @brief Store for temporary variables
+ */
+typedef struct
+{
+    char **variables;   /**< Array of string corespoding to each temporary variable */
+} TempVariableStore;
 
 /**
  * @struct Raw_selector
@@ -155,6 +166,30 @@ int trim_se(char *string)
     if (len > 1)
     {
         for(; i < (len - 1); i++)
+            string[i-1]=string[i];
+    }
+    string[i-1]='\0';
+
+    return NO_ERROR;
+}
+
+int trim_start(char *string)
+{
+    /**
+     * @brief Trim start and end of string
+     *
+     * @param string String that we want to trim
+     *
+     * @return #NO_ERROR on success, #FUNCTION_ERROR on error
+     */
+
+    if (string == NULL)
+        return FUNCTION_ERROR;
+
+    unsigned long long int i = 1, len = strlen(string);
+    if (len > 1)
+    {
+        for(; i < len; i++)
             string[i-1]=string[i];
     }
     string[i-1]='\0';
@@ -281,6 +316,19 @@ _Bool is_string_ldouble(char *string)
     if (strings_equal(rest, EMPTY_CELL))
         return true;
     return false;
+}
+
+_Bool is_ldouble_lint(long double val)
+{
+    /**
+     * @brief Check if long double could be converted to long int without loss of precision
+     *
+     * @param val Long double value to check
+     *
+     * @return true if can be converted, false if not
+     */
+
+    return (long int)(val) == val;
 }
 
 int string_to_llint(char *string, long long int *val)
@@ -658,6 +706,27 @@ void deallocate_base_commands(Base_commands *base_commands)
 
     free(base_commands->commands);
     base_commands->commands = NULL;
+}
+
+void deallocate_temp_var_store(TempVariableStore *temp_var_store)
+{
+    /**
+     * @brief Deallocate temporary variable store
+     *
+     * @param temp_var_store Pointer to instance of #TempVariableStore structure
+     */
+
+    if (temp_var_store != NULL && temp_var_store->variables != NULL)
+    {
+        for (long long int i = 0; i < NUMBER_OF_TEMPORARY_VARIABLES; i++)
+        {
+            free(temp_var_store->variables[i]);
+            temp_var_store->variables[i] = NULL;
+        }
+
+        free(temp_var_store->variables);
+        temp_var_store->variables = NULL;
+    }
 }
 
 int allocate_rows(Table *table)
@@ -1052,9 +1121,6 @@ int save_table(Table *table, char *path)
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
-    if (table->rows == NULL)
-        return FUNCTION_ERROR;
-
     // Try to open output file
     FILE *file = fopen(path, "w");
     if (file == NULL)
@@ -1141,9 +1207,65 @@ int set_cell(char *string, Cell *cell)
         if (allocate_content(cell) != NO_ERROR)
             return ALLOCATION_FAILED;
 
-    strcpy(cell->content, string);
+    if (strcpy(cell->content, string) == NULL)
+        return FUNCTION_ERROR;
 
     return NO_ERROR;
+}
+
+int set_value_in_area(Table *table, Raw_selector *selector, char *string)
+{
+    /**
+     * @brief Set value of @p string in table area selected by @p selector in @p table
+     *
+     * @param table Pointer to instance of #Table structure that will be eddited
+     * @param selector Pointer to instance of #Raw_selector structure for selecting are where we will set values
+     * @param string String that we will set
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+    if (table->num_of_rows == 0 || table->rows[0].num_of_cells == 0 || string == NULL)
+        return COMMAND_ERROR;
+
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
+    {
+        for (long long j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if ((ret_val = set_cell(string, &table->rows[i].cells[j])) != NO_ERROR)
+                return ret_val;
+        }
+    }
+
+    return ret_val;
+}
+
+int swap_cells_in_row(Row *row, long long int index1, long long int index2)
+{
+    if (row->num_of_cells == 0)
+        return FUNCTION_ERROR;
+
+    if (index1 < 0 || index2 < 0 || index1 >= row->num_of_cells || index2 >= row->num_of_cells)
+        return FUNCTION_ARGUMENT_ERROR;
+
+    if (index1 == index2)
+        return NO_ERROR;
+
+    int ret_val = NO_ERROR;
+    char *buff1 = NULL, *buff2 = NULL;
+
+    if (((ret_val = string_copy(&row->cells[index1].content, &buff1)) == NO_ERROR) && ((ret_val = string_copy(&row->cells[index2].content, &buff2)) == NO_ERROR))
+    {
+        ret_val = set_cell(buff2, &row->cells[index1]);
+        if (ret_val == NO_ERROR)
+            ret_val = set_cell(buff1, &row->cells[index2]);
+    }
+
+    free(buff1);
+    free(buff2);
+
+    return ret_val;
 }
 
 int append_empty_cell(Row *row)
@@ -1326,6 +1448,28 @@ void init_selector(Raw_selector *selector)
     selector->lld_ir1 = 0;
     selector->lld_ir2 = 0;
     selector->initialized = true;
+}
+
+int init_temp_var_store(TempVariableStore *temp_var_store)
+{
+    /**
+     * @brief Init array of temporary variables
+     *
+     * @param temp_var_store Pointer to instance of #TempVariableStore structure
+     *
+     * @return #NO_ERROR on success and #ALLOCATION_FAILED on error
+     */
+
+    temp_var_store->variables = (char**)malloc(NUMBER_OF_TEMPORARY_VARIABLES * sizeof(char*));
+    if (temp_var_store->variables == NULL)
+        return ALLOCATION_FAILED;
+
+    for (long long int i = 0; i < NUMBER_OF_TEMPORARY_VARIABLES; i++)
+    {
+        temp_var_store->variables[i] = NULL;
+    }
+
+    return NO_ERROR;
 }
 
 void copy_selector(Raw_selector *source, Raw_selector *dest)
@@ -1669,7 +1813,7 @@ int set_selector(Raw_selector *selector, Raw_selector *temp_selector, Base_comma
     if (!selector->initialized || !temp_selector->initialized)
         return FUNCTION_ERROR;
 
-    // Get rid of
+    // Get rid of []
     if ((ret_val = trim_se(command->function)) != NO_ERROR)
         return ret_val;
 
@@ -2136,6 +2280,141 @@ int delete_rows(Table *table, long long int start_index, long long int end_index
     return ret_val;
 }
 
+int set_temporary_variable(Table *table, Raw_selector *selector, TempVariableStore *temp_var_store, long long int index)
+{
+    /**
+     * @brief Set temporary variable
+     *
+     * Allocate and set value in temporary variable of @p index
+     *
+     * @param table Pointer to instance of #Table structure that will be eddited
+     * @param selector Pointer to instance of #Raw_selector structure for selecting value we want to save
+     * @param temp_var_store Pointer to instance of #TempVariableStore structure used for stroring values
+     * @param index Index of temporary variable we want to work with
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    if (table->num_of_rows > 0 && table->rows[0].num_of_cells > 0 &&
+        table->num_of_rows > selector->lld_ir1 && table->rows[0].num_of_cells > selector->lld_ic1 &&
+        table->rows[selector->lld_ir1].cells[selector->lld_ic1].content != NULL)
+    {
+        if (temp_var_store->variables[index] != NULL)
+        {
+            free(temp_var_store->variables[index]);
+            temp_var_store->variables[index] = NULL;
+        }
+
+        char *temp_string = NULL;
+        if ((ret_val = string_copy(&table->rows[selector->lld_ir1].cells[selector->lld_ic1].content, &temp_string)) != NO_ERROR)
+            return ret_val;
+
+        temp_var_store->variables[index] = temp_string;
+    }
+
+    return ret_val;
+}
+
+int set_cell_from_temporary_variable(Table *table, Raw_selector *selector, TempVariableStore *temp_var_store, long long int index)
+{
+    /**
+     * @brief Set value from temporary variable to cell
+     *
+     * Set temporary variable of @p index to cell selected by @p selector
+     *
+     * @param table Pointer to instance of #Table structure that will be eddited
+     * @param selector Pointer to instance of #Raw_selector structure for selecting value we want to use
+     * @param temp_var_store Pointer to instance of #TempVariableStore structure used for stroring values
+     * @param index Index of temporary variable we want to work with
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    if (table->num_of_rows > 0 && table->rows[0].num_of_cells > 0 &&
+        temp_var_store->variables[index] != NULL)
+    {
+        ret_val = set_value_in_area(table, selector, temp_var_store->variables[index]);
+    }
+
+    return ret_val;
+}
+
+int increase_temporary_variable(TempVariableStore *temp_var_store, long long int index)
+{
+    /**
+     * @brief Increase value in temporary variable
+     *
+     * Increase value of temporary variable if exist\n
+     * If value is no numeric value then set its value to 1
+     *
+     * @param temp_var_store Pointer to instance of #TempVariableStore structure used for stroring values
+     * @param index Index of temporary variable we want to work with
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    if (temp_var_store->variables[index] != NULL)
+    {
+        // Create temp variables
+        long double temp_val = 0;
+        unsigned long int length = (2 * strlen(temp_var_store->variables[index])) + 1;
+
+        // Allocate temporary string
+        char *temp_string = (char*)malloc(length * sizeof(char));
+        if (temp_string == NULL)
+            return ALLOCATION_FAILED;
+
+        if (is_string_ldouble(temp_var_store->variables[index]))
+        {
+            if ((ret_val = string_to_ldouble(temp_var_store->variables[index], &temp_val)) != NO_ERROR)
+            {
+                free(temp_string);
+                return ret_val;
+            }
+
+            temp_val += 1.0;
+        }
+        else
+            temp_val = 1.0;
+
+        // Format string value
+        if (is_ldouble_lint(temp_val))
+            snprintf(temp_string, length, "%li", (long int)temp_val);
+        else
+            snprintf(temp_string, length, "%Lg", temp_val);
+
+        // Clear old variable
+        free(temp_var_store->variables[index]);
+
+        // Copy new string to variable
+        if ((ret_val = string_copy(&temp_string, &temp_var_store->variables[index])) != NO_ERROR)
+        {
+            free(temp_string);
+            return ret_val;
+        }
+
+        // Clear temporary string
+        free(temp_string);
+    }
+    else
+    {
+        temp_var_store->variables[index] = (char*)malloc(2 * sizeof(char));
+        if (temp_var_store->variables[index] == NULL)
+            return ALLOCATION_FAILED;
+
+        if (strcpy(temp_var_store->variables[index], "1") == NULL)
+            return FUNCTION_ERROR;
+    }
+
+    return ret_val;
+}
+
 _Bool is_command_selector(Base_command *command)
 {
     /**
@@ -2300,7 +2579,7 @@ int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_comman
             ret_val = insert_row(table, selector->lld_ir1);
             break;
 
-        // arow
+            // arow
         case 1:
             if (selector->lld_ir2 >= table->num_of_rows - 1)
                 ret_val = append_row(table);
@@ -2308,18 +2587,18 @@ int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_comman
                 ret_val = insert_row(table, selector->lld_ir2 + 1);
             break;
 
-        // drow
+            // drow
         case 2:
             ret_val = delete_rows(table, selector->lld_ir1, selector->lld_ir2);
             break;
 
-        // icol
+            // icol
         case 3:
             if (table->num_of_rows > 0)
                 ret_val = insert_col(table, selector->lld_ic1);
             break;
 
-        // acol
+            // acol
         case 4:
             if (table->num_of_rows > 0)
             {
@@ -2330,15 +2609,130 @@ int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_comman
             }
             break;
 
-        // dcol
+            // dcol
         case 5:
             if (table->num_of_rows > 0)
                 ret_val = delete_cols(table, selector->lld_ic1, selector->lld_ic2);
             break;
 
         default:
-            return COMMAND_ERROR;
+            ret_val = COMMAND_ERROR;
+            break;
     }
+
+    return ret_val;
+}
+
+int execute_data_editing_command(Table *table, Raw_selector *selector, Base_command *command)
+{
+    (void)table;
+    (void)selector;
+
+    int ret_val = NO_ERROR;
+    int findex = get_data_editing_command_index(command);
+    if (findex == -1)
+        return NO_ERROR;
+
+    switch (findex)
+    {
+        // set STR
+        case 0:
+            ret_val = set_value_in_area(table, selector, command->arguments);
+            break;
+
+        // clear
+        case 1:
+            ret_val = set_value_in_area(table, selector, EMPTY_CELL);
+            break;
+
+        case 2:
+            break;
+
+        case 3:
+            break;
+
+        case 4:
+            break;
+
+        case 5:
+            break;
+
+        case 6:
+            break;
+
+        default:
+            ret_val = COMMAND_ERROR;
+            break;
+    }
+
+    return ret_val;
+}
+
+int execute_temp_var_command(Table *table, Raw_selector *selector, Base_command *command, TempVariableStore *temp_var_store)
+{
+    /**
+     * @brief Execute temporary variable command on @p table
+     *
+     * Assign proper function to @p command and execute it to edit table
+     *
+     * @param table Pointer to instance of #Table structure that will be eddited
+     * @param selector Pointer to instance of #Raw_selector structure for selecting part of @p table to edit
+     * @param command Pointer to instance of #Base_command structure that will select function to use
+     * @param temp_var_store Pointer to instance of #TempVariableStore structure used for stroring values
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+    int findex = get_temp_var_command_index(command);
+    if (findex == -1)
+        return NO_ERROR;
+
+    char *arg = NULL;
+    long long int arg_lli = -1;
+
+    if ((ret_val = string_copy(&command->arguments, &arg)) != NO_ERROR)
+        return ret_val;
+
+    if ((ret_val = trim_start(arg)) == NO_ERROR)
+        ret_val = string_to_llint(arg, &arg_lli);
+
+    if (arg_lli < 0 || arg_lli >= NUMBER_OF_TEMPORARY_VARIABLES)
+        ret_val = COMMAND_ERROR;
+
+
+    if (ret_val == NO_ERROR)
+    {
+        switch (findex)
+        {
+            // def _X
+            case 0:
+                if ((selector->lld_ir1 != selector->lld_ir2) || (selector->lld_ic1 != selector->lld_ic2))
+                {
+                    ret_val = COMMAND_ERROR;
+                    break;
+                }
+
+                ret_val = set_temporary_variable(table, selector, temp_var_store, arg_lli);
+                break;
+
+            // use _X
+            case 1:
+                ret_val = set_cell_from_temporary_variable(table, selector, temp_var_store, arg_lli);
+                break;
+
+            // inc _X
+            case 2:
+                ret_val = increase_temporary_variable(temp_var_store, arg_lli);
+                break;
+
+            default:
+                ret_val = COMMAND_ERROR;
+                break;
+        }
+    }
+
+    free(arg);
 
     return ret_val;
 }
@@ -2388,6 +2782,10 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
     init_selector(&selector);
     init_selector(&temp_selector);
 
+    TempVariableStore temp_var_store = { .variables = NULL };
+    if (init_temp_var_store(&temp_var_store) != NO_ERROR)
+        return ALLOCATION_FAILED;
+
     for (long long int i = 0; i < base_commands_store->num_of_commands; i++)
     {
         Base_command c_comm = base_commands_store->commands[i];
@@ -2402,6 +2800,12 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
 #ifdef DEBUG
         printf("Current selector: [%llu,%llu,%llu,%llu]\n", selector.lld_ir1, selector.lld_ic1, selector.lld_ir2, selector.lld_ic2);
         printf("Current command: [%s,%s]\n", c_comm.function, c_comm.arguments);
+        printf("Current variable store:\n[");
+        for (long long int j = 0; j < NUMBER_OF_TEMPORARY_VARIABLES; j++)
+        {
+            printf("_%llu:'%s',", j, temp_var_store.variables[j]);
+        }
+        printf("]\n\n");
         printf("Before table:\n");
         print_table(table);
 #endif
@@ -2409,19 +2813,23 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
         switch (get_type_of_command(&c_comm))
         {
             case TABLE_EDITING_COMMAND:
-                if ((ret_val = execute_table_editing_comm(table, &selector, &c_comm)) != NO_ERROR)
-                    return ret_val;
+                ret_val = execute_table_editing_comm(table, &selector, &c_comm);
                 break;
 
             case DATA_EDITING_COMMAND:
+                ret_val = execute_data_editing_command(table, &selector, &c_comm);
                 break;
 
             case TEMP_VAR_COMMAND:
+                ret_val = execute_temp_var_command(table, &selector, &c_comm, &temp_var_store);
                 break;
 
             default:
-                return COMMAND_ERROR;
+                ret_val = COMMAND_ERROR;
         }
+
+        if (ret_val != NO_ERROR)
+            break;
 
 #ifdef DEBUG
         printf("\nAfter table:\n");
@@ -2429,6 +2837,8 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
         printf("\n#####################################################\n\n");
 #endif
     }
+
+    deallocate_temp_var_store(&temp_var_store);
 
     return ret_val;
 }
@@ -2485,7 +2895,7 @@ int main(int argc, char *argv[]) {
                     .num_of_rows = 0,
                     .allocated_rows = 0};
 
-    if (((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR) || table.rows == NULL)
+    if (((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR))
     {
         fprintf(stderr, "Failed to load table properly\n");
         deallocate_table(&table);
@@ -2493,20 +2903,23 @@ int main(int argc, char *argv[]) {
         return error_flag;
     }
 
-    if ((error_flag = normalize_number_of_cols(&table)) != NO_ERROR)
+    if (table.rows != NULL)
     {
-        fprintf(stderr, "Failed to normalize colums\n");
-        deallocate_table(&table);
-        deallocate_base_commands(&base_commands_store);
-        return error_flag;
-    }
+        if ((error_flag = normalize_number_of_cols(&table)) != NO_ERROR)
+        {
+            fprintf(stderr, "Failed to normalize colums\n");
+            deallocate_table(&table);
+            deallocate_base_commands(&base_commands_store);
+            return error_flag;
+        }
 
-    if ((error_flag = execute_commands(&table, &base_commands_store)) != NO_ERROR)
-    {
-        fprintf(stderr, "Failed to execute all commands\n");
-        deallocate_table(&table);
-        deallocate_base_commands(&base_commands_store);
-        return error_flag;
+        if ((error_flag = execute_commands(&table, &base_commands_store)) != NO_ERROR)
+        {
+            fprintf(stderr, "Failed to execute all commands\n");
+            deallocate_table(&table);
+            deallocate_base_commands(&base_commands_store);
+            return error_flag;
+        }
     }
 
 #ifdef DEBUG
