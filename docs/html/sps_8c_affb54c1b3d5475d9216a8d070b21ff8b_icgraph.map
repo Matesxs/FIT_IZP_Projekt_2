@@ -1,8 +1,18 @@
 <map id="strings_equal" name="strings_equal">
-<area shape="rect" id="node1" title=" " alt="" coords="528,81,627,108"/>
-<area shape="rect" id="node2" href="$sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="137,5,247,32"/>
-<area shape="rect" id="node3" href="$sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,81,56,108"/>
-<area shape="rect" id="node4" href="$sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,107,480,133"/>
-<area shape="rect" id="node6" href="$sps_8c.html#a189669ed678a4a299c5f81e3da224779" title=" " alt="" coords="341,157,467,184"/>
-<area shape="rect" id="node5" href="$sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,107,280,133"/>
+<area shape="rect" id="node1" title=" " alt="" coords="907,246,1005,272"/>
+<area shape="rect" id="node2" href="$sps_8c.html#ab30d7f01a3eb40573fdc89b597ff0980" title=" " alt="" coords="349,119,459,146"/>
+<area shape="rect" id="node3" href="$sps_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,246,56,272"/>
+<area shape="rect" id="node4" href="$sps_8c.html#ae8307927d56e47471f48fef43cde3b7e" title=" " alt="" coords="739,195,858,222"/>
+<area shape="rect" id="node6" href="$sps_8c.html#ad0ecb7e4c1c905d65324e4408fd361d0" title=" " alt="" coords="357,246,451,272"/>
+<area shape="rect" id="node9" href="$sps_8c.html#a59c7248bb7f5601a4d1c060cd5991b6c" title=" " alt="" coords="560,94,659,120"/>
+<area shape="rect" id="node10" href="$sps_8c.html#a35b4d9bc7065ff111cb050980cc25b0c" title=" " alt="" coords="328,411,480,438"/>
+<area shape="rect" id="node12" href="$sps_8c.html#a189669ed678a4a299c5f81e3da224779" title=" " alt="" coords="129,460,255,487"/>
+<area shape="rect" id="node13" href="$sps_8c.html#abf350c33bfbd444c82152a2217535213" title=" " alt="" coords="528,144,691,171"/>
+<area shape="rect" id="node14" href="$sps_8c.html#ab38f2e84526721fe015e501b64ba8090" title=" " alt="" coords="528,296,691,323"/>
+<area shape="rect" id="node15" href="$sps_8c.html#a82866a5774cf2ed3e49c8624f1de4711" title=" " alt="" coords="739,246,859,272"/>
+<area shape="rect" id="node16" href="$sps_8c.html#a04aba90e57e43c319b6f8a7d7eaa306b" title=" " alt="" coords="749,347,848,374"/>
+<area shape="rect" id="node5" href="$sps_8c.html#acc62a2d999f2ba606f512a585b240ec8" title=" " alt="" coords="559,195,659,222"/>
+<area shape="rect" id="node8" href="$sps_8c.html#a3c46f5ef8f8be7db7a21a479e4de2b27" title=" " alt="" coords="561,246,657,272"/>
+<area shape="rect" id="node7" href="$sps_8c.html#a6789412cb694aa5cf8f6b66151693719" title=" " alt="" coords="123,246,261,272"/>
+<area shape="rect" id="node11" href="$sps_8c.html#a768adbb60c21d8b13dedee118ca0d076" title=" " alt="" coords="104,372,280,399"/>
 </map>

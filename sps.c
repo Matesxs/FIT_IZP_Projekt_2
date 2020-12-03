@@ -10,7 +10,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <limits.h>
 #include <float.h>
 
 #define DEBUG
@@ -152,7 +151,7 @@ _Bool string_end_with(const char *base_string, const char *end_string)
      * Check if @p base_string ends with @p end_string
      *
      * @param base_string String where to look for substring
-     * @param start_string Substring to look for at the end of base_string
+     * @param end_string Substring to look for at the end of base_string
      *
      * @return true if @p base_string ends with @p end_string, false if dont
      */
@@ -1293,7 +1292,7 @@ void copy_selector(Raw_selector *source, Raw_selector *dest)
      * @brief Copy values from selector @p source to selector @p dest
      *
      * @param source Pointer to instance of #Raw_selector struct from which we want copy data
-     * @param source Pointer to instance of #Raw_selector struct where we want save data
+     * @param dest Pointer to instance of #Raw_selector struct where we want save data
      */
 
     dest->lld_ir1 = source->lld_ir1;
