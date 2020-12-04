@@ -11,5 +11,6 @@ var searchData=
   ['append_5fcol_8',['append_col',['../sps_8c.html#af4b6098a72165553e7b1cd839ffc03ee',1,'sps.c']]],
   ['append_5fempty_5fcell_9',['append_empty_cell',['../sps_8c.html#ac2b3081ef455b92a62692541d283e512',1,'sps.c']]],
   ['append_5frow_10',['append_row',['../sps_8c.html#aaf9107fec602ad1ebe1f719810141008',1,'sps.c']]],
-  ['arguments_11',['arguments',['../struct_base__command.html#a0291e7e7a4a9abdbcd172e6ea80582b9',1,'Base_command']]]
+  ['arguments_11',['arguments',['../struct_base__command.html#a0291e7e7a4a9abdbcd172e6ea80582b9',1,'Base_command']]],
+  ['avg_5fcells_12',['avg_cells',['../sps_8c.html#aef05f79e976680a9acca013de35bc8dc',1,'sps.c']]]
 ];

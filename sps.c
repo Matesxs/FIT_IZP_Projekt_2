@@ -383,6 +383,7 @@ int ldouble_to_string(long double value, char **output_string)
      * @brief Convert long double @p value to string
      *
      * @param value Long double value that we want to convert to string
+     * @param output_string Pointer to output string
      *
      * @return #NO_ERROR on success, #ALLOCATION_FAILED on error
      */
@@ -415,6 +416,7 @@ int lint_to_string(long int value, char **output_string)
      * @brief Convert long int @p value to string
      *
      * @param value Long int value that we want to convert to string
+     * @param output_string Pointer to output string
      *
      * @return #NO_ERROR on success, #ALLOCATION_FAILED on error
      */
@@ -1320,6 +1322,52 @@ _Bool check_sanity_of_delims(char *delims)
     }
 
     return true;
+}
+
+int filter_string(char *string)
+{
+    /**
+     * @brief Filter special characters from string
+     *
+     * @param string String to filter
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    if ((string_start_with(string, "\"") && string_end_with(string, "\"")) ||
+        (string_start_with(string, "\'") && string_end_with(string, "\'")))
+    {
+        if ((ret_val = trim_se(string)) != NO_ERROR)
+            return ret_val;
+    }
+
+    return NO_ERROR;
+}
+
+int filter_table(Table *table)
+{
+    /**
+     * @brief Filter special characters from all cells in table
+     *
+     * @param table Pointer to instance of #Table structure
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    for (long long int i = 0; (i < table->num_of_rows) && (ret_val == NO_ERROR); i++)
+    {
+        for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
+        {
+            if ((ret_val = filter_string(table->rows[i].cells[j].content)) != NO_ERROR)
+                break;
+        }
+    }
+
+    return ret_val;
 }
 
 int set_cell(char *string, Cell *cell)
@@ -3370,6 +3418,14 @@ int main(int argc, char *argv[]) {
         if ((error_flag = normalize_number_of_cols(&table)) != NO_ERROR)
         {
             fprintf(stderr, "Failed to normalize colums\n");
+            deallocate_table(&table);
+            deallocate_base_commands(&base_commands_store);
+            return error_flag;
+        }
+
+        if ((error_flag = filter_table(&table)) != NO_ERROR)
+        {
+            fprintf(stderr, "Failed to filter special characters from table\n");
             deallocate_table(&table);
             deallocate_base_commands(&base_commands_store);
             return error_flag;

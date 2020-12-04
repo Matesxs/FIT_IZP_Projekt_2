@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['rm_5fnewline_5fchars_183',['rm_newline_chars',['../sps_8c.html#a82bf3c8a53884d9aa6bdaa102ce6aff9',1,'sps.c']]]
+  ['parse_5fcommand_5fargument_220',['parse_command_argument',['../sps_8c.html#a1da1f97f6535c7703aaf38c37c2cd202',1,'sps.c']]],
+  ['parse_5fcommands_221',['parse_commands',['../sps_8c.html#a189669ed678a4a299c5f81e3da224779',1,'sps.c']]],
+  ['print_5ftable_222',['print_table',['../sps_8c.html#a9a5e00e275d7301ebea0d3374e622a9f',1,'sps.c']]]
 ];
