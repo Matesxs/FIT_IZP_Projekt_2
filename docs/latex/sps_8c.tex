@@ -110,7 +110,7 @@ int \mbox{\hyperlink{sps_8c_ab430b31b4d743af5fdd6b32fb1d79ae7}{lint\+\_\+to\+\_\
 \item 
 long long int \mbox{\hyperlink{sps_8c_a1c11c9f3858a530dba3a17798f4a48be}{count\+\_\+char}} (char $\ast$string, char c, \+\_\+\+Bool ignore\+\_\+escapes)
 \item 
-long long int \mbox{\hyperlink{sps_8c_a6a32ddf51ec63ae7b1dfaabefbcb9a4f}{get\+\_\+position\+\_\+of\+\_\+character}} (const char $\ast$string, char ch, long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
+long long int \mbox{\hyperlink{sps_8c_ac294cba61a9bb545a815934b2e84f34d}{get\+\_\+position\+\_\+of\+\_\+character}} (char $\ast$string, char ch, long long int index, \+\_\+\+Bool ignore\+\_\+escapes)
 \item 
 void \mbox{\hyperlink{sps_8c_a82bf3c8a53884d9aa6bdaa102ce6aff9}{rm\+\_\+newline\+\_\+chars}} (char $\ast$s)
 \item 
@@ -157,6 +157,8 @@ int \mbox{\hyperlink{sps_8c_af760b916f22d5a039108ff7169828bd0}{filter\+\_\+strin
 int \mbox{\hyperlink{sps_8c_a4bc4ba404820c80a950a93bff0faabf5}{filter\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
 int \mbox{\hyperlink{sps_8c_a5e838a8d43bea265f8eb1a06871d34bb}{surround\+\_\+with\+\_\+dparentecies}} (\mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
+\item 
+int \mbox{\hyperlink{sps_8c_ad7f41329f5382be271985f575a7bbf44}{add\+\_\+backslashes}} (\mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
 \item 
 int \mbox{\hyperlink{sps_8c_a9ed714f68e52abebb681d34f2e9bfd5b}{format\+\_\+table\+\_\+for\+\_\+output}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, const char $\ast$delims)
 \item 
@@ -445,6 +447,28 @@ N\+U\+M\+\_\+\+C\+O\+N\+V\+E\+R\+S\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED&Error when con
 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{sps_8c_ad7f41329f5382be271985f575a7bbf44}\label{sps_8c_ad7f41329f5382be271985f575a7bbf44}} 
+\index{sps.c@{sps.c}!add\_backslashes@{add\_backslashes}}
+\index{add\_backslashes@{add\_backslashes}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{add\_backslashes()}{add\_backslashes()}}
+{\footnotesize\ttfamily int add\+\_\+backslashes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_cell}{Cell}} $\ast$}]{cell }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{sps_8c_ad7f41329f5382be271985f575a7bbf44_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_ad7f41329f5382be271985f575a7bbf44_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2}\label{sps_8c_a0cbe6f82ae9a54d70c80bd382b22b2c2}} 
 \index{sps.c@{sps.c}!allocate\_cells@{allocate\_cells}}
 \index{allocate\_cells@{allocate\_cells}!sps.c@{sps.c}}
@@ -849,7 +873,8 @@ Parse and save line data
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1199,7 +1224,8 @@ Assign proper function to {\ttfamily command} and execute it to edit table
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1333,7 +1359,8 @@ Filter special characters from all cells in table
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1373,8 +1400,7 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{sps_8c_a9ed714f68e52abebb681d34f2e9bfd5b_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1403,7 +1429,8 @@ Get command string for aguments and open it as file and parse it to individual c
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1474,11 +1501,11 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=323pt]{sps_8c_a402e704273d7f0d445b26907631fd6ba_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{sps_8c_a6a32ddf51ec63ae7b1dfaabefbcb9a4f}\label{sps_8c_a6a32ddf51ec63ae7b1dfaabefbcb9a4f}} 
+\mbox{\Hypertarget{sps_8c_ac294cba61a9bb545a815934b2e84f34d}\label{sps_8c_ac294cba61a9bb545a815934b2e84f34d}} 
 \index{sps.c@{sps.c}!get\_position\_of\_character@{get\_position\_of\_character}}
 \index{get\_position\_of\_character@{get\_position\_of\_character}!sps.c@{sps.c}}
 \doxysubsubsection{\texorpdfstring{get\_position\_of\_character()}{get\_position\_of\_character()}}
-{\footnotesize\ttfamily long long int get\+\_\+position\+\_\+of\+\_\+character (\begin{DoxyParamCaption}\item[{const char $\ast$}]{string,  }\item[{char}]{ch,  }\item[{long long int}]{index,  }\item[{\+\_\+\+Bool}]{ignore\+\_\+escapes }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily long long int get\+\_\+position\+\_\+of\+\_\+character (\begin{DoxyParamCaption}\item[{char $\ast$}]{string,  }\item[{char}]{ch,  }\item[{long long int}]{index,  }\item[{\+\_\+\+Bool}]{ignore\+\_\+escapes }\end{DoxyParamCaption})}
 
 Get position of character of certain index in string
 
@@ -1500,11 +1527,20 @@ Position of {\ttfamily index} ocurence of {\ttfamily ch} in string if valid ocur
 \end{DoxyReturn}
 \begin{DoxyRefDesc}{Todo}
 \item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Rework to strchr \end{DoxyRefDesc}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{sps_8c_a6a32ddf51ec63ae7b1dfaabefbcb9a4f_icgraph}
+\includegraphics[width=309pt]{sps_8c_ac294cba61a9bb545a815934b2e84f34d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_ac294cba61a9bb545a815934b2e84f34d_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a5e37b05207a4987d72860356d6e68a35}\label{sps_8c_a5e37b05207a4987d72860356d6e68a35}} 
@@ -1538,11 +1574,12 @@ Wantend portion is selected by {\ttfamily index}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=319pt]{sps_8c_a5e37b05207a4987d72860356d6e68a35_cgraph}
+\includegraphics[width=350pt]{sps_8c_a5e37b05207a4987d72860356d6e68a35_cgraph}
 \end{center}
 \end{figure}
 Here is the caller graph for this function\+:\nopagebreak
@@ -1894,7 +1931,8 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=279pt]{sps_8c_ae8307927d56e47471f48fef43cde3b7e_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -2063,7 +2101,8 @@ Load and parse data from file
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -2110,6 +2149,14 @@ Iterate over all delims and all characters in line and replace and valid delim f
 {\em delims} & Array of deliminator characters\\
 \hline
 \end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{sps_8c_a72c7045ef865d17564d1de763604c72c_cgraph}
+\end{center}
+\end{figure}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -2232,7 +2279,8 @@ Split command arguments, convert them to numbers and return as array
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -2266,7 +2314,8 @@ Split raw commands to function part and argument part
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -2711,7 +2760,8 @@ Set values in selector based on inputed {\ttfamily command} and {\ttfamily table
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -2869,7 +2919,8 @@ Check if {\ttfamily base\+\_\+string} starts with {\ttfamily start\+\_\+string}
 \begin{DoxyReturn}{Returns}
 true if {\ttfamily base\+\_\+string} starts with {\ttfamily start\+\_\+string}, false if dont
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -2958,7 +3009,8 @@ Check if two string {\ttfamily s1} and {\ttfamily s2} are same
 \begin{DoxyReturn}{Returns}
 true if string are equal, false if dont
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -3020,16 +3072,14 @@ Surround content of cell with parentecies
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success, \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}} on error
 \end{DoxyReturn}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=341pt]{sps_8c_a5e838a8d43bea265f8eb1a06871d34bb_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -3114,7 +3164,8 @@ Trim start and end of string
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success, \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3a0e3fe733c3c6938714b83f1f71ec9095}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+R\+R\+OR}} on error
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
