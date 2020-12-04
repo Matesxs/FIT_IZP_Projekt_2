@@ -461,25 +461,33 @@ long long int count_char(char *string, char c, _Bool ignore_escapes)
         return 0;
 
     size_t lenght_of_string = strlen(string);
-    _Bool in_parentecies = false;
     _Bool in_double_parentecies = false;
     long long int counter = 0;
+
+    long long int possible_occurencies = 0;
+    for (size_t i = 0; i < lenght_of_string; i++)
+        if (string[i] == '"')
+            possible_occurencies++;
+
+    if ((possible_occurencies % 2) > 0)
+        possible_occurencies --;
+
+    long long int occurencies = 0;
 
     for (size_t i = 0; i < lenght_of_string; i++)
     {
         char cc = string[i];
 
-        if (!in_parentecies)
-            if (cc == '"')
+        if (cc == '"')
+        {
+            occurencies++;
+            if ((i == 0 || string[i-1] != '\\') && (occurencies <= possible_occurencies))
                 in_double_parentecies = !in_double_parentecies;
-
-        if (!in_double_parentecies)
-            if (cc == '\'')
-                in_parentecies = !in_parentecies;
+        }
 
         if (cc == c)
         {
-            if (ignore_escapes || (!in_parentecies && !in_double_parentecies && (i != 0 && string[i-1] != '\\')))
+            if (ignore_escapes || (!in_double_parentecies && (i != 0 && string[i-1] != '\\')))
             {
                 counter++;
             }
@@ -489,7 +497,7 @@ long long int count_char(char *string, char c, _Bool ignore_escapes)
     return counter;
 }
 
-long long int get_position_of_character(const char *string, char ch, long long int index, _Bool ignore_escapes)
+long long int get_position_of_character(char *string, char ch, long long int index, _Bool ignore_escapes)
 {
     /**
      * @brief Get position of character of certain index in string
@@ -508,23 +516,26 @@ long long int get_position_of_character(const char *string, char ch, long long i
      */
 
     long long int counter = 0;
-    _Bool in_parentecies = false;
     _Bool in_double_parentecies = false;
+
+    long long int possible_occurencies = count_char(string, '"', true);
+    if ((possible_occurencies % 2) > 0)
+        possible_occurencies --;
+
+    long long int occurencies = 0;
 
     for (size_t i = 0; string[i]; i++)
     {
-        if (!in_parentecies)
-            if (string[i] == '"')
+        if (string[i] == '"')
+        {
+            occurencies++;
+            if ((i == 0 || string[i-1] != '\\') && (occurencies <= possible_occurencies))
                 in_double_parentecies = !in_double_parentecies;
-
-        if (!in_double_parentecies)
-            if (string[i] == '\'')
-                in_parentecies = !in_parentecies;
-
+        }
 
         if (string[i] == ch)
         {
-            if (ignore_escapes || (!in_parentecies && !in_double_parentecies && (i != 0 && string[i-1] != '\\')))
+            if (ignore_escapes || (!in_double_parentecies && (i != 0 && string[i-1] != '\\')))
             {
                 counter++;
                 if ((counter - 1) == index)
@@ -641,26 +652,29 @@ void normalize_delims(char *line, const char *delims)
     size_t num_of_delims = strlen(delims);
     size_t length_of_line = strlen(line);
 
+    long long int possible_occurencies = count_char(line, '"', true);
+    if ((possible_occurencies % 2) > 0)
+        possible_occurencies --;
+
     for (size_t i = 1; i < num_of_delims; i++)
     {
-        _Bool in_parentecies = false;
         _Bool in_double_parentecies = false;
+        long long int occurencies = 0;
 
         for (size_t j = 0; j < length_of_line; j++)
         {
             char cc = line[j];
 
-            if (!in_parentecies)
-                if (cc == '"')
+            if (cc == '"')
+            {
+                occurencies++;
+                if ((j == 0 || line[j-1] != '\\') && (occurencies <= possible_occurencies))
                     in_double_parentecies = !in_double_parentecies;
-
-            if (!in_double_parentecies)
-                if (cc == '\'')
-                    in_parentecies = !in_parentecies;
+            }
 
             if (cc == delims[i])
             {
-                if (!in_parentecies && !in_double_parentecies && (j != 0 && line[j-1] != '\\'))
+                if (!in_double_parentecies && (j != 0 && line[j-1] != '\\'))
                 {
                     line[j] = delims[0];
                 }
@@ -1343,6 +1357,17 @@ int filter_string(char *string)
             return ret_val;
     }
 
+    unsigned long long int lenghth_of_string = strlen(string);
+    for (unsigned long long int i = 0; i < lenghth_of_string; i++)
+    {
+        char c = string[i];
+
+        if (c == '\\' && (i + 1) < lenghth_of_string && (string[i + 1] != '\\' || string[i + 1] != '\"'))
+        {
+            memmove(string + i, string + i + 1, strlen(string + i));
+        }
+    }
+
     return NO_ERROR;
 }
 
@@ -1360,10 +1385,19 @@ int filter_table(Table *table)
 
     for (long long int i = 0; (i < table->num_of_rows) && (ret_val == NO_ERROR); i++)
     {
-        for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
+        for (long long int j = 0; (j < table->rows[i].num_of_cells) && (ret_val == NO_ERROR); j++)
         {
             if ((ret_val = filter_string(table->rows[i].cells[j].content)) != NO_ERROR)
                 break;
+
+            if (is_string_ldouble(table->rows[i].cells[j].content) && string_start_with(table->rows[i].cells[j].content, " "))
+            {
+                while (string_start_with(table->rows[i].cells[j].content, " "))
+                {
+                    if ((ret_val = trim_start(table->rows[i].cells[j].content)) != NO_ERROR)
+                        break;
+                }
+            }
         }
     }
 
@@ -1396,6 +1430,30 @@ int surround_with_dparentecies(Cell *cell)
     return NO_ERROR;
 }
 
+int add_backslashes(Cell *cell)
+{
+    unsigned long long int length_of_string = strlen(cell->content);
+    int occurences = 0;
+    for (unsigned long long int i = 0; i < length_of_string; i++)
+    {
+        char c = cell->content[i];
+        if (c == '\\' || c == '\"')
+        {
+            if ((unsigned long long int)cell->allocated_chars <= (length_of_string + 1))
+                if (allocate_content(cell) != NO_ERROR)
+                    return ALLOCATION_FAILED;
+
+            memmove(cell->content + i + 1, cell->content + i, strlen(cell->content + i));
+            cell->content[i] = '\\';
+            occurences++;
+            i++;
+            cell->content[length_of_string - occurences + 2] = '\0';
+        }
+    }
+
+    return NO_ERROR;
+}
+
 int format_table_for_output(Table *table, const char *delims)
 {
     /**
@@ -1414,6 +1472,9 @@ int format_table_for_output(Table *table, const char *delims)
     {
         for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
         {
+            if ((ret_val = add_backslashes(&table->rows[i].cells[j])) != NO_ERROR)
+                break;
+
             for (size_t k = 0; k < number_of_delims; k++)
             {
                 if (count_char(table->rows[i].cells[j].content, delims[k], false) > 0)
