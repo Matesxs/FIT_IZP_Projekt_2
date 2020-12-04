@@ -156,6 +156,10 @@ int \mbox{\hyperlink{sps_8c_af760b916f22d5a039108ff7169828bd0}{filter\+\_\+strin
 \item 
 int \mbox{\hyperlink{sps_8c_a4bc4ba404820c80a950a93bff0faabf5}{filter\+\_\+table}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table)
 \item 
+int \mbox{\hyperlink{sps_8c_a5e838a8d43bea265f8eb1a06871d34bb}{surround\+\_\+with\+\_\+dparentecies}} (\mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
+\item 
+int \mbox{\hyperlink{sps_8c_a9ed714f68e52abebb681d34f2e9bfd5b}{format\+\_\+table\+\_\+for\+\_\+output}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, const char $\ast$delims)
+\item 
 int \mbox{\hyperlink{sps_8c_a27192fb50be75e2b837926af9c17a084}{set\+\_\+cell}} (char $\ast$string, \mbox{\hyperlink{struct_cell}{Cell}} $\ast$cell)
 \item 
 int \mbox{\hyperlink{sps_8c_a300ed4f126d419ede7386d02cc33f015}{set\+\_\+value\+\_\+in\+\_\+area}} (\mbox{\hyperlink{struct_table}{Table}} $\ast$table, \mbox{\hyperlink{struct_raw__selector}{Raw\+\_\+selector}} $\ast$selector, char $\ast$string)
@@ -484,7 +488,8 @@ Allocate content (char array) in instance of \mbox{\hyperlink{struct_cell}{Cell}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -816,7 +821,8 @@ Count ocurences of specific character in string with option to ignore escaped ch
 \begin{DoxyReturn}{Returns}
 Number of ocurences of searched character
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -1339,6 +1345,40 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=215pt]{sps_8c_a4bc4ba404820c80a950a93bff0faabf5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a9ed714f68e52abebb681d34f2e9bfd5b}\label{sps_8c_a9ed714f68e52abebb681d34f2e9bfd5b}} 
+\index{sps.c@{sps.c}!format\_table\_for\_output@{format\_table\_for\_output}}
+\index{format\_table\_for\_output@{format\_table\_for\_output}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{format\_table\_for\_output()}{format\_table\_for\_output()}}
+{\footnotesize\ttfamily int format\+\_\+table\+\_\+for\+\_\+output (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_table}{Table}} $\ast$}]{table,  }\item[{const char $\ast$}]{delims }\end{DoxyParamCaption})}
+
+Format {\ttfamily table} for output
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & Pointer to instance of \mbox{\hyperlink{struct_table}{Table}} structure that will be eddited \\
+\hline
+{\em delims} & Array of chars that was used as delims\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success in other cases coresponding error code from \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3}{Error\+Codes}}
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a9ed714f68e52abebb681d34f2e9bfd5b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{sps_8c_a9ed714f68e52abebb681d34f2e9bfd5b_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}\label{sps_8c_ab30d7f01a3eb40573fdc89b597ff0980}} 
@@ -2045,7 +2085,8 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Main of whole program \begin{DoxyRefDesc}{Todo}
 \item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Refactor error handling -\/ separate to own function \end{DoxyRefDesc}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -2961,6 +3002,38 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{sps_8c_a20d66e745d8487ce4c541705af5f93c8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{sps_8c_a5e838a8d43bea265f8eb1a06871d34bb}\label{sps_8c_a5e838a8d43bea265f8eb1a06871d34bb}} 
+\index{sps.c@{sps.c}!surround\_with\_dparentecies@{surround\_with\_dparentecies}}
+\index{surround\_with\_dparentecies@{surround\_with\_dparentecies}!sps.c@{sps.c}}
+\doxysubsubsection{\texorpdfstring{surround\_with\_dparentecies()}{surround\_with\_dparentecies()}}
+{\footnotesize\ttfamily int surround\+\_\+with\+\_\+dparentecies (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_cell}{Cell}} $\ast$}]{cell }\end{DoxyParamCaption})}
+
+Surround content of cell with parentecies
+
+
+\begin{DoxyParams}{Parameters}
+{\em cell} & Pointer to instance of \mbox{\hyperlink{struct_cell}{Cell}} structure where content string is located\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3abf350750d0d4fabd8954c0f1e9bbae94}{N\+O\+\_\+\+E\+R\+R\+OR}} on success, \mbox{\hyperlink{sps_8c_a3878e89dc5c88d823f4f923ef90dbcb3af33fcc493317fae7f4b6ee3a2621b28c}{A\+L\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+ED}} on error
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{sps_8c_a5e838a8d43bea265f8eb1a06871d34bb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sps_8c_a5e838a8d43bea265f8eb1a06871d34bb_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{sps_8c_a121f0c6557a26b202ce3bb703b84c8d6}\label{sps_8c_a121f0c6557a26b202ce3bb703b84c8d6}} 
