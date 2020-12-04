@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include <float.h>
 
-#define DEBUG
+// #define DEBUG
 
 #define BLACKLISTED_DELIMS "\'\"\\" /**< Character that are not allowed to use as delim character */
 #define DEFAULT_DELIM " " /**< Default delimiter array */
