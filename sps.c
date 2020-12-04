@@ -58,7 +58,7 @@ enum ErrorCodes
     FUNCTION_ERROR,               /**< Generic function error @warning This should not occur! - 5 */
     FUNCTION_ARGUMENT_ERROR,      /**< Error when function gets unexpected value in argument - 6 */
     VALUE_ERROR,                  /**< Error when function gets bad value in argument - 7 */
-    COMMAND_ERROR,                /**< Error when received invalid commands - 8 */
+    COMMAND_ERROR,                /**< Error when received invalid commands or invalid value - 8 */
     SELECTOR_ERROR,               /**< Error when invalid selector is received - 9 */
     NUM_CONVERSION_FAILED,        /**< Error when converting string to numeric value failed - 10 */
 };
@@ -374,6 +374,70 @@ int string_to_ldouble(char *string, long double *val)
     if (!strings_equal(rest, EMPTY_CELL))
         return NUM_CONVERSION_FAILED;
 
+    return NO_ERROR;
+}
+
+int ldouble_to_string(long double value, char **output_string)
+{
+    /**
+     * @brief Convert long double @p value to string
+     *
+     * @param value Long double value that we want to convert to string
+     *
+     * @return #NO_ERROR on success, #ALLOCATION_FAILED on error
+     */
+
+    char *temp_string = (char*)malloc(BASE_CELL_LENGTH * sizeof(char));
+    if (temp_string == NULL)
+        return ALLOCATION_FAILED;
+
+    unsigned long long int tlength = snprintf(temp_string, BASE_CELL_LENGTH, "%Lg", value);
+    if ((tlength + 1) > BASE_CELL_LENGTH)
+    {
+        char *tmp = (char*)realloc(temp_string, (tlength + 1) * sizeof(char));
+        if (tmp == NULL)
+        {
+            free(temp_string);
+            return ALLOCATION_FAILED;
+        }
+
+        temp_string = tmp;
+        snprintf(temp_string, tlength + 1, "%Lg", value);
+    }
+
+    *output_string = temp_string;
+    return NO_ERROR;
+}
+
+int lint_to_string(long int value, char **output_string)
+{
+    /**
+     * @brief Convert long int @p value to string
+     *
+     * @param value Long int value that we want to convert to string
+     *
+     * @return #NO_ERROR on success, #ALLOCATION_FAILED on error
+     */
+
+    char *temp_string = (char*)malloc(BASE_CELL_LENGTH * sizeof(char));
+    if (temp_string == NULL)
+        return ALLOCATION_FAILED;
+
+    unsigned long long int tlength = snprintf(temp_string, BASE_CELL_LENGTH, "%li", value);
+    if ((tlength + 1) > BASE_CELL_LENGTH)
+    {
+        char *tmp = (char*)realloc(temp_string, (tlength + 1) * sizeof(char));
+        if (tmp == NULL)
+        {
+            free(temp_string);
+            return ALLOCATION_FAILED;
+        }
+
+        temp_string = tmp;
+        snprintf(temp_string, tlength + 1, "%li", value);
+    }
+
+    *output_string = temp_string;
     return NO_ERROR;
 }
 
@@ -693,6 +757,12 @@ void deallocate_raw_commands(Raw_commands *commands_store)
 
 void deallocate_base_commands(Base_commands *base_commands)
 {
+    /**
+     * @brief Deallocate content of istance @p base_commands of #Base_commands structure
+     *
+     * @param base_commands Pointer to instance of #Base_commands structure
+     */
+
     if (base_commands->commands == NULL)
         return;
 
@@ -1075,6 +1145,78 @@ int parse_commands(Raw_commands *raw_command_store, Base_commands *base_command_
     return NO_ERROR;
 }
 
+int parse_command_argument(char *command_argument, long long int **output_indexes, Table *table)
+{
+    /**
+     * @brief Parse command arguments
+     *
+     * Split command arguments, convert them to numbers and return as array
+     *
+     * @param command_argument String with command arguments
+     * @param output_indexes Pointer to output array of parsed arguments
+     * @param table Pointer to instance of #Table structure for checking if values in argument are right
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+
+    if (!string_start_with(command_argument, "[") || !string_end_with(command_argument, "]"))
+        return COMMAND_ERROR;
+
+    if ((ret_val = trim_se(command_argument)) != NO_ERROR)
+        return ret_val;
+
+    long long int num_of_parts = count_char(command_argument, ',', true) + 1;
+    if (num_of_parts != 2)
+        return COMMAND_ERROR;
+
+    if (table->num_of_rows == 0 || table->rows[0].num_of_cells == 0)
+        return FUNCTION_ERROR;
+
+    char *parts[2] = { NULL };
+    long long int *indexes = (long long int*)malloc(2 * sizeof(long long int));
+    if (indexes == NULL)
+        return ALLOCATION_FAILED;
+
+    memset(indexes, 0, 2 * sizeof(long long int));
+
+    for (long long int i = 0; i < num_of_parts; i++)
+    {
+        if ((ret_val = get_substring(command_argument, &parts[i], ',', i, true, NULL, false)) != NO_ERROR)
+            break;
+
+        if (is_string_llint(parts[i]))
+        {
+            if ((ret_val = string_to_llint(parts[i], &indexes[i])) != NO_ERROR)
+                break;
+        }
+        else
+        {
+            if (strings_equal(parts[i], "-"))
+                indexes[i] = (i == 0) ? table->num_of_rows : table->rows[0].num_of_cells;
+            else
+            {
+                ret_val = COMMAND_ERROR;
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < num_of_parts; i++)
+    {
+        free(parts[i]);
+        indexes[i] -= 1;
+
+        if (ret_val == NO_ERROR)
+            if ((indexes[i]) < 0 || indexes[i] >= (((i == 0) ? table->num_of_rows : table->rows[0].num_of_cells)))
+                ret_val = COMMAND_ERROR;
+    }
+
+    (*output_indexes) = indexes;
+    return ret_val;
+}
+
 void print_table(Table *table)
 {
     /**
@@ -1196,6 +1338,9 @@ int set_cell(char *string, Cell *cell)
      * @return #NO_ERROR when setting value is successful or when allocation fails #ALLOCATION_FAILED
      */
 
+    if (string == NULL)
+        return FUNCTION_ARGUMENT_ERROR;
+
     if (cell->content == NULL)
     {
         // Allocate base cell
@@ -1241,29 +1386,257 @@ int set_value_in_area(Table *table, Raw_selector *selector, char *string)
     return ret_val;
 }
 
-int swap_cells_in_row(Row *row, long long int index1, long long int index2)
+int swap_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
 {
-    if (row->num_of_cells == 0)
-        return FUNCTION_ERROR;
+    /**
+     * @brief Swap cell with another one
+     *
+     * @warning
+     * If more than one cell is selected then all selected cells will be swaped row by row and then cell by cell
+     *
+     * @param table Pointer to instance of #Table structure where output data will be saved
+     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param r Row index of base cell for swap
+     * @param c Column index of base cell for swap
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
 
-    if (index1 < 0 || index2 < 0 || index1 >= row->num_of_cells || index2 >= row->num_of_cells)
+    if (r < 0 || r > (table->num_of_rows - 1) || c < 0 || c > (table->rows[0].num_of_cells - 1))
         return FUNCTION_ARGUMENT_ERROR;
 
-    if (index1 == index2)
-        return NO_ERROR;
-
     int ret_val = NO_ERROR;
-    char *buff1 = NULL, *buff2 = NULL;
 
-    if (((ret_val = string_copy(&row->cells[index1].content, &buff1)) == NO_ERROR) && ((ret_val = string_copy(&row->cells[index2].content, &buff2)) == NO_ERROR))
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
     {
-        ret_val = set_cell(buff2, &row->cells[index1]);
-        if (ret_val == NO_ERROR)
-            ret_val = set_cell(buff1, &row->cells[index2]);
+        for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if ((i == r) && (j == c))
+                continue;
+
+            char *buff1 = NULL, *buff2 = NULL;
+
+            if (((ret_val = string_copy(&table->rows[r].cells[c].content, &buff1)) == NO_ERROR) && ((ret_val = string_copy(&table->rows[i].cells[j].content, &buff2)) == NO_ERROR))
+            {
+                ret_val = set_cell(buff2, &table->rows[r].cells[c]);
+                if (ret_val == NO_ERROR)
+                    ret_val = set_cell(buff1, &table->rows[i].cells[j]);
+            }
+
+            free(buff1);
+            free(buff2);
+
+            if (ret_val != NO_ERROR)
+                break;
+        }
+
+        if (ret_val != NO_ERROR)
+            break;
     }
 
-    free(buff1);
-    free(buff2);
+    return NO_ERROR;
+}
+
+int sum_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
+{
+    /**
+     * @brief Set sum of all numeric cells to output cell
+     *
+     * @warning
+     * If non numeric cell is found then NaN will be outputed
+     *
+     * @param table Pointer to instance of #Table structure where output data will be saved
+     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param r Row index of output cell
+     * @param c Column index of output cell
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (r < 0 || r > (table->num_of_rows - 1) || c < 0 || c > (table->rows[0].num_of_cells - 1))
+        return FUNCTION_ARGUMENT_ERROR;
+
+    int ret_val = NO_ERROR;
+
+    long double sum = 0;
+    _Bool nan = false;
+
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
+    {
+        for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if (is_string_ldouble(table->rows[i].cells[j].content))
+            {
+                long double tmp = 0;
+                if ((ret_val = string_to_ldouble(table->rows[i].cells[j].content, &tmp)) != NO_ERROR)
+                    return ret_val;
+
+                sum += tmp;
+            }
+            else
+            {
+                nan = true;
+                break;
+            }
+        }
+
+        if (nan)
+            break;
+    }
+
+    if (nan)
+    {
+        ret_val = set_cell("NaN", &table->rows[r].cells[c]);
+    }
+    else
+    {
+        char *temp_string = NULL;
+        if ((ret_val = ldouble_to_string(sum, &temp_string)) == NO_ERROR)
+        {
+            ret_val = set_cell(temp_string, &table->rows[r].cells[c]);
+            free(temp_string);
+        }
+    }
+
+    return ret_val;
+}
+
+int avg_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
+{
+    /**
+     * @brief Set average value of numeric cells to output cell
+     *
+     * @warning
+     * If non numeric cell is found then NaN will be outputed
+     *
+     * @param table Pointer to instance of #Table structure where output data will be saved
+     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param r Row index of output cell
+     * @param c Column index of output cell
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (r < 0 || r > (table->num_of_rows - 1) || c < 0 || c > (table->rows[0].num_of_cells - 1))
+        return FUNCTION_ARGUMENT_ERROR;
+
+    int ret_val = NO_ERROR;
+
+    long double sum = 0;
+    long double num_of_vals = 0;
+    _Bool nan = false;
+
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
+    {
+        for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if (is_string_ldouble(table->rows[i].cells[j].content))
+            {
+                long double tmp = 0;
+                if ((ret_val = string_to_ldouble(table->rows[i].cells[j].content, &tmp)) != NO_ERROR)
+                    return ret_val;
+
+                sum += tmp;
+                num_of_vals++;
+            }
+            else
+            {
+                nan = true;
+                break;
+            }
+        }
+
+        if (nan)
+            break;
+    }
+
+    if (nan)
+    {
+        ret_val = set_cell("NaN", &table->rows[r].cells[c]);
+    }
+    else
+    {
+        sum = sum / num_of_vals;
+
+        char *temp_string = NULL;
+        if ((ret_val = ldouble_to_string(sum, &temp_string)) == NO_ERROR)
+        {
+            ret_val = set_cell(temp_string, &table->rows[r].cells[c]);
+            free(temp_string);
+        }
+    }
+
+    return ret_val;
+}
+
+int count_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
+{
+    /**
+     * @brief Set number of non empty cells to output cell
+     *
+     * @param table Pointer to instance of #Table structure where output data will be saved
+     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param r Row index of output cell
+     * @param c Column index of output cell
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (r < 0 || r > (table->num_of_rows - 1) || c < 0 || c > (table->rows[0].num_of_cells - 1))
+        return FUNCTION_ARGUMENT_ERROR;
+
+    int ret_val = NO_ERROR;
+
+    long double num_of_cells = 0;
+
+    for (long long int i = selector->lld_ir1; (i <= selector->lld_ir2) && (i < table->num_of_rows); i++)
+    {
+        for (long long int j = selector->lld_ic1; (j <= selector->lld_ic2) && (j < table->rows[i].num_of_cells); j++)
+        {
+            if (!strings_equal(table->rows[i].cells[j].content, EMPTY_CELL))
+                num_of_cells++;
+        }
+    }
+
+    char *temp_string = NULL;
+    if ((ret_val = ldouble_to_string(num_of_cells, &temp_string)) == NO_ERROR)
+    {
+        ret_val = set_cell(temp_string, &table->rows[r].cells[c]);
+        free(temp_string);
+    }
+
+    return ret_val;
+}
+
+int cell_len(Table *table, Raw_selector *selector, long long int r, long long int c)
+{
+    /**
+     * @brief Set length of string to output cell
+     *
+     * @warning
+     * If more that one cell is selected then only length of last cell will be outputed
+     *
+     * @param table Pointer to instance of #Table structure where output data will be saved
+     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param r Row index of output cell
+     * @param c Column index of output cell
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    if (r < 0 || r > (table->num_of_rows - 1) || c < 0 || c > (table->rows[0].num_of_cells - 1))
+        return FUNCTION_ARGUMENT_ERROR;
+
+    int ret_val = NO_ERROR;
+
+    unsigned long int cell_length = (table->rows[selector->lld_ir2].cells[selector->lld_ic2].content != NULL) ? strlen(table->rows[selector->lld_ir2].cells[selector->lld_ic2].content) : 0;
+
+    char *temp_string = NULL;
+    if ((ret_val = ldouble_to_string((long double)cell_length, &temp_string)) == NO_ERROR)
+    {
+        ret_val = set_cell(temp_string, &table->rows[r].cells[c]);
+        free(temp_string);
+    }
 
     return ret_val;
 }
@@ -1689,6 +2062,34 @@ void selector_select_last(Raw_selector *selector, Table *table)
     selector->lld_ic1 = selector->lld_ic2 = table->rows[0].num_of_cells - 1;
 }
 
+void selector_select_last_colm(Raw_selector *selector, Table *table)
+{
+    /**
+     * @brief Select last column
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     */
+
+    selector->lld_ir1 = 0;
+    selector->lld_ir2 = table->num_of_rows - 1;
+    selector->lld_ic1 = selector->lld_ic2 = table->rows[0].num_of_cells - 1;
+}
+
+void selector_select_last_row(Raw_selector *selector, Table *table)
+{
+    /**
+     * @brief Select last row
+     *
+     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param table Pointer to instance of #Table structure
+     */
+
+    selector->lld_ir1 = selector->lld_ir2 = table->num_of_rows - 1;
+    selector->lld_ic1 = 0;
+    selector->lld_ic2 = table->rows[0].num_of_cells - 1;
+}
+
 int selector_select_4p_area(Raw_selector *selector, Table *table, char **parts, const _Bool *part_is_llint, const long long int *parts_llint)
 {
     /**
@@ -1844,6 +2245,14 @@ int set_selector(Raw_selector *selector, Raw_selector *temp_selector, Base_comma
         else if (strings_equal(buffer, "-,-") || strings_equal(buffer, "-,-,-,-"))
         {
             selector_select_last(selector, table);
+        }
+        else if (strings_equal(buffer, "_,-"))
+        {
+            selector_select_last_colm(selector, table);
+        }
+        else if (strings_equal(buffer, "-,_"))
+        {
+            selector_select_last_row(selector, table);
         }
         else if (strings_equal(buffer, "_"))
         {
@@ -2363,31 +2772,30 @@ int increase_temporary_variable(TempVariableStore *temp_var_store, long long int
     {
         // Create temp variables
         long double temp_val = 0;
-        unsigned long int length = (2 * strlen(temp_var_store->variables[index])) + 1;
-
-        // Allocate temporary string
-        char *temp_string = (char*)malloc(length * sizeof(char));
-        if (temp_string == NULL)
-            return ALLOCATION_FAILED;
 
         if (is_string_ldouble(temp_var_store->variables[index]))
         {
             if ((ret_val = string_to_ldouble(temp_var_store->variables[index], &temp_val)) != NO_ERROR)
-            {
-                free(temp_string);
                 return ret_val;
-            }
 
             temp_val += 1.0;
         }
         else
             temp_val = 1.0;
 
+        char *temp_string = NULL;
+
         // Format string value
         if (is_ldouble_lint(temp_val))
-            snprintf(temp_string, length, "%li", (long int)temp_val);
+        {
+            if ((ret_val = lint_to_string((long int)temp_val, &temp_string)) != NO_ERROR)
+                return ret_val;
+        }
         else
-            snprintf(temp_string, length, "%Lg", temp_val);
+        {
+            if ((ret_val = ldouble_to_string(temp_val, &temp_string)) != NO_ERROR)
+                return ret_val;
+        }
 
         // Clear old variable
         free(temp_var_store->variables[index]);
@@ -2625,13 +3033,24 @@ int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_comman
 
 int execute_data_editing_command(Table *table, Raw_selector *selector, Base_command *command)
 {
-    (void)table;
-    (void)selector;
+    /**
+     * @brief Execute data editing command on @p table
+     *
+     * Assign proper function to @p command and execute it to edit table
+     *
+     * @param table Pointer to instance of #Table structure that will be eddited
+     * @param selector Pointer to instance of #Raw_selector structure for selecting part of @p table to edit
+     * @param command Pointer to instance of #Base_command structure that will select function to use
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
 
     int ret_val = NO_ERROR;
     int findex = get_data_editing_command_index(command);
     if (findex == -1)
         return NO_ERROR;
+
+    long long int *advanced_args = NULL;
 
     switch (findex)
     {
@@ -2645,19 +3064,59 @@ int execute_data_editing_command(Table *table, Raw_selector *selector, Base_comm
             ret_val = set_value_in_area(table, selector, EMPTY_CELL);
             break;
 
+        // swap [R,C]
         case 2:
+            if ((ret_val = parse_command_argument(command->arguments, &advanced_args, table)) == NO_ERROR)
+            {
+                if (advanced_args != NULL)
+                    ret_val = swap_cells(table, selector, advanced_args[0], advanced_args[1]);
+                else
+                    ret_val = FUNCTION_ERROR;
+            }
             break;
 
+        // sum [R,C]
         case 3:
+            if ((ret_val = parse_command_argument(command->arguments, &advanced_args, table)) == NO_ERROR)
+            {
+                if (advanced_args != NULL)
+                    ret_val = sum_cells(table, selector, advanced_args[0], advanced_args[1]);
+                else
+                    ret_val = FUNCTION_ERROR;
+            }
             break;
 
+        // avg [R,C]
         case 4:
+            if ((ret_val = parse_command_argument(command->arguments, &advanced_args, table)) == NO_ERROR)
+            {
+                if (advanced_args != NULL)
+                    ret_val = avg_cells(table, selector, advanced_args[0], advanced_args[1]);
+                else
+                    ret_val = FUNCTION_ERROR;
+            }
             break;
 
+        // count [R,C]
         case 5:
+            if ((ret_val = parse_command_argument(command->arguments, &advanced_args, table)) == NO_ERROR)
+            {
+                if (advanced_args != NULL)
+                    ret_val = count_cells(table, selector, advanced_args[0], advanced_args[1]);
+                else
+                    ret_val = FUNCTION_ERROR;
+            }
             break;
 
+        // len [R,C]
         case 6:
+            if ((ret_val = parse_command_argument(command->arguments, &advanced_args, table)) == NO_ERROR)
+            {
+                if (advanced_args != NULL)
+                    ret_val = cell_len(table, selector, advanced_args[0], advanced_args[1]);
+                else
+                    ret_val = FUNCTION_ERROR;
+            }
             break;
 
         default:
@@ -2665,6 +3124,7 @@ int execute_data_editing_command(Table *table, Raw_selector *selector, Base_comm
             break;
     }
 
+    free(advanced_args);
     return ret_val;
 }
 
@@ -2817,11 +3277,13 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
                 break;
 
             case DATA_EDITING_COMMAND:
-                ret_val = execute_data_editing_command(table, &selector, &c_comm);
+                if (table->num_of_rows > 0 && table->rows[0].num_of_cells > 0)
+                    ret_val = execute_data_editing_command(table, &selector, &c_comm);
                 break;
 
             case TEMP_VAR_COMMAND:
-                ret_val = execute_temp_var_command(table, &selector, &c_comm, &temp_var_store);
+                if (table->num_of_rows > 0 && table->rows[0].num_of_cells > 0)
+                    ret_val = execute_temp_var_command(table, &selector, &c_comm, &temp_var_store);
                 break;
 
             default:
