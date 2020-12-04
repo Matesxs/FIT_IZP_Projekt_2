@@ -936,15 +936,27 @@ int allocate_content(Cell *cell)
             return ALLOCATION_FAILED;
 
         cell->allocated_chars = BASE_CELL_LENGTH * sizeof(char);
+        memset(cell->content, 0, cell->allocated_chars);
     }
     else
     {
+        char *temp = NULL;
+        if (string_copy(&cell->content, &temp) != NO_ERROR)
+            return ALLOCATION_FAILED;
+
         char *tmp = (char*)realloc(cell->content, (cell->allocated_chars + BASE_CELL_LENGTH) * sizeof(char));
         if (tmp == NULL)
+        {
+            free(temp);
             return ALLOCATION_FAILED;
+        }
 
         cell->allocated_chars += BASE_CELL_LENGTH;
         cell->content = tmp;
+
+        memset(cell->content, 0, cell->allocated_chars);
+        strcpy(cell->content, temp);
+        free(temp);
     }
 
     return NO_ERROR;
@@ -1338,6 +1350,39 @@ _Bool check_sanity_of_delims(char *delims)
     return true;
 }
 
+int add_backslashes(Cell *cell)
+{
+    /**
+     * @brief Add backslashes to cell if its needed
+     *
+     * @param cell Pointer to instance of #Cell structure that we want edit
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    unsigned long long int length_of_string = strlen(cell->content);
+    int occurences = 0;
+    for (unsigned long long int i = 0; i < length_of_string; i++)
+    {
+        char c = cell->content[i];
+        if (c == '\\' || c == '\"')
+        {
+            if ((unsigned long long int)cell->allocated_chars <= (length_of_string + 1))
+                if (allocate_content(cell) != NO_ERROR)
+                    return ALLOCATION_FAILED;
+
+            memmove(cell->content + i + 1, cell->content + i, strlen(cell->content + i));
+            cell->content[i] = '\\';
+            occurences++;
+            length_of_string++;
+            i++;
+            cell->content[length_of_string - occurences + 2] = '\0';
+        }
+    }
+
+    return NO_ERROR;
+}
+
 int filter_string(char *string)
 {
     /**
@@ -1426,30 +1471,6 @@ int surround_with_dparentecies(Cell *cell)
     cell->content[0] = '\"';
     cell->content[lenght_of_cell + 1] = '\"';
     cell->content[lenght_of_cell + 2] = '\0';
-
-    return NO_ERROR;
-}
-
-int add_backslashes(Cell *cell)
-{
-    unsigned long long int length_of_string = strlen(cell->content);
-    int occurences = 0;
-    for (unsigned long long int i = 0; i < length_of_string; i++)
-    {
-        char c = cell->content[i];
-        if (c == '\\' || c == '\"')
-        {
-            if ((unsigned long long int)cell->allocated_chars <= (length_of_string + 1))
-                if (allocate_content(cell) != NO_ERROR)
-                    return ALLOCATION_FAILED;
-
-            memmove(cell->content + i + 1, cell->content + i, strlen(cell->content + i));
-            cell->content[i] = '\\';
-            occurences++;
-            i++;
-            cell->content[length_of_string - occurences + 2] = '\0';
-        }
-    }
 
     return NO_ERROR;
 }
