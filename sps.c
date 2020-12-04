@@ -1370,6 +1370,63 @@ int filter_table(Table *table)
     return ret_val;
 }
 
+int surround_with_dparentecies(Cell *cell)
+{
+    /**
+     * @brief Surround content of cell with parentecies
+     *
+     * @param cell Pointer to instance of #Cell structure where content string is located
+     *
+     * @return #NO_ERROR on success, #ALLOCATION_FAILED on error
+     */
+
+    size_t lenght_of_cell = strlen(cell->content);
+
+    if ((unsigned long long int)cell->allocated_chars <= (lenght_of_cell + 3))
+    {
+        if (allocate_content(cell) != NO_ERROR)
+            return ALLOCATION_FAILED;
+    }
+
+    memmove(cell->content + 1, cell->content, lenght_of_cell);
+    cell->content[0] = '\"';
+    cell->content[lenght_of_cell + 1] = '\"';
+    cell->content[lenght_of_cell + 2] = '\0';
+
+    return NO_ERROR;
+}
+
+int format_table_for_output(Table *table, const char *delims)
+{
+    /**
+     * @brief Format @p table for output
+     *
+     * @param table Pointer to instance of #Table structure that will be eddited
+     * @param delims Array of chars that was used as delims
+     *
+     * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
+     */
+
+    int ret_val = NO_ERROR;
+    size_t number_of_delims = strlen(delims);
+
+    for (long long int i = 0; (i < table->num_of_rows) && (ret_val == NO_ERROR); i++)
+    {
+        for (long long int j = 0; j < table->rows[i].num_of_cells; j++)
+        {
+            for (size_t k = 0; k < number_of_delims; k++)
+            {
+                if (count_char(table->rows[i].cells[j].content, delims[k], false) > 0)
+                {
+                    if ((ret_val = surround_with_dparentecies(&table->rows[i].cells[j])) != NO_ERROR)
+                        break;
+                }
+            }
+        }
+    }
+    return ret_val;
+}
+
 int set_cell(char *string, Cell *cell)
 {
     /**
@@ -3434,6 +3491,19 @@ int main(int argc, char *argv[]) {
         if ((error_flag = execute_commands(&table, &base_commands_store)) != NO_ERROR)
         {
             fprintf(stderr, "Failed to execute all commands\n");
+            deallocate_table(&table);
+            deallocate_base_commands(&base_commands_store);
+            return error_flag;
+        }
+
+#ifdef DEBUG
+        printf("\nTable before output format:\n");
+        print_table(&table);
+#endif
+
+        if ((error_flag = format_table_for_output(&table, delims)) != NO_ERROR)
+        {
+            fprintf(stderr, "Failed to execute format table for output\n");
             deallocate_table(&table);
             deallocate_base_commands(&base_commands_store);
             return error_flag;
