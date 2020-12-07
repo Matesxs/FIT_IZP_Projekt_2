@@ -73,7 +73,7 @@ typedef struct
 } TempVariableStore;
 
 /**
- * @struct Raw_selector
+ * @struct Selector
  * @brief Stores raw data about table area selector
  */
 typedef struct
@@ -84,7 +84,7 @@ typedef struct
     long long int lld_ic2;          /**< Numerical interpretation of c2 */
 
     _Bool initialized;
-} Raw_selector;
+} Selector;
 
 /**
  * @struct Raw_commands
@@ -97,24 +97,24 @@ typedef struct
 } Raw_commands;
 
 /**
- * @struct Base_command
+ * @struct Command
  * @brief Stores parsed commands in form of strings
  */
 typedef struct
 {
     char *function; /**< Function part of command */
     char *arguments; /**< Argument part of command */
-} Base_command;
+} Command;
 
 /**
- * @struct Base_commands
- * @brief Stores array of #Base_commands and info about their count
+ * @struct Commands
+ * @brief Stores array of #Commands and info about their count
  */
 typedef struct
 {
     long long int num_of_commands; /**< Number of commands in array */
-    Base_command *commands; /**< Array of commands */
-} Base_commands;
+    Command *commands; /**< Array of commands */
+} Commands;
 
 /**
  * @struct Cell
@@ -771,12 +771,12 @@ void deallocate_raw_commands(Raw_commands *commands_store)
     commands_store->num_of_commands = 0;
 }
 
-void deallocate_base_commands(Base_commands *base_commands)
+void deallocate_base_commands(Commands *base_commands)
 {
     /**
-     * @brief Deallocate content of istance @p base_commands of #Base_commands structure
+     * @brief Deallocate content of istance @p base_commands of #Commands structure
      *
-     * @param base_commands Pointer to instance of #Base_commands structure
+     * @param base_commands Pointer to instance of #Commands structure
      */
 
     if (base_commands->commands == NULL)
@@ -1108,7 +1108,7 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
     return NO_ERROR;
 }
 
-int parse_commands(Raw_commands *raw_command_store, Base_commands *base_command_store)
+int parse_commands(Raw_commands *raw_command_store, Commands *base_command_store)
 {
     /**
      * @brief Parse raw commands to base commands
@@ -1116,7 +1116,7 @@ int parse_commands(Raw_commands *raw_command_store, Base_commands *base_command_
      * Split raw commands to function part and argument part
      *
      * @param raw_command_store Pointer to instance of #Raw_commands structure where raw commands are stored
-     * @param base_command_store Pointer to instance #Base_commands structure where parsed commands will be stored
+     * @param base_command_store Pointer to instance #Commands structure where parsed commands will be stored
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
@@ -1126,7 +1126,7 @@ int parse_commands(Raw_commands *raw_command_store, Base_commands *base_command_
 
     if (raw_command_store->num_of_commands != 0)
     {
-        base_command_store->commands = (Base_command*)malloc(raw_command_store->num_of_commands * sizeof(Base_command));
+        base_command_store->commands = (Command*)malloc(raw_command_store->num_of_commands * sizeof(Command));
         if (base_command_store->commands == NULL)
             return ALLOCATION_FAILED;
 
@@ -1545,13 +1545,13 @@ int set_cell(char *string, Cell *cell)
     return NO_ERROR;
 }
 
-int set_value_in_area(Table *table, Raw_selector *selector, char *string)
+int set_value_in_area(Table *table, Selector *selector, char *string)
 {
     /**
      * @brief Set value of @p string in table area selected by @p selector in @p table
      *
      * @param table Pointer to instance of #Table structure that will be eddited
-     * @param selector Pointer to instance of #Raw_selector structure for selecting are where we will set values
+     * @param selector Pointer to instance of #Selector structure for selecting are where we will set values
      * @param string String that we will set
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
@@ -1573,7 +1573,7 @@ int set_value_in_area(Table *table, Raw_selector *selector, char *string)
     return ret_val;
 }
 
-int swap_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
+int swap_cells(Table *table, Selector *selector, long long int r, long long int c)
 {
     /**
      * @brief Swap cell with another one
@@ -1582,7 +1582,7 @@ int swap_cells(Table *table, Raw_selector *selector, long long int r, long long 
      * If more than one cell is selected then all selected cells will be swaped row by row and then cell by cell
      *
      * @param table Pointer to instance of #Table structure where output data will be saved
-     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param selector Pointer to instance of #Selector structure that tell us where to find data
      * @param r Row index of base cell for swap
      * @param c Column index of base cell for swap
      *
@@ -1624,7 +1624,7 @@ int swap_cells(Table *table, Raw_selector *selector, long long int r, long long 
     return NO_ERROR;
 }
 
-int sum_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
+int sum_cells(Table *table, Selector *selector, long long int r, long long int c)
 {
     /**
      * @brief Set sum of all numeric cells to output cell
@@ -1633,7 +1633,7 @@ int sum_cells(Table *table, Raw_selector *selector, long long int r, long long i
      * If non numeric cell is found then NaN will be outputed
      *
      * @param table Pointer to instance of #Table structure where output data will be saved
-     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param selector Pointer to instance of #Selector structure that tell us where to find data
      * @param r Row index of output cell
      * @param c Column index of output cell
      *
@@ -1688,7 +1688,7 @@ int sum_cells(Table *table, Raw_selector *selector, long long int r, long long i
     return ret_val;
 }
 
-int avg_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
+int avg_cells(Table *table, Selector *selector, long long int r, long long int c)
 {
     /**
      * @brief Set average value of numeric cells to output cell
@@ -1697,7 +1697,7 @@ int avg_cells(Table *table, Raw_selector *selector, long long int r, long long i
      * If non numeric cell is found then NaN will be outputed
      *
      * @param table Pointer to instance of #Table structure where output data will be saved
-     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param selector Pointer to instance of #Selector structure that tell us where to find data
      * @param r Row index of output cell
      * @param c Column index of output cell
      *
@@ -1756,13 +1756,13 @@ int avg_cells(Table *table, Raw_selector *selector, long long int r, long long i
     return ret_val;
 }
 
-int count_cells(Table *table, Raw_selector *selector, long long int r, long long int c)
+int count_cells(Table *table, Selector *selector, long long int r, long long int c)
 {
     /**
      * @brief Set number of non empty cells to output cell
      *
      * @param table Pointer to instance of #Table structure where output data will be saved
-     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param selector Pointer to instance of #Selector structure that tell us where to find data
      * @param r Row index of output cell
      * @param c Column index of output cell
      *
@@ -1795,7 +1795,7 @@ int count_cells(Table *table, Raw_selector *selector, long long int r, long long
     return ret_val;
 }
 
-int cell_len(Table *table, Raw_selector *selector, long long int r, long long int c)
+int cell_len(Table *table, Selector *selector, long long int r, long long int c)
 {
     /**
      * @brief Set length of string to output cell
@@ -1804,7 +1804,7 @@ int cell_len(Table *table, Raw_selector *selector, long long int r, long long in
      * If more that one cell is selected then only length of last cell will be outputed
      *
      * @param table Pointer to instance of #Table structure where output data will be saved
-     * @param selector Pointer to instance of #Raw_selector structure that tell us where to find data
+     * @param selector Pointer to instance of #Selector structure that tell us where to find data
      * @param r Row index of output cell
      * @param c Column index of output cell
      *
@@ -1995,12 +1995,12 @@ int create_row_from_data(char *line, Table *table)
     return NO_ERROR;
 }
 
-void init_selector(Raw_selector *selector)
+void init_selector(Selector *selector)
 {
     /**
      * @brief Initialize @p selector to default values
      *
-     * @param selector Pointer to instance of #Raw_selector structure
+     * @param selector Pointer to instance of #Selector structure
      */
 
     selector->lld_ic1 = 0;
@@ -2032,13 +2032,13 @@ int init_temp_var_store(TempVariableStore *temp_var_store)
     return NO_ERROR;
 }
 
-void copy_selector(Raw_selector *source, Raw_selector *dest)
+void copy_selector(Selector *source, Selector *dest)
 {
     /**
      * @brief Copy values from selector @p source to selector @p dest
      *
-     * @param source Pointer to instance of #Raw_selector struct from which we want copy data
-     * @param dest Pointer to instance of #Raw_selector struct where we want save data
+     * @param source Pointer to instance of #Selector struct from which we want copy data
+     * @param dest Pointer to instance of #Selector struct where we want save data
      */
 
     dest->lld_ir1 = source->lld_ir1;
@@ -2047,12 +2047,12 @@ void copy_selector(Raw_selector *source, Raw_selector *dest)
     dest->lld_ic2 = source->lld_ic2;
 }
 
-void selector_find(Raw_selector *selector, Table *table, char *string)
+void selector_find(Selector *selector, Table *table, char *string)
 {
     /**
      * @brief Select cell that starts with @p string
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      * @param string String we want to find at the beginning of cell
      */
@@ -2079,12 +2079,12 @@ void selector_find(Raw_selector *selector, Table *table, char *string)
     }
 }
 
-int selector_max(Raw_selector *selector, Table *table)
+int selector_max(Selector *selector, Table *table)
 {
     /**
      * @brief Select cell with maximum numeric value in current selection
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
@@ -2150,12 +2150,12 @@ int selector_max(Raw_selector *selector, Table *table)
     return ret_val;
 }
 
-int selector_min(Raw_selector *selector, Table *table)
+int selector_min(Selector *selector, Table *table)
 {
     /**
      * @brief Select cell with minimum numeric value in current selection
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
@@ -2221,12 +2221,12 @@ int selector_min(Raw_selector *selector, Table *table)
     return ret_val;
 }
 
-void selector_select_all(Raw_selector *selector, Table *table)
+void selector_select_all(Selector *selector, Table *table)
 {
     /**
      * @brief Select whole table
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      */
 
@@ -2236,12 +2236,12 @@ void selector_select_all(Raw_selector *selector, Table *table)
     selector->lld_ic2 = table->rows[0].num_of_cells - 1;
 }
 
-void selector_select_last(Raw_selector *selector, Table *table)
+void selector_select_last(Selector *selector, Table *table)
 {
     /**
      * @brief Select last cell in last row
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      */
 
@@ -2249,12 +2249,12 @@ void selector_select_last(Raw_selector *selector, Table *table)
     selector->lld_ic1 = selector->lld_ic2 = table->rows[0].num_of_cells - 1;
 }
 
-void selector_select_last_colm(Raw_selector *selector, Table *table)
+void selector_select_last_colm(Selector *selector, Table *table)
 {
     /**
      * @brief Select last column
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      */
 
@@ -2263,12 +2263,12 @@ void selector_select_last_colm(Raw_selector *selector, Table *table)
     selector->lld_ic1 = selector->lld_ic2 = table->rows[0].num_of_cells - 1;
 }
 
-void selector_select_last_row(Raw_selector *selector, Table *table)
+void selector_select_last_row(Selector *selector, Table *table)
 {
     /**
      * @brief Select last row
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      */
 
@@ -2277,12 +2277,12 @@ void selector_select_last_row(Raw_selector *selector, Table *table)
     selector->lld_ic2 = table->rows[0].num_of_cells - 1;
 }
 
-int selector_select_4p_area(Raw_selector *selector, Table *table, char **parts, const _Bool *part_is_llint, const long long int *parts_llint)
+int selector_select_4p_area(Selector *selector, Table *table, char **parts, const _Bool *part_is_llint, const long long int *parts_llint)
 {
     /**
      * @brief Parse and set data to selector for 4 parameter selectors
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      * @param parts Pointer to string array where splited data are stored
      * @param part_is_llint Pointer to array of bools that indicates if corespoding part is long long int
@@ -2318,12 +2318,12 @@ int selector_select_4p_area(Raw_selector *selector, Table *table, char **parts, 
     return SELECTOR_ERROR;
 }
 
-int selector_select_2p_area(Raw_selector *selector, Table *table, char **parts, const _Bool *part_is_llint, const long long int *parts_llint)
+int selector_select_2p_area(Selector *selector, Table *table, char **parts, const _Bool *part_is_llint, const long long int *parts_llint)
 {
     /**
      * @brief Parse and set data to selector for 2 parameter selectors
      *
-     * @param selector Pointer to instance of #Raw_selector structure where data will be saved
+     * @param selector Pointer to instance of #Selector structure where data will be saved
      * @param table Pointer to instance of #Table structure
      * @param parts Pointer to string array where splited data are stored
      * @param part_is_llint Pointer to array of bools that indicates if corespoding part is long long int
@@ -2382,15 +2382,15 @@ int selector_select_2p_area(Raw_selector *selector, Table *table, char **parts, 
     return SELECTOR_ERROR;
 }
 
-int set_selector(Raw_selector *selector, Raw_selector *temp_selector, Base_command *command, Table *table) {
+int set_selector(Selector *selector, Selector *temp_selector, Command *command, Table *table) {
     /**
      * @brief Set values in @p selector
      *
      * Set values in selector based on inputed @p command and @p table
      *
-     * @param selector Pointer to instance of #Raw_selector structure (main selector)
-     * @param temp_selector Pointer to instance of #Raw_selector structure (temporary selector)
-     * @param command Pointer to instance of #Base_command structure
+     * @param selector Pointer to instance of #Selector structure (main selector)
+     * @param temp_selector Pointer to instance of #Selector structure (temporary selector)
+     * @param command Pointer to instance of #Command structure
      * @param table Pointer to instance of #Table structure
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
@@ -2876,7 +2876,7 @@ int delete_rows(Table *table, long long int start_index, long long int end_index
     return ret_val;
 }
 
-int set_temporary_variable(Table *table, Raw_selector *selector, TempVariableStore *temp_var_store, long long int index)
+int set_temporary_variable(Table *table, Selector *selector, TempVariableStore *temp_var_store, long long int index)
 {
     /**
      * @brief Set temporary variable
@@ -2884,7 +2884,7 @@ int set_temporary_variable(Table *table, Raw_selector *selector, TempVariableSto
      * Allocate and set value in temporary variable of @p index
      *
      * @param table Pointer to instance of #Table structure that will be eddited
-     * @param selector Pointer to instance of #Raw_selector structure for selecting value we want to save
+     * @param selector Pointer to instance of #Selector structure for selecting value we want to save
      * @param temp_var_store Pointer to instance of #TempVariableStore structure used for stroring values
      * @param index Index of temporary variable we want to work with
      *
@@ -2913,7 +2913,7 @@ int set_temporary_variable(Table *table, Raw_selector *selector, TempVariableSto
     return ret_val;
 }
 
-int set_cell_from_temporary_variable(Table *table, Raw_selector *selector, TempVariableStore *temp_var_store, long long int index)
+int set_cell_from_temporary_variable(Table *table, Selector *selector, TempVariableStore *temp_var_store, long long int index)
 {
     /**
      * @brief Set value from temporary variable to cell
@@ -2921,7 +2921,7 @@ int set_cell_from_temporary_variable(Table *table, Raw_selector *selector, TempV
      * Set temporary variable of @p index to cell selected by @p selector
      *
      * @param table Pointer to instance of #Table structure that will be eddited
-     * @param selector Pointer to instance of #Raw_selector structure for selecting value we want to use
+     * @param selector Pointer to instance of #Selector structure for selecting value we want to use
      * @param temp_var_store Pointer to instance of #TempVariableStore structure used for stroring values
      * @param index Index of temporary variable we want to work with
      *
@@ -3010,12 +3010,12 @@ int increase_temporary_variable(TempVariableStore *temp_var_store, long long int
     return ret_val;
 }
 
-_Bool is_command_selector(Base_command *command)
+_Bool is_command_selector(Command *command)
 {
     /**
      * @brief Check if command is selector
      *
-     * @param command Pointer to instance of #Base_command structure
+     * @param command Pointer to instance of #Command structure
      *
      * @return true if it is selector command and false if not
      */
@@ -3025,12 +3025,12 @@ _Bool is_command_selector(Base_command *command)
     return false;
 }
 
-_Bool is_table_editing_command(Base_command *command)
+_Bool is_table_editing_command(Command *command)
 {
     /**
      * @brief Check if inputed command is table editing command
      *
-     * @param command Pointer to instance of #Base_command structure
+     * @param command Pointer to instance of #Command structure
      *
      * @return true if its table editing command, false if not
      */
@@ -3044,12 +3044,12 @@ _Bool is_table_editing_command(Base_command *command)
     return false;
 }
 
-_Bool is_data_editing_command(Base_command *command)
+_Bool is_data_editing_command(Command *command)
 {
     /**
      * @brief Check if inputed command is table data command
      *
-     * @param command Pointer to instance of #Base_command structure
+     * @param command Pointer to instance of #Command structure
      *
      * @return true if its data editing command, false if not
      */
@@ -3063,12 +3063,12 @@ _Bool is_data_editing_command(Base_command *command)
     return false;
 }
 
-_Bool is_temp_var_command(Base_command *command)
+_Bool is_temp_var_command(Command *command)
 {
     /**
      * @brief Check if inputed command is temporary variable command
      *
-     * @param command Pointer to instance of #Base_command structure
+     * @param command Pointer to instance of #Command structure
      *
      * @return true if its temporary variable command, false if not
      */
@@ -3082,12 +3082,12 @@ _Bool is_temp_var_command(Base_command *command)
     return false;
 }
 
-int get_table_editing_command_index(Base_command *command)
+int get_table_editing_command_index(Command *command)
 {
     /**
      * @brief Get index of table editing command from reference array
      *
-     * @param command Pointer to instance of #Base_command structure
+     * @param command Pointer to instance of #Command structure
      *
      * @return Index of command from reference #TABLE_EDITING_COMMANDS array if command is found, in other cases return -1
      */
@@ -3104,12 +3104,12 @@ int get_table_editing_command_index(Base_command *command)
     return -1;
 }
 
-int get_data_editing_command_index(Base_command *command)
+int get_data_editing_command_index(Command *command)
 {
     /**
      * @brief Get index of data editing command from reference array
      *
-     * @param command Pointer to instance of #Base_command structure
+     * @param command Pointer to instance of #Command structure
      *
      * @return Index of command from reference #DATA_EDITING_COMMANDS array if command is found, in other cases return -1
      */
@@ -3126,12 +3126,12 @@ int get_data_editing_command_index(Base_command *command)
     return -1;
 }
 
-int get_temp_var_command_index(Base_command *command)
+int get_temp_var_command_index(Command *command)
 {
     /**
      * @brief Get index of temporary variable command from reference array
      *
-     * @param command Pointer to instance of #Base_command structure
+     * @param command Pointer to instance of #Command structure
      *
      * @return Index of command from reference #TEMP_VAR_COMMANDS array if command is found, in other cases return -1
      */
@@ -3148,7 +3148,7 @@ int get_temp_var_command_index(Base_command *command)
     return -1;
 }
 
-int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_command *command)
+int execute_table_editing_comm(Table *table, Selector *selector, Command *command)
 {
     /**
      * @brief Execute table editing command on @p table
@@ -3156,8 +3156,8 @@ int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_comman
      * Assign proper function to @p command and execute it to edit table
      *
      * @param table Pointer to instance of #Table structure that will be eddited
-     * @param selector Pointer to instance of #Raw_selector structure for selecting part of @p table to edit
-     * @param command Pointer to instance of #Base_command structure that will select function to use
+     * @param selector Pointer to instance of #Selector structure for selecting part of @p table to edit
+     * @param command Pointer to instance of #Command structure that will select function to use
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
@@ -3218,7 +3218,7 @@ int execute_table_editing_comm(Table *table, Raw_selector *selector, Base_comman
     return ret_val;
 }
 
-int execute_data_editing_command(Table *table, Raw_selector *selector, Base_command *command)
+int execute_data_editing_command(Table *table, Selector *selector, Command *command)
 {
     /**
      * @brief Execute data editing command on @p table
@@ -3226,8 +3226,8 @@ int execute_data_editing_command(Table *table, Raw_selector *selector, Base_comm
      * Assign proper function to @p command and execute it to edit table
      *
      * @param table Pointer to instance of #Table structure that will be eddited
-     * @param selector Pointer to instance of #Raw_selector structure for selecting part of @p table to edit
-     * @param command Pointer to instance of #Base_command structure that will select function to use
+     * @param selector Pointer to instance of #Selector structure for selecting part of @p table to edit
+     * @param command Pointer to instance of #Command structure that will select function to use
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
@@ -3315,7 +3315,7 @@ int execute_data_editing_command(Table *table, Raw_selector *selector, Base_comm
     return ret_val;
 }
 
-int execute_temp_var_command(Table *table, Raw_selector *selector, Base_command *command, TempVariableStore *temp_var_store)
+int execute_temp_var_command(Table *table, Selector *selector, Command *command, TempVariableStore *temp_var_store)
 {
     /**
      * @brief Execute temporary variable command on @p table
@@ -3323,8 +3323,8 @@ int execute_temp_var_command(Table *table, Raw_selector *selector, Base_command 
      * Assign proper function to @p command and execute it to edit table
      *
      * @param table Pointer to instance of #Table structure that will be eddited
-     * @param selector Pointer to instance of #Raw_selector structure for selecting part of @p table to edit
-     * @param command Pointer to instance of #Base_command structure that will select function to use
+     * @param selector Pointer to instance of #Selector structure for selecting part of @p table to edit
+     * @param command Pointer to instance of #Command structure that will select function to use
      * @param temp_var_store Pointer to instance of #TempVariableStore structure used for stroring values
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
@@ -3384,12 +3384,12 @@ int execute_temp_var_command(Table *table, Raw_selector *selector, Base_command 
     return ret_val;
 }
 
-int get_type_of_command(Base_command *command)
+int get_type_of_command(Command *command)
 {
     /**
      * @brief Get type of inputed @p command
      *
-     * @param command Pointer to instance of #Base_command structure that will be tested
+     * @param command Pointer to instance of #Command structure that will be tested
      *
      * @return Type of command based on #CommandType
      */
@@ -3409,7 +3409,7 @@ int get_type_of_command(Base_command *command)
     return UNKNOWN;
 }
 
-int execute_commands(Table *table, Base_commands *base_commands_store)
+int execute_commands(Table *table, Commands *base_commands_store)
 {
     /**
      * @brief Execute commands on @p table
@@ -3417,15 +3417,15 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
      * Iterate over all commands in @p base_commands_store and parse them and execute them on @p table
      *
      * @param table Pointer to instance of #Table structure
-     * @param base_commands_store Pointer to instance of #Base_commands structure
+     * @param base_commands_store Pointer to instance of #Commands structure
      *
      * @return #NO_ERROR on success in other cases coresponding error code from #ErrorCodes
      */
 
     int ret_val = NO_ERROR;
 
-    Raw_selector selector = { .initialized = false };
-    Raw_selector temp_selector = { .initialized = false };
+    Selector selector = { .initialized = false };
+    Selector temp_selector = { .initialized = false };
     init_selector(&selector);
     init_selector(&temp_selector);
 
@@ -3435,7 +3435,7 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
 
     for (long long int i = 0; i < base_commands_store->num_of_commands; i++)
     {
-        Base_command c_comm = base_commands_store->commands[i];
+        Command c_comm = base_commands_store->commands[i];
         if (is_command_selector(&c_comm))
         {
             // Set new selector
@@ -3492,22 +3492,59 @@ int execute_commands(Table *table, Base_commands *base_commands_store)
     return ret_val;
 }
 
+void init_structures(Raw_commands *raw_commands, Commands *commands, Table *table)
+{
+    /**
+     * @brief Init structures
+     *
+     * Set default values in structures
+     *
+     * @param raw_commands Pointer to instance of #Raw_commands structure
+     * @param commands Pointer to instance of #Commands structure
+     * @param table Pointer to instance of #Table structure
+     */
+
+    raw_commands->commands = NULL;
+    raw_commands->num_of_commands = 0;
+    commands->commands = NULL;
+    commands->num_of_commands = 0;
+    table->rows = NULL;
+    table->num_of_rows = 0;
+    table->allocated_rows = 0;
+    table->delim = DEFAULT_DELIM[0];
+}
+
 int main(int argc, char *argv[]) {
     /**
      * @brief Main of whole program
      * @todo Refactor error handling - separate to own function
      */
 
-    int error_flag;
-
     // Check if number of arguments is larger than minimum posible number of arguments
-    if (argc < 3) {
+    if (argc < 3)
+    {
         fprintf(stderr, "Some arguments are missing!\n");
         return MISSING_ARGS;
     }
 
+    // Create program variables
+    int error_flag;
     _Bool delim_flag_present = strings_equal(argv[1], "-d");
     char *delims = delim_flag_present ? argv[2] : DEFAULT_DELIM;
+    Raw_commands raw_commands_store;
+    Commands base_commands_store;
+    Table table;
+
+    if (delim_flag_present && argc < 4)
+    {
+        fprintf(stderr, "Some arguments are missing!\n");
+        return MISSING_ARGS;
+    }
+
+    // Init values in structure
+    init_structures(&raw_commands_store, &base_commands_store, &table);
+    if (delim_flag_present)
+        table.delim = delims[0];
 
     // Check if there is no invalid characters in delim array
     if (!check_sanity_of_delims(delims))
@@ -3516,80 +3553,35 @@ int main(int argc, char *argv[]) {
         return INVALID_DELIMITER;
     }
 
-    Raw_commands raw_commands_store = { .commands = NULL,
-                                        .num_of_commands = 0 };
-
     if ((error_flag = get_commands(argv, &raw_commands_store, delim_flag_present)) != NO_ERROR)
-    {
         fprintf(stderr, "Failed to get commands\n");
-        deallocate_raw_commands(&raw_commands_store);
-        return error_flag;
-    }
 
-    Base_commands base_commands_store = { .commands = NULL,
-                                          .num_of_commands = 0 };
-
-    if ((error_flag = parse_commands(&raw_commands_store, &base_commands_store)) != NO_ERROR)
-    {
+    if (error_flag == NO_ERROR && (error_flag = parse_commands(&raw_commands_store, &base_commands_store)) != NO_ERROR)
         fprintf(stderr, "Failed to parse commands\n");
-        deallocate_raw_commands(&raw_commands_store);
-        deallocate_base_commands(&base_commands_store);
-        return error_flag;
-    }
 
     deallocate_raw_commands(&raw_commands_store);
 
-    Table table = { .delim = delims[0],
-                    .rows = NULL,
-                    .num_of_rows = 0,
-                    .allocated_rows = 0};
-
-    if (((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR))
-    {
+    if (error_flag == NO_ERROR && ((error_flag = load_table(delims, argv[argc-1], &table)) != NO_ERROR))
         fprintf(stderr, "Failed to load table properly\n");
-        deallocate_table(&table);
-        deallocate_base_commands(&base_commands_store);
-        return error_flag;
-    }
 
-    if (table.rows != NULL)
+    if (table.rows != NULL && table.num_of_rows != 0)
     {
-        if ((error_flag = normalize_number_of_cols(&table)) != NO_ERROR)
-        {
+        if (error_flag == NO_ERROR && (error_flag = normalize_number_of_cols(&table)) != NO_ERROR)
             fprintf(stderr, "Failed to normalize colums\n");
-            deallocate_table(&table);
-            deallocate_base_commands(&base_commands_store);
-            return error_flag;
-        }
 
-        if ((error_flag = filter_table(&table)) != NO_ERROR)
-        {
+        if (error_flag == NO_ERROR && (error_flag = filter_table(&table)) != NO_ERROR)
             fprintf(stderr, "Failed to filter special characters from table\n");
-            deallocate_table(&table);
-            deallocate_base_commands(&base_commands_store);
-            return error_flag;
-        }
 
-        if ((error_flag = execute_commands(&table, &base_commands_store)) != NO_ERROR)
-        {
+        if (error_flag == NO_ERROR && (error_flag = execute_commands(&table, &base_commands_store)) != NO_ERROR)
             fprintf(stderr, "Failed to execute all commands\n");
-            deallocate_table(&table);
-            deallocate_base_commands(&base_commands_store);
-            return error_flag;
-        }
 
 #ifdef DEBUG
         printf("\nTable before output format:\n");
         print_table(&table);
 #endif
 
-        if ((error_flag = format_table_for_output(&table, delims)) != NO_ERROR)
-        {
+        if (error_flag == NO_ERROR && (error_flag = format_table_for_output(&table, delims)) != NO_ERROR)
             fprintf(stderr, "Failed to execute format table for output\n");
-            deallocate_table(&table);
-            deallocate_base_commands(&base_commands_store);
-            return error_flag;
-        }
     }
 
 #ifdef DEBUG
