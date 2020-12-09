@@ -1058,9 +1058,12 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
         // Count number of lines (commands because individual commands are on separated lines)
         while (get_line(&line, file) != -1)
         {
+            rm_newline_chars(line);
+            if (line[0] != '\0')
+                num_of_commands++;
+
             free(line);
             line = NULL;
-            num_of_commands++;
         }
 
         // Rewind to start of file
@@ -1073,6 +1076,13 @@ int get_commands(char *argv[], Raw_commands *commands_store, _Bool delim_flag_pr
         while (get_line(&line, file) != -1)
         {
             rm_newline_chars(line);
+            if (line[0] == '\0')
+            {
+                free(line);
+                line = NULL;
+                continue;
+            }
+
             commands_store->commands[i] = line;
             line = NULL;
 
@@ -1395,6 +1405,7 @@ int filter_string(char *string)
 
     int ret_val = NO_ERROR;
 
+    // If string string have parentecies on the both sides then trim them
     if ((string_start_with(string, "\"") && string_end_with(string, "\"")) ||
         (string_start_with(string, "\'") && string_end_with(string, "\'")))
     {
@@ -1402,6 +1413,7 @@ int filter_string(char *string)
             return ret_val;
     }
 
+    // Remove backslashes that are not in use
     unsigned long long int lenghth_of_string = strlen(string);
     for (unsigned long long int i = 0; i < lenghth_of_string; i++)
     {
@@ -3481,7 +3493,13 @@ int execute_commands(Table *table, Commands *base_commands_store)
             break;
 
 #ifdef DEBUG
-        printf("\nAfter table:\n");
+        printf("\n\nAfter variable store:\n[");
+        for (long long int j = 0; j < NUMBER_OF_TEMPORARY_VARIABLES; j++)
+        {
+            printf("_%llu:'%s',", j, temp_var_store.variables[j]);
+        }
+        printf("]\n");
+        printf("After table:\n");
         print_table(table);
         printf("\n#####################################################\n\n");
 #endif
