@@ -1,4 +1,0 @@
-<map id="Commands" name="Commands">
-<area shape="rect" id="node1" title="Stores array of Commands and info about their count." alt="" coords="5,95,128,121"/>
-<area shape="rect" id="node2" href="$struct_base__command.html" title="Stores parsed commands in form of strings." alt="" coords="9,5,125,32"/>
-</map>

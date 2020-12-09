@@ -6,11 +6,13 @@ set Jmeno
 set Prijmeni
 [1,3]
 set Plat
+
 [_,_]
 [max]
 def _0
 [2,3,-,3]
 use _0
+
 [_,3]
 acol
 [1,_]
@@ -30,7 +32,3 @@ inc _1
 swap [4,4]
 [4,1]
 use _1
-[-,1]
-arow
-[2,-,5,-]
-sum [-,-]

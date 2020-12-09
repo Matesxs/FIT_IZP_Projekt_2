@@ -1,2 +1,2 @@
 all: sps.c
-	gcc -std=c99 -Wall -Werror -Wextra -g -O1 sps.c -o sps
+	gcc -std=c99 -Wall -Werror -Wextra -g -O0 sps.c -o sps
